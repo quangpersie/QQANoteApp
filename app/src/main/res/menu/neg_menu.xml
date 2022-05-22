@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/font_change"
+        android:icon="@drawable/ic_font"
+        android:title="@string/c_i_t_k_ch_th_c_ch" />
+    <item
+        android:id="@+id/delete_time"
+        android:icon="@drawable/ic_delete_time"
+        android:title="@string/c_i_t_th_i_gian_xo_ghi_ch_t_ng" />
+    <item
+        android:id="@+id/sound_change"
+        android:icon="@drawable/ic_sound_setting"
+        android:title="@string/c_i_t_m_thanh_th_ng_b_o" />
+    <item
+        android:id="@+id/change_password"
+        android:icon="@drawable/ic_password_change"
+        android:title="@string/i_m_t_kh_u" />
+    <item android:id="@+id/log_out"
+        android:title="@string/ng_xu_t"/>
+ </menu>

@@ -3,6 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/drawable/ic_baseline_font_download_24.xml" value="0.2265" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/drawable/ic_email_signin.xml" value="0.2265" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/activity_min_wan.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/activity_recover.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/activity_recycle_bin.xml" value="0.12360688956433637" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/activity_sign_up.xml" value="0.25416666666666665" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/content_main.xml" value="0.264" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/layout/nav_header.xml" value="0.1" />
+        <entry key="..\:/Android Final/QQANoteApp/app/src/main/res/menu/neg_menu.xml" value="0.4" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable-v24/rounded_corner.xml" value="0.18" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/border_input_verify.xml" value="0.1" />
@@ -28,6 +38,9 @@
         <entry key="..\:/Users/ADMIN/AndroidStudioProjects/New folder/QQANoteApp/app/src/main/res/layout/activity_note_details.xml" value="0.22552083333333334" />
       </map>
     </option>
+  </component>
+  <component name="ProjectPlainTextFileTypeManager">
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_baseline_font_download_24.xml" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
