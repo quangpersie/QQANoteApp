@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "505388243810",
+    "firebase_url": "https://qqanote-c3858-default-rtdb.firebaseio.com",
+    "project_id": "qqanote-c3858",
+    "storage_bucket": "qqanote-c3858.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505388243810:android:99f5615419460aba5caa3b",
+        "android_client_info": {
+          "package_name": "com.example.noteapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505388243810-ie0qnbsk4eu4351vu8qs529dm9e6kenp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZWyes8YoDs8irS0d8eL-OS6BYqVBnbqY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505388243810-ie0qnbsk4eu4351vu8qs529dm9e6kenp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

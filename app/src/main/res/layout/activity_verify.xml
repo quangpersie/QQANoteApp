@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    tools:context=".VerifyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+        <TextView
+            android:id="@+id/title_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:text="QQA Note App"/>
+
+        <TextView
+            android:text="Xác thực tài khoản"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/sendLink"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="Nhận link xác thực" />
+
+        <Button
+            android:id="@+id/success"
+            android:text="Đã xác thực"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="32dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/resend"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_marginEnd="16dp"
+            android:text="Gửi lại link xác thực"
+            android:background="@drawable/border_input_verify"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/skip"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@drawable/border_input_verify"
+            android:text="Bỏ qua xác thực"/>
+    </LinearLayout>
+
+<!--    <TextView-->
+<!--        android:text="Xác nhận tài khoản"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:gravity="center"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+<!--    <TextView-->
+<!--        android:text="Nhập số điện thoại của bạn để xác nhận"-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:textSize="18sp"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"/>-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_marginBottom="8dp"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:background="@drawable/border_input_verify"-->
+<!--        android:orientation="horizontal">-->
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:gravity="center"-->
+<!--            android:text="+84"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textStyle="bold"/>-->
+
+<!--        <EditText-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:hint="0832440902"-->
+<!--            android:imeOptions="actionDone"-->
+<!--            android:background="@null"-->
+<!--            android:importantForAutofill="no"-->
+<!--            android:inputType="number"-->
+<!--            android:textStyle="bold"/>-->
+<!--    </LinearLayout>-->
+
+</LinearLayout>
