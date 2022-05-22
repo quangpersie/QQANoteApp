@@ -88,7 +88,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
-                        progressBar_login.setVisibility(View.GONE);
+                        progressBar_login.setVisibility(View.INVISIBLE);
                         startActivity(new Intent(SignInActivity.this, MainActivity.class));
                         finish();
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -96,7 +96,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
                     }
                     else {
                         Toast.makeText(SignInActivity.this, "Email hoặc mật khẩu không đúng", Toast.LENGTH_SHORT).show();
-                        progressBar_login.setVisibility(View.GONE);
+                        progressBar_login.setVisibility(View.INVISIBLE);
                     }
                 }
             });
