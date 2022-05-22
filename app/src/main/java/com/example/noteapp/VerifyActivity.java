@@ -69,15 +69,6 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
                 break;
-                /*if(user.isEmailVerified()) {
-                    Toast.makeText(getApplicationContext(), "Xác thực hành công", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    finish();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "Tài khoản của bạn chưa được xác thực, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
-                }
-                break;*/
         }
     }
 }
