@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Note App</string>
+    <string name="c_i_t_k_ch_th_c_ch">Cài đặt kích thước chữ</string>
+    <string name="c_i_t_th_i_gian_xo_ghi_ch_t_ng">Cài đặt thời gian xoá ghi chú tự động</string>
+    <string name="c_i_t_m_thanh_th_ng_b_o">Cài đặt âm thanh thông báo</string>
+    <string name="ng_xu_t">Đăng xuất</string>
+    <string name="i_m_t_kh_u">Đổi mật khẩu</string>
 </resources>

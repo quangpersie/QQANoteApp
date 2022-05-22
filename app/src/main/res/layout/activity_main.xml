@@ -1,10 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/recyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="#FFAB91"
+    android:padding="16dp"
     tools:context=".MainActivity">
-</androidx.recyclerview.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/banner_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="Danh sách các note của bạn"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/add_note"
+        android:layout_below="@id/banner_main"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/display_note_border" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/add_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Tạo ghi chú mới"
+        android:textStyle="bold"
+        android:textColor="#FF8A65"
+        android:backgroundTint="@color/white"/>
+</RelativeLayout>
