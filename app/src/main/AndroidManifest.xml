@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
-            android:name=".MinWan"
-            android:exported="false" />
-        <activity
             android:name=".RecycleBinActivity"
             android:exported="false" />
         <activity
