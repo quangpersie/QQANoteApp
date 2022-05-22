@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -52,13 +53,21 @@ public class VerifyActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText(this, "Hệ thống đã gửi lại link xác thực, vui lòng kiểm tra email để xác thực", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.success:
-                if(user.isEmailVerified()) {
-                    Toast.makeText(getApplicationContext(), "Xác thực hành công", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                    finish();}
-                else {
-                    Toast.makeText(getApplicationContext(), "Tài khoản của bạn chưa được xác thực, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
-                }
+                final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                mAuth.getCurrentUser().reload().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if(user.isEmailVerified()) {
+                            Toast.makeText(getApplicationContext(), "Xác thực thành công", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Tài khoản của bạn chưa được xác thực, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
         }
     }
