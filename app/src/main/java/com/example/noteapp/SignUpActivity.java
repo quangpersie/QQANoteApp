@@ -72,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             pass_register.requestFocus();
         }
         else if(pass.length() < 8) {
-            pass_register.setError("Mật khẩu phải có ít nhất  kí tự");
+            pass_register.setError("Mật khẩu phải có ít nhất 8 kí tự");
             pass_register.requestFocus();
         }
         else if(pass2.equals(pass) == false) {
@@ -86,14 +86,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()) {
                         Toast.makeText(SignUpActivity.this, "Tài khoản đã được đăng ký thành công", Toast.LENGTH_SHORT).show();
-                        progressBar_register.setVisibility(View.GONE);
+                        progressBar_register.setVisibility(View.INVISIBLE);
                         Intent intent = new Intent(SignUpActivity.this,VerifyActivity.class);
                         startActivity(intent);
                         finish();
                     }
                     else {
                         Toast.makeText(SignUpActivity.this, "Đăng ký tài khoản thất bại", Toast.LENGTH_SHORT).show();
-                        progressBar_register.setVisibility(View.GONE);
+                        progressBar_register.setVisibility(View.INVISIBLE);
                     }
                 }
             });
