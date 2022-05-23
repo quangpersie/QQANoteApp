@@ -6,18 +6,18 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "MyNotes")
-public class NoteRoom implements Serializable {
+@Entity(tableName = "note")
+public class Notes implements Serializable {
     @PrimaryKey(autoGenerate = true)
     int id = 0;
 
-    @ColumnInfo(name = "title_note")
-    String title_note = "";
+    @ColumnInfo(name = "title")
+    String title = "";
 
-    @ColumnInfo(name = "desc_note")
-    String desc_note = "";
+    @ColumnInfo(name = "content")
+    String content = "";
 
-    @ColumnInfo(name = "date_create")
+    @ColumnInfo(name = "date")
     String date_create = "";
 
     @ColumnInfo(name = "pinned")
@@ -31,20 +31,20 @@ public class NoteRoom implements Serializable {
         this.id = id;
     }
 
-    public String getTitle_note() {
-        return title_note;
+    public String getTitle() {
+        return title;
     }
 
-    public void setTitle_note(String title_note) {
-        this.title_note = title_note;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getDesc_note() {
-        return desc_note;
+    public String getContent() {
+        return content;
     }
 
-    public void setDesc_note(String desc_note) {
-        this.desc_note = desc_note;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDate_create() {
