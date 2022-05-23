@@ -18,7 +18,7 @@ public class RecoverActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private EditText email_recover;
-    private Button pass_recover;
+    private Button pass_recover, back_toLogin;
     private ProgressBar pBar_recover;
 
     @Override
@@ -33,7 +33,13 @@ public class RecoverActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 recoverPW();
-//                Toast.makeText(RecoverActivity.this, "Hệ thống đã gửi link để đặt lại mật khẩu đến địa chỉ email:\n" + email_recover.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        back_toLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
@@ -56,12 +62,12 @@ public class RecoverActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if(task.isSuccessful()) {
-                        pBar_recover.setVisibility(View.GONE);
+                        pBar_recover.setVisibility(View.INVISIBLE);
                         Toast.makeText(RecoverActivity.this, "Kiểm tra email của bạn để đặt lại mật khẩu", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         Toast.makeText(RecoverActivity.this, "Email không đúng, hãy kiểm tra lại", Toast.LENGTH_SHORT).show();
-                        pBar_recover.setVisibility(View.GONE);
+                        pBar_recover.setVisibility(View.INVISIBLE);
                     }
                 }
             });
@@ -72,5 +78,6 @@ public class RecoverActivity extends AppCompatActivity {
         email_recover = findViewById(R.id.email_recover);
         pass_recover = findViewById(R.id.pass_recover);
         pBar_recover = findViewById(R.id.pBar_recover);
+        back_toLogin = findViewById(R.id.back_toLogin);
     }
 }
