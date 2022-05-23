@@ -9,25 +9,7 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-<<<<<<< HEAD
-
-    <TextView
-        android:id="@+id/banner_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="8dp"
-        android:text="Danh sách các note của bạn"
-        android:layout_centerHorizontal="true"
-        android:textSize="20dp"
-        android:textColor="@color/white"
-        android:textStyle="bold"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-=======
     <LinearLayout
->>>>>>> 11889b8e62a861e8e273816ff3ec5cfc3c786dd5
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
