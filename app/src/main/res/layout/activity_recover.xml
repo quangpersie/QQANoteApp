@@ -38,6 +38,15 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"/>
 
+      <androidx.constraintlayout.utils.widget.MotionButton
+          android:id="@+id/back_toLogin"
+          android:layout_gravity="center"
+          android:text="Trở về màn hình đăng nhập"
+          android:layout_marginTop="8dp"
+          android:layout_marginHorizontal="64dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
         <ProgressBar
             android:id="@+id/pBar_recover"
             style="?android:progressBarStyleLarge"
@@ -45,6 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="invisible"/>
     </LinearLayout>
 </LinearLayout>
