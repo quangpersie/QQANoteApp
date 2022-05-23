@@ -29,15 +29,16 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
-    RecyclerView recyclerView;
-    NoteAdapter noteAdapter;
-    List<Notes> notes = new ArrayList<>();
-    RoomDB database;
-    FloatingActionButton add_note;
-    TextView empty_notify;
-    SearchView search_bar;
-    Notes selectedNote;
-    ImageView list_display, grid_display;
+    private RecyclerView recyclerView;
+    private NoteAdapter noteAdapter;
+    private Notes selectedNote;
+    private FloatingActionButton add_note;
+    private TextView empty_notify;
+    private SearchView search_bar;
+    private ImageView list_display, grid_display;
+    private List<Notes> notes = new ArrayList<>();
+    private RoomDB database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,9 +81,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     empty_notify.setText("Chưa có ghi chú nào\n Bấm vào dấu cộng để thêm ghi chú mới");
                     empty_notify.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                 }
-                else if(notes.size() == 0) {
-                    empty_notify.setText("Không tìm thấy");
-                }
                 return false;
             }
         });
@@ -120,11 +118,18 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         List<Notes> containList = new ArrayList<>();
         for(Notes note:notes) {
             if(note.getTitle().toLowerCase(Locale.ROOT).contains(s.toLowerCase())
-                    || note.getContent().toLowerCase().contains(s.toLowerCase())) {
+                    || note.getContent().toLowerCase(Locale.ROOT).contains(s.toLowerCase())) {
                 containList.add(note);
             }
         }
         noteAdapter.filterList(containList);
+        if(containList.size() == 0) {
+            empty_notify.setVisibility(View.VISIBLE);
+            empty_notify.setText("Không tìm thấy");
+        }
+        else {
+            empty_notify.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -179,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.show();
-
     }
 
     @Override
