@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
+        DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
+                LinearLayoutManager.VERTICAL);
+
         list_display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -98,9 +101,16 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(manager);
-                recyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this,
-                        LinearLayoutManager.VERTICAL));
+                recyclerView.addItemDecoration(divider);
                 recyclerView.setAdapter(noteAdapter);
+            }
+        });
+
+        grid_display.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DefaultGridLayout(notes);
+                recyclerView.removeItemDecoration(divider);
             }
         });
     }
