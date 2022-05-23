@@ -9,10 +9,11 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MaterialButton add_note;
+    private FloatingActionButton add_note;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

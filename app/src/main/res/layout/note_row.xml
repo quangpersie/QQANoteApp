@@ -5,7 +5,7 @@
     android:padding="8dp"
     android:layout_marginBottom="10dp"
     android:layout_margin="16dp"
-    android:background="@drawable/radius_round"
+    android:background="@drawable/radius_round_solid"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
