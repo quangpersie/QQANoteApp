@@ -17,7 +17,7 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/note_title"
-            android:textSize="20dp"
+            android:textSize="22dp"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,6 +33,7 @@
     <TextView
         android:id="@+id/note_desc"
         android:layout_below="@id/note_title"
+        android:textSize="18sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#393939"
@@ -43,7 +44,7 @@
         android:layout_below="@id/note_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
+        android:textSize="16dp"
         android:gravity="end"
         tools:text="Jan 21 2020 "/>
 </LinearLayout>

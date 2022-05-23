@@ -29,15 +29,16 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
 
-    RecyclerView recyclerView;
-    NoteAdapter noteAdapter;
-    List<Notes> notes = new ArrayList<>();
-    RoomDB database;
-    FloatingActionButton add_note;
-    TextView empty_notify;
-    SearchView search_bar;
-    Notes selectedNote;
-    ImageView list_display, grid_display;
+    private RecyclerView recyclerView;
+    private NoteAdapter noteAdapter;
+    private Notes selectedNote;
+    private FloatingActionButton add_note;
+    private TextView empty_notify;
+    private SearchView search_bar;
+    private ImageView list_display, grid_display;
+    private List<Notes> notes = new ArrayList<>();
+    private RoomDB database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         database = RoomDB.getInstance(this);
         notes = database.noteDAO().getAll();
 
-        DefaultGridLayout(notes);
+        GridLayout(notes);
 
         if(database.noteDAO().getCount() > 0) {
             empty_notify.setVisibility(View.GONE);
@@ -79,9 +80,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 if(s.equals("")) {
                     empty_notify.setText("Chưa có ghi chú nào\n Bấm vào dấu cộng để thêm ghi chú mới");
                     empty_notify.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                }
-                else if(notes.size() == 0) {
-                    empty_notify.setText("Không tìm thấy");
                 }
                 return false;
             }
@@ -110,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         grid_display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DefaultGridLayout(notes);
+                GridLayout(notes);
                 recyclerView.removeItemDecoration(divider);
             }
         });
@@ -120,11 +118,18 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         List<Notes> containList = new ArrayList<>();
         for(Notes note:notes) {
             if(note.getTitle().toLowerCase(Locale.ROOT).contains(s.toLowerCase())
-                    || note.getContent().toLowerCase().contains(s.toLowerCase())) {
+                    || note.getContent().toLowerCase(Locale.ROOT).contains(s.toLowerCase())) {
                 containList.add(note);
             }
         }
         noteAdapter.filterList(containList);
+        if(containList.size() == 0) {
+            empty_notify.setVisibility(View.VISIBLE);
+            empty_notify.setText("Không tìm thấy");
+        }
+        else {
+            empty_notify.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -151,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-    private void DefaultGridLayout(List<Notes> notes) {
+    private void GridLayout(List<Notes> notes) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         noteAdapter = new NoteAdapter(MainActivity.this, notes, noteClickListener);
@@ -163,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         public void onClick(Notes notes) {
             Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
             intent.putExtra("old_note", notes);
+            intent.putExtra("date_create", notes.getDate_create());
             startActivityForResult(intent, 11);
         }
 
@@ -179,11 +185,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popupMenu.setOnMenuItemClickListener(this);
         popupMenu.inflate(R.menu.popup_menu);
         popupMenu.show();
-
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        boolean pinned = false;
         switch (item.getItemId()) {
             case R.id.pin_note:
                 if(selectedNote.isPinned()) {
@@ -193,9 +199,21 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 else {
                     database.noteDAO().pin(selectedNote.getId(), true);
                     Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
+                    pinned = true;
+                }
+                if(pinned) {
+                    notes.clear();
+                    notes.addAll(database.noteDAO().getAll());
+                    for(Notes note:notes) {
+                        if(note.isPinned()) {
+                            notes.remove(note);
+                            notes.add(0,note);
+                            break;
+                        }
+                    }
                 }
                 notes.clear();
-                notes.addAll(database.noteDAO().getAll());
+                notes.addAll(database.noteDAO().getAllForPin());
                 noteAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_note:

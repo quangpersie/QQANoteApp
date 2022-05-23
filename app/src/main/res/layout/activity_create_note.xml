@@ -16,14 +16,9 @@
         android:orientation="horizontal">
 
         <TextView
-            android:text="Ngày tạo: "
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-        <TextView
+            android:id="@+id/day_create"
             android:text="22/10/2021"
+            android:gravity="center"
             android:textSize="16sp"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -41,6 +36,7 @@
         <EditText
             android:id="@+id/note_title_detail"
             android:hint="Tiêu đề"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +49,7 @@
             <EditText
                 android:id="@+id/note_desc_detail"
                 android:hint="Nội dung"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

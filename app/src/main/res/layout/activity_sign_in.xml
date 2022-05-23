@@ -43,8 +43,10 @@
         android:textStyle="bold"/>
 
     <LinearLayout
+        android:background="#FDD835"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -63,13 +65,14 @@
                 android:id="@+id/user_email"
                 android:hint="Địa chỉ email"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:background="#FDD835"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -88,7 +91,7 @@
                 android:id="@+id/user_password"
                 android:hint="Mật khẩu"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="54dp"
                 android:layout_marginBottom="8dp"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
@@ -98,6 +101,7 @@
         android:id="@+id/forgot_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_gravity="end"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -114,6 +118,7 @@
         android:text="Sign in"/>
 
     <LinearLayout
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
