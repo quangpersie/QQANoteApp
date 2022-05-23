@@ -2,35 +2,127 @@ package com.example.noteapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.button.MaterialButton;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CreateNoteActivity extends AppCompatActivity {
+
+    TextView day_create, time_display, day_display;
+    EditText note_title_detail, note_desc_detail;
+    Button btn_save, btn_setTime, btn_setDay;
+    Notes note;
+    boolean isOldNote = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_note);
+        setContentView(R.layout.activity_create_note);
 
-        EditText note_title_detail = findViewById(R.id.note_title_detail);
-        EditText note_desc_detail = findViewById(R.id.note_desc_detail);
-        MaterialButton btn_save = findViewById(R.id.btn_save);
+//        day_create = findViewById(R.id.day_create);
+        note_title_detail = findViewById(R.id.note_title_detail);
+        note_desc_detail = findViewById(R.id.note_desc_detail);
+        btn_save = findViewById(R.id.btn_save);
+        btn_setTime = findViewById(R.id.btn_setTime);
+        btn_setDay = findViewById(R.id.btn_setDay);
+        time_display = findViewById(R.id.time_display);
+        day_display = findViewById(R.id.day_display);
+
+        note = new Notes();
+        try {
+            note = (Notes) getIntent().getSerializableExtra("old_note");
+            note_title_detail.setText(note.getTitle());
+            note_desc_detail.setText(note.getContent());
+            isOldNote = true;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-//                String title = titleInput.getText().toString();
-//                String description = descriptionInput.getText().toString();
-//                long createdTime = System.currentTimeMillis();
-                Toast.makeText(getApplicationContext(),"Note saved",Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                String title = note_title_detail.getText().toString();
+                String desc = note_desc_detail.getText().toString();
+                if(desc.isEmpty()) {
+                    Toast.makeText(CreateNoteActivity.this, "Vui long nhap noi dung", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+                Date date = new Date();
+
+                if(!isOldNote) {
+                    note = new Notes();
+                }
+
+                note.setTitle(title);
+                note.setContent(desc);
+                note.setDate_create(formatter.format(date));
+
+                Intent intent = new Intent();
+                intent.putExtra("note", note);
+                setResult(Activity.RESULT_OK, intent);
                 finish();
-
-
             }
         });
+
+        btn_setTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showTimeSelectionDialog();
+            }
+        });
+
+        btn_setDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDateSelectionDialog();
+            }
+        });
+    }
+
+    private void showTimeSelectionDialog() {
+        int mHourOfDay = 0;
+        int mMinute = 0;
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
+                String min = String.valueOf(minute);
+                if(String.valueOf(minute).length() == 1) {
+                    min = "0"+minute;
+                }
+                time_display.setText(hourOfDay + ":" + min);
+            }
+        }, mHourOfDay, mMinute, true);
+        timePickerDialog.show();
+    }
+
+    private void showDateSelectionDialog() {
+        Calendar c = Calendar.getInstance();
+        int startYear = c.get(Calendar.YEAR);
+        int startMonth = c.get(Calendar.MONTH);
+        int startDay = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                day_display.setText(dayOfMonth + "/" + (monthOfYear+1) + "/" + year);
+            }
+        }, startYear, startMonth, startDay);
+        datePickerDialog.show();
     }
 }
