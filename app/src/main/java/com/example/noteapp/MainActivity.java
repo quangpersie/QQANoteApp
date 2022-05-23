@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         database = RoomDB.getInstance(this);
         notes = database.noteDAO().getAll();
 
-        DefaultGridLayout(notes);
+        GridLayout(notes);
 
         if(database.noteDAO().getCount() > 0) {
             empty_notify.setVisibility(View.GONE);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         grid_display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DefaultGridLayout(notes);
+                GridLayout(notes);
                 recyclerView.removeItemDecoration(divider);
             }
         });
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-    private void DefaultGridLayout(List<Notes> notes) {
+    private void GridLayout(List<Notes> notes) {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL));
         noteAdapter = new NoteAdapter(MainActivity.this, notes, noteClickListener);
@@ -168,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         public void onClick(Notes notes) {
             Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
             intent.putExtra("old_note", notes);
+            intent.putExtra("date_create", notes.getDate_create());
             startActivityForResult(intent, 11);
         }
 
@@ -201,21 +202,18 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     pinned = true;
                 }
                 if(pinned) {
-                    int id = selectedNote.getId();
                     notes.clear();
                     notes.addAll(database.noteDAO().getAll());
                     for(Notes note:notes) {
-                        if(note.getId() == id) {
+                        if(note.isPinned()) {
                             notes.remove(note);
                             notes.add(0,note);
                             break;
                         }
                     }
                 }
-                else {
-                    notes.clear();
-                    notes.addAll(database.noteDAO().getAll());
-                }
+                notes.clear();
+                notes.addAll(database.noteDAO().getAllForPin());
                 noteAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_note:

@@ -32,7 +32,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
-//        day_create = findViewById(R.id.day_create);
+        day_create = findViewById(R.id.day_create);
         note_title_detail = findViewById(R.id.note_title_detail);
         note_desc_detail = findViewById(R.id.note_desc_detail);
         btn_save = findViewById(R.id.btn_save);
@@ -40,6 +40,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         btn_setDay = findViewById(R.id.btn_setDay);
         time_display = findViewById(R.id.time_display);
         day_display = findViewById(R.id.day_display);
+
+        String date = (String) getIntent().getSerializableExtra("date_create");
+        day_create.setText(date);
 
         note = new Notes();
         try {

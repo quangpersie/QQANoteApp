@@ -18,6 +18,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM note ORDER BY id DESC")
     List<Notes> getAll();
 
+    @Query("SELECT * FROM note")
+    List<Notes> getAllForPin();
+
     @Query("UPDATE note SET title = :title, content = :content WHERE id = :id")
     void update(int id, String title, String content);
 
