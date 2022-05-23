@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView = findViewById(R.id.recyclerview);
         add_note = findViewById(R.id.add_note);
         empty_notify = findViewById(R.id.empty_notify);
-        search_bar = (SearchView) findViewById(R.id.search_bar);
+        search_bar = findViewById(R.id.search_bar);
         list_display = findViewById(R.id.list_display);
         grid_display = findViewById(R.id.grid_display);
 
@@ -101,7 +101,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(manager);
-                recyclerView.addItemDecoration(divider);
+                if(recyclerView.getItemDecorationCount() == 0) {
+                    recyclerView.addItemDecoration(divider);
+                }
                 recyclerView.setAdapter(noteAdapter);
             }
         });
