@@ -41,6 +41,7 @@
         <EditText
             android:id="@+id/note_title_detail"
             android:hint="Tiêu đề"
+            android:textSize="18sp"
             android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +54,7 @@
             <EditText
                 android:id="@+id/note_desc_detail"
                 android:hint="Nội dung"
+                android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

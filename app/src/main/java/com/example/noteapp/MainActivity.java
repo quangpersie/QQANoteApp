@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        boolean pinned = false;
         switch (item.getItemId()) {
             case R.id.pin_note:
                 if(selectedNote.isPinned()) {
@@ -197,9 +198,24 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 else {
                     database.noteDAO().pin(selectedNote.getId(), true);
                     Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
+                    pinned = true;
                 }
-                notes.clear();
-                notes.addAll(database.noteDAO().getAll());
+                if(pinned) {
+                    int id = selectedNote.getId();
+                    notes.clear();
+                    notes.addAll(database.noteDAO().getAll());
+                    for(Notes note:notes) {
+                        if(note.getId() == id) {
+                            notes.remove(note);
+                            notes.add(0,note);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    notes.clear();
+                    notes.addAll(database.noteDAO().getAll());
+                }
                 noteAdapter.notifyDataSetChanged();
                 return true;
             case R.id.delete_note:
