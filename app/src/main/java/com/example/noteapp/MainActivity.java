@@ -1,8 +1,11 @@
 package com.example.noteapp;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private ImageView list_display, grid_display;
     private List<Notes> notes = new ArrayList<>();
     private RoomDB database;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +54,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         search_bar = findViewById(R.id.search_bar);
         list_display = findViewById(R.id.list_display);
         grid_display = findViewById(R.id.grid_display);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
         database = RoomDB.getInstance(this);
         notes = database.noteDAO().getAll();
 

@@ -5,4 +5,7 @@
     <string name="c_i_t_m_thanh_th_ng_b_o">Cài đặt âm thanh thông báo</string>
     <string name="ng_xu_t">Đăng xuất</string>
     <string name="i_m_t_kh_u">Đổi mật khẩu</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
