@@ -34,8 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/white"
         android:text="Tạo ghi chú mới"
-        android:textStyle="bold"
         android:textColor="#FF8A65"
-        android:backgroundTint="@color/white"/>
+        android:textStyle="bold" />
 </RelativeLayout>
