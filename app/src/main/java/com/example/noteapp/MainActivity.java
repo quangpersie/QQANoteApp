@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     SearchView search_bar;
     Notes selectedNote;
     ImageView list_display, grid_display;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
