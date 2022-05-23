@@ -108,6 +108,7 @@
         android:id="@+id/add_note"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginHorizontal="36dp"
         android:layout_marginBottom="8dp"
         android:text="Tạo ghi chú mới"
@@ -117,3 +118,11 @@
         app:backgroundTint="@color/white"
         android:background="@drawable/search_bar_solid_round"/>
 </LinearLayout>
+=======
+        android:layout_alignParentBottom="true"
+        android:backgroundTint="@color/white"
+        android:text="Tạo ghi chú mới"
+        android:textColor="#FF8A65"
+        android:textStyle="bold" />
+</RelativeLayout>
+>>>>>>> a4df49f192231bcedf90ff2a75bdffb83c1640d1

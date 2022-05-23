@@ -4,12 +4,16 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+<<<<<<< HEAD
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable-v24/rounded_corner.xml" value="0.18" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/black_color.xml" value="0.2045" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/blue_color.xml" value="0.2045" />
+=======
+>>>>>>> a4df49f192231bcedf90ff2a75bdffb83c1640d1
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/border_input_verify.xml" value="0.1" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/border_radius.xml" value="0.1705" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/button_style.xml" value="0.218" />
+<<<<<<< HEAD
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/display_note_border.xml" value="0.1" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/green_color.xml" value="0.2045" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/ic_email_signin.xml" value="0.1" />
@@ -39,14 +43,29 @@
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_recover.xml" value="0.24592391304347827" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_recycle_bin.xml" value="0.25" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_settings.xml" value="0.25" />
+=======
+        <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/ic_email_signin.xml" value="0.1" />
+        <entry key="..\:/Mobile App/NoteApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_activate.xml" value="0.25" />
+        <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_recover.xml" value="0.24592391304347827" />
+>>>>>>> a4df49f192231bcedf90ff2a75bdffb83c1640d1
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_sign_in.xml" value="0.1" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_sign_up.xml" value="0.16" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/activity_verify.xml" value="0.264" />
-        <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/note_row.xml" value="0.264" />
         <entry key="..\:/Mobile App/NoteApp/app/src/main/res/layout/test.xml" value="0.25" />
-        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_main.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_change_password.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_edit_note.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_min_wan.xml" value="0.22552083333333334" />
         <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_note_details.xml" value="0.22552083333333334" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_recover.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_recycle_bin.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_settings.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/activity_sign_in.xml" value="0.11822916666666666" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/content_main.xml" value="0.25" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/nav_header.xml" value="0.264" />
+        <entry key="..\:/Users/ADMIN/AndroidStudioProjects/Final_Project/QQANoteApp/app/src/main/res/layout/note_row.xml" value="0.4" />
         <entry key="..\:/Users/ADMIN/AndroidStudioProjects/New folder/QQANoteApp/app/src/main/res/layout/activity_note_details.xml" value="0.22552083333333334" />
       </map>
     </option>
