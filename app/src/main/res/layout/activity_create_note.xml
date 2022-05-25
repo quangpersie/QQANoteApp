@@ -1,181 +1,249 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#FF8A65"
-    android:padding="20dp"
     tools:context=".CreateNoteActivity">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/day_create"
-            android:text="22/10/2021"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="#FF8A65"
         android:padding="12dp"
-        android:layout_marginVertical="12dp"
-        android:weightSum="6"
-        android:background="@drawable/radius_round_solid">
-        <EditText
-            android:id="@+id/note_title_detail"
-            android:hint="Tiêu đề"
-            android:textSize="18sp"
-            android:textColor="@color/black"
+        tools:context=".CreateNoteActivity">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/day_create"
+                android:text="22/10/2021"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_solid_bg2"
-            android:padding="8dp"
-            android:layout_margin="8dp"/>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:layout_marginVertical="12dp"
+            android:weightSum="6"
+            android:background="@drawable/radius_round_solid">
             <EditText
-                android:id="@+id/note_desc_detail"
-                android:hint="Nội dung"
+                android:id="@+id/note_title_detail"
+                android:hint="Tiêu đề"
                 android:textSize="18sp"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@drawable/rectangle_solid_bg2"
                 android:padding="8dp"
+                android:layout_margin="8dp"/>
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/note_desc_detail"
+                    android:hint="Nội dung"
+                    android:textSize="18sp"
+                    android:textColor="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:padding="8dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:lines="12"
+                    android:gravity="top"/>
+            </ScrollView>
+            <LinearLayout
                 android:layout_marginHorizontal="8dp"
-                android:lines="12"
-                android:gravity="top"/>
-        </ScrollView>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_marginTop="8dp"
-            android:background="#FFC107"
-            android:orientation="horizontal">
-            <ImageView
                 android:background="@drawable/rectangle_solid_bg2"
-                android:layout_marginEnd="4dp"
-                android:clickable="true"
-                android:layout_weight="1"
-                android:src="@drawable/img_bold"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-            <ImageView
-                android:background="@drawable/rectangle_solid_bg2"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/img_italic"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-            <ImageView
-                android:background="@drawable/rectangle_solid_bg2"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/img_underline"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-            <ImageView
-                android:background="@drawable/rectangle_solid_bg2"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/red_color"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-            <ImageView
-                android:background="@drawable/rectangle_solid_bg2"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                android:src="@drawable/green_color"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
-            <ImageView
-                android:background="@drawable/rectangle_solid_bg2"
-                android:layout_weight="1"
-                android:src="@drawable/blue_color"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"/>
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/mic_color_pick"/>
+                <ImageView
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_bold"/>
+                <ImageView
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_italic"/>
+                <ImageView
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_underline"/>
+                <ImageView
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/mic_align_center"/>
+                <ImageView
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/mic_align_justify"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="8dp"
+                android:background="#FFC107"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/remind_note"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_marginEnd="4dp"
+                    android:clickable="true"
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/image_insert"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_image_insert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/sound_insert"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_sound_insert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/label_note"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_label_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/password_note"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_password_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/share_note"
+                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_share_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/radius_round_border"
-        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/layout_remind"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_bg3"
+            android:padding="12dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/radius_round_border"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_setTime"
+                    android:text="Đặt giờ nhắc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    app:backgroundTint="@color/white"
+                    android:background="@drawable/radius_round_solid"
+                    android:textColor="#FF5722"/>
+
+                <TextView
+                    android:id="@+id/time_display"
+                    android:text="16:45"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/radius_round_border"
+                android:orientation="vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_setDay"
+                    android:text="Đặt ngày nhắc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    app:backgroundTint="@color/white"
+                    android:background="@drawable/radius_round_solid"
+                    android:textColor="#FF5722"/>
+
+                <TextView
+                    android:id="@+id/day_display"
+                    android:text="22/10/2022"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_setTime"
-            android:text="Đặt giờ nhắc nhở"
+            android:id="@+id/btn_save"
+            android:text="Lưu thay đổi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:layout_gravity="center"
-            app:backgroundTint="@color/white"
-            android:background="@drawable/radius_round_solid"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
             android:textColor="#FF5722"/>
-
-        <TextView
-            android:id="@+id/time_display"
-            android:text="16:45"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/radius_round_border"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_setDay"
-            android:text="Đặt ngày nhắc nhở"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            app:backgroundTint="@color/white"
-            android:background="@drawable/radius_round_solid"
-            android:textColor="#FF5722"/>
-
-        <TextView
-            android:id="@+id/day_display"
-            android:text="22/10/2022"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_save"
-        android:text="Lưu thay đổi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:layout_gravity="end"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/white"
-        android:textColor="#FF5722"/>
-</LinearLayout>
+</ScrollView>

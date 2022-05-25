@@ -14,6 +14,9 @@ public class Notes implements Serializable {
     @ColumnInfo(name = "title")
     String title = "";
 
+    @ColumnInfo(name = "user")
+    String user = "";
+
     @ColumnInfo(name = "content")
     String content = "";
 
@@ -22,6 +25,36 @@ public class Notes implements Serializable {
 
     @ColumnInfo(name = "pinned")
     boolean pinned = false;
+
+    @ColumnInfo(name = "delete")
+    boolean delete = false;
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    @ColumnInfo(name = "order")
+    int order = 0;
 
     public int getId() {
         return id;
