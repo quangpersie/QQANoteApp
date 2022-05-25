@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFAB91"
+    tools:openDrawer="start"
     android:padding="16dp"
+<<<<<<< HEAD
+=======
+    android:id="@+id/drawer_layout"
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+<<<<<<< HEAD
         android:background="#FFAB91"
         android:orientation="vertical"
         tools:context=".MainActivity">
 
+=======
+        android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_marginTop="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                />
+
+
+    </LinearLayout>
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
         <LinearLayout
+            android:padding="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -29,10 +51,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
+<<<<<<< HEAD
                     android:id="@+id/toRbin"
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_settings"/>
+=======
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_settings" />
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
 
                 <TextView
                     android:id="@+id/banner_main"
@@ -106,6 +134,7 @@
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/add_note"
                     android:layout_width="wrap_content"
+<<<<<<< HEAD
                     android:layout_height="wrap_content"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
@@ -119,3 +148,25 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
+=======
+                    android:layout_height="44dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/ic_add_new_note"
+                    app:maxImageSize="54dp" />
+            </FrameLayout>
+        </LinearLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        app:headerLayout="@layout/nav_header"
+        app:menu="@menu/nav_menu"
+        android:layout_gravity="start"
+        android:layout_height="match_parent"/>
+</androidx.drawerlayout.widget.DrawerLayout>
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
