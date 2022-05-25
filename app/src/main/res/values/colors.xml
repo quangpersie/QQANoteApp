@@ -13,4 +13,5 @@
     <color name="green">#43A047</color>
     <color name="blue">#1E88E5</color>
     <color name="pink">#EC407A</color>
+    <color name="select_layout_color">#FFB74D</color>
 </resources>

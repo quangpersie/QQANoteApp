@@ -18,7 +18,9 @@ import androidx.appcompat.widget.SearchView;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private ImageView list_display, grid_display;
     private List<Notes> notes = new ArrayList<>();
     private RoomDB database;
+    private boolean flag_display;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
@@ -59,8 +62,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.e("TAG",""+userMail);
-        Log.e("TAG",""+user.isEmailVerified());
+        /*Log.e("TAG",""+userMail);
+        Log.e("TAG",""+user.isEmailVerified());*/
 
         recyclerView = findViewById(R.id.recyclerview);
         add_note = findViewById(R.id.add_note);
@@ -79,8 +82,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         toggle.syncState();
 
         database = RoomDB.getInstance(this);
-
-        showInfo();
+//        showInfo();
 
         if(hasPinNote()) {
             notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
@@ -128,21 +130,42 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         list_display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag_display = false;
+                grid_display.setBackgroundColor(getResources().getColor(R.color.white));
+                list_display.setBackgroundColor(getResources().getColor(R.color.select_layout_color));
                 ListLayout(notes);
+                if(recyclerView.getItemDecorationCount() == 0) {
+                    recyclerView.addItemDecoration(divider);
+                }
             }
         });
 
         grid_display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                flag_display = true;
+                grid_display.setBackgroundColor(getResources().getColor(R.color.select_layout_color));
+                list_display.setBackgroundColor(getResources().getColor(R.color.white));
                 GridLayout(notes);
                 recyclerView.removeItemDecoration(divider);
             }
         });
 
-
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("flag",flag_display);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        flag_display = savedInstanceState.getBoolean("flag");
+        Log.e("Check",""+flag_display);
     }
 
     @Override
@@ -156,12 +179,26 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         else {
             notes = database.noteDAO().getAllUserNote(userMail);
         }
-        ListLayout(notes);
 
+        if (grid_display.getBackground().equals(getResources().getColor(R.color.select_layout_color))) {
+            flag_display = true;
+        }
         DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
                 LinearLayoutManager.VERTICAL);
-        if(recyclerView.getItemDecorationCount() == 0) {
-            recyclerView.addItemDecoration(divider);
+
+        if (flag_display == true) {
+            grid_display.setBackgroundColor(getResources().getColor(R.color.select_layout_color));
+            list_display.setBackgroundColor(getResources().getColor(R.color.white));
+            GridLayout(notes);
+            if(recyclerView.getItemDecorationCount() != 0) {
+                recyclerView.removeItemDecoration(divider);
+            }
+        }
+        else {
+            ListLayout(notes);
+            if(recyclerView.getItemDecorationCount() == 0) {
+                recyclerView.addItemDecoration(divider);
+            }
         }
         noteAdapter.notifyDataSetChanged();
         updateNotify();
