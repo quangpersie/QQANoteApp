@@ -18,8 +18,9 @@ import androidx.appcompat.widget.SearchView;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,8 +29,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+<<<<<<< HEAD
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+=======
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+>>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,15 +50,23 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private FloatingActionButton add_note;
     private TextView empty_notify;
     private SearchView search_bar;
-    private ImageView list_display, grid_display;
+    private ImageView list_display, grid_display, toRbin;
     private List<Notes> notes = new ArrayList<>();
     private RoomDB database;
+<<<<<<< HEAD
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    String userMail = user.getEmail();
+=======
     private DrawerLayout drawerLayout;
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Log.e("TAG",""+userMail);
+        Log.e("TAG",""+user.isEmailVerified());
 
         recyclerView = findViewById(R.id.recyclerview);
         add_note = findViewById(R.id.add_note);
@@ -60,8 +74,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         search_bar = findViewById(R.id.search_bar);
         list_display = findViewById(R.id.list_display);
         grid_display = findViewById(R.id.grid_display);
+<<<<<<< HEAD
+        toRbin = findViewById(R.id.toRbin);
+=======
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -71,13 +89,33 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         toggle.syncState();
 
         database = RoomDB.getInstance(this);
-        notes = database.noteDAO().getAll();
 
-        GridLayout(notes);
+        showInfo();
 
-        if(database.noteDAO().getCount() > 0) {
-            empty_notify.setVisibility(View.GONE);
+        if(hasPinNote()) {
+            notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
+            notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
         }
+        else {
+            notes = database.noteDAO().getAllUserNote(userMail);
+        }
+
+        DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
+                LinearLayoutManager.VERTICAL);
+
+        ListLayout(notes);
+        if(recyclerView.getItemDecorationCount() == 0) {
+            recyclerView.addItemDecoration(divider);
+        }
+
+        updateNotify();
+
+        toRbin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
+            }
+        });
 
         add_note.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,23 +142,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
-        DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
-                LinearLayoutManager.VERTICAL);
-
         list_display.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                noteAdapter = new NoteAdapter(MainActivity.this, notes, noteClickListener);
-
-                LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this,
-                        LinearLayoutManager.VERTICAL,false);
-
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(manager);
-                if(recyclerView.getItemDecorationCount() == 0) {
-                    recyclerView.addItemDecoration(divider);
-                }
-                recyclerView.setAdapter(noteAdapter);
+                ListLayout(notes);
             }
         });
 
@@ -135,6 +160,22 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateNotify();
+        noteAdapter.notifyDataSetChanged();
+    }
+
+    private void updateNotify() {
+        if(database.noteDAO().getCount() > 0 && database.noteDAO().getAllUserNote(userMail).size() != 0) {
+            empty_notify.setVisibility(View.GONE);
+        }
+        else {
+            empty_notify.setVisibility(View.VISIBLE);
+        }
     }
 
     private void filterSearch(String s) {
@@ -162,9 +203,22 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(requestCode == 10) {
             if(resultCode == Activity.RESULT_OK) {
                 Notes new_note = (Notes) data.getSerializableExtra("note");
-                database.noteDAO().insert(new_note);
+                if(user.isEmailVerified() == true) {
+                    database.noteDAO().insert(new_note);
+                    Log.e("CHECK","true");
+                }
+                else if((user.isEmailVerified() == false
+                        && database.noteDAO().getAllUserNote(userMail).size() < 5)) {
+                    database.noteDAO().insert(new_note);
+                    Log.e("CHECK","false-5");
+                }
+                else {
+                    Toast toast = Toast.makeText(this, "Tài khoản chưa xác thực, ghi chú được tạo tối đa là 5", Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.CENTER | Gravity.BOTTOM, 0, 40);
+                    toast.show();
+                }
                 notes.clear();
-                notes.addAll(database.noteDAO().getAll());
+                notes.addAll(database.noteDAO().getAllUserNote(userMail));
                 noteAdapter.notifyDataSetChanged();
             }
         }
@@ -173,10 +227,21 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 database.noteDAO().update(new_note.getId(), new_note.getTitle(), new_note.getContent());
                 notes.clear();
-                notes.addAll(database.noteDAO().getAll());
+                notes.addAll(database.noteDAO().getAllUserNote(userMail));
                 noteAdapter.notifyDataSetChanged();
             }
         }
+    }
+
+    private void ListLayout(List<Notes> notes) {
+        noteAdapter = new NoteAdapter(MainActivity.this, notes, noteClickListener);
+
+        LinearLayoutManager manager = new LinearLayoutManager(MainActivity.this,
+                LinearLayoutManager.VERTICAL,false);
+
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(noteAdapter);
     }
 
     private void GridLayout(List<Notes> notes) {
@@ -210,39 +275,55 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         popupMenu.show();
     }
 
+    boolean hasPinNote() {
+        if(database.noteDAO().getCount() != 0) {
+            for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
+                if(note.isPinned()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        boolean pinned = false;
         switch (item.getItemId()) {
             case R.id.pin_note:
+                Log.e("TAG", selectedNote.getUser());
                 if(selectedNote.isPinned()) {
                     database.noteDAO().pin(selectedNote.getId(), false);
                     Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
+
+                    database.noteDAO().unPin(selectedNote.getId());
+
+                    if(hasPinNote()) {
+                        notes.clear();
+                        notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
+                        notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
+                    }
+                    else {
+                        notes.clear();
+                        notes.addAll(database.noteDAO().getAllUserNote(userMail));
+                    }
                 }
                 else {
                     database.noteDAO().pin(selectedNote.getId(), true);
                     Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
-                    pinned = true;
-                }
-                if(pinned) {
+
+                    database.noteDAO().updateOrder(selectedNote.getId(),maxOrder());
                     notes.clear();
-                    notes.addAll(database.noteDAO().getAll());
-                    for(Notes note:notes) {
-                        if(note.isPinned()) {
-                            notes.remove(note);
-                            notes.add(0,note);
-                            break;
-                        }
-                    }
+                    notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
+                    notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
                 }
-                notes.clear();
-                notes.addAll(database.noteDAO().getAllForPin());
                 noteAdapter.notifyDataSetChanged();
+                showInfo();
                 return true;
             case R.id.delete_note:
-                database.noteDAO().delete(selectedNote);
+                database.noteDAO().deletedNote(selectedNote.getId());
                 notes.remove(selectedNote);
                 noteAdapter.notifyDataSetChanged();
+                updateNotify();
                 Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
                 return true;
             default:
@@ -250,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
+<<<<<<< HEAD
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -283,4 +365,25 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     }
 
 
+=======
+    private int maxOrder() {
+        int max = -1;
+        if(database.noteDAO().getCount() != 0) {
+            for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
+                if(note.getOrder() > max) {
+                    max = note.getOrder();
+                }
+            }
+        }
+        return max;
+    }
+
+    void showInfo() {
+        if(database.noteDAO().getCount() != 0) {
+            for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
+                Log.e("TAG","id = "+note.getId()+", order = "+note.getOrder());
+            }
+        }
+    }
+>>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
 }

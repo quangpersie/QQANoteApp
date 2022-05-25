@@ -53,7 +53,7 @@
             <EditText
                 android:id="@+id/email_register"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -82,7 +82,7 @@
             <EditText
                 android:id="@+id/pass_register"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -109,7 +109,7 @@
                 <EditText
                     android:id="@+id/pass2_register"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:inputType="textPassword"/>
             </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>

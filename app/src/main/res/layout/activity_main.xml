@@ -6,12 +6,25 @@
     android:layout_height="match_parent"
     android:background="#FFAB91"
     tools:openDrawer="start"
+<<<<<<< HEAD
+=======
+    android:padding="16dp"
+<<<<<<< HEAD
+=======
+>>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
     android:id="@+id/drawer_layout"
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+<<<<<<< HEAD
+        android:background="#FFAB91"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+
+=======
         android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
@@ -25,6 +38,7 @@
 
 
     </LinearLayout>
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
         <LinearLayout
             android:padding="16dp"
             android:layout_width="match_parent"
@@ -40,9 +54,16 @@
                 android:orientation="horizontal">
 
                 <ImageView
+<<<<<<< HEAD
+                    android:id="@+id/toRbin"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_settings"/>
+=======
                     android:layout_width="60dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_settings" />
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
 
                 <TextView
                     android:id="@+id/banner_main"
@@ -117,7 +138,26 @@
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/add_note"
                     android:layout_width="wrap_content"
+<<<<<<< HEAD
                     android:layout_height="wrap_content"
+=======
+<<<<<<< HEAD
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_gravity="bottom|end"
+                    app:maxImageSize="54dp"
+                    android:foregroundGravity="center"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:src="@drawable/ic_add_new_note"/>
+            </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
+=======
+                    android:layout_height="44dp"
+>>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
                     android:layout_gravity="bottom|end"
                     android:layout_marginRight="20dp"
                     android:layout_marginBottom="20dp"
@@ -137,3 +177,4 @@
         android:layout_gravity="start"
         android:layout_height="match_parent"/>
 </androidx.drawerlayout.widget.DrawerLayout>
+>>>>>>> c5d40b68864ae346b1ec8e0ce217c16a4ba04c3b
