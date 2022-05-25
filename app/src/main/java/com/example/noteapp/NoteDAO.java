@@ -47,6 +47,9 @@ public interface NoteDAO {
     @Query("SELECT COUNT(id) FROM note")
     int getCount();
 
+    @Query("SELECT COUNT(id) FROM note WHERE user = :user AND `delete` = 0")
+    int getCountNoteUser(String user);
+
     @Query("UPDATE note SET pinned = :pinned WHERE id = :id")
     void pin(int id, boolean pinned);
 
