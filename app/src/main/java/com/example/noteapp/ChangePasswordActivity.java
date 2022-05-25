@@ -52,17 +52,20 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private void onClickChangePassword() {
         String strNewPassword = edt_newPassword.getText().toString().trim();
         progressDialog.show();
+        String strNewPasswordConfirm = edt_newPasswordConfirm.getText().toString().trim();
 
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if(strNewPassword.equals(strNewPasswordConfirm)){
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        user.updatePassword(strNewPassword)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_LONG).show();
+            user.updatePassword(strNewPassword)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_LONG).show();
+                            }
                         }
-                    }
-                });
+                    });
+        }
     }
 }
