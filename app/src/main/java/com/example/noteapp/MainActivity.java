@@ -29,13 +29,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-<<<<<<< HEAD
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-=======
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
->>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
 
 import java.util.ArrayList;
 import java.util.List;
@@ -336,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-<<<<<<< HEAD
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -369,8 +364,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-
-=======
     private int maxOrder() {
         int max = -1;
         if(database.noteDAO().getCount() != 0) {
@@ -390,5 +383,4 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
     }
->>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
 }

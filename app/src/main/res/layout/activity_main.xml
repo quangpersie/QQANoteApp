@@ -6,15 +6,6 @@
     android:layout_height="match_parent"
     android:background="#FFAB91"
     tools:openDrawer="start"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-    android:padding="16dp"
-<<<<<<< HEAD
-=======
->>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
->>>>>>> ca560a883ce7d6cac498ef96b9bd067327c5755e
     android:id="@+id/drawer_layout"
     tools:context=".MainActivity">
 
@@ -101,7 +92,6 @@
             <TextView
                 android:id="@+id/empty_notify"
                 android:background="#FF8A65"
-<<<<<<< HEAD
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -112,10 +102,6 @@
                 android:textStyle="bold"/>
 
             <ScrollView
-=======
-                android:layout_marginTop="8dp"
-                android:id="@+id/content_frame"
->>>>>>> ca560a883ce7d6cac498ef96b9bd067327c5755e
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingStart="4dp"
@@ -128,7 +114,6 @@
                     android:layout_height="match_parent"/>
             </ScrollView>
 
-<<<<<<< HEAD
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/add_note"
                 android:layout_width="wrap_content"
@@ -143,41 +128,6 @@
                 app:maxImageSize="54dp" />
         </FrameLayout>
     </LinearLayout>
-=======
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/add_note"
-                    android:layout_width="wrap_content"
-<<<<<<< HEAD
-                    android:layout_height="wrap_content"
-=======
-<<<<<<< HEAD
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:layout_gravity="bottom|end"
-                    app:maxImageSize="54dp"
-                    android:foregroundGravity="center"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/white"
-                    android:src="@drawable/ic_add_new_note"/>
-            </FrameLayout>
-        </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
-=======
-                    android:layout_height="44dp"
->>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
-                    android:layout_gravity="bottom|end"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/white"
-                    android:foregroundGravity="center"
-                    android:src="@drawable/ic_add_new_note"
-                    app:maxImageSize="54dp" />
-            </FrameLayout>
-        </LinearLayout>
->>>>>>> ca560a883ce7d6cac498ef96b9bd067327c5755e
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
