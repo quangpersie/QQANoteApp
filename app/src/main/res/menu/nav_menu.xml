@@ -29,6 +29,10 @@
 
         <menu>
             <item
+                android:id="@+id/auth_nav"
+                android:icon="@drawable/ic_authen"
+                android:title="Xác minh tài khoản"/>
+            <item
                 android:id="@+id/change_password"
                 android:icon="@drawable/ic_change_password"
                 android:title="@string/i_m_t_kh_u" />

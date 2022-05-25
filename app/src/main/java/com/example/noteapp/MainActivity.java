@@ -341,7 +341,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         }else if(id == R.id.sound_change) {
 
-        }else if(id == R.id.trash_can){
+        }else if(id == R.id.trash_can) {
+
+        }else if(id == R.id.auth_nav){
 
         }else if(id == R.id.change_password){
             Intent intent = new Intent(MainActivity.this, ChangePasswordActivity.class);
