@@ -44,13 +44,11 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private NoteAdapter noteAdapter;
     private Notes selectedNote;
     private FloatingActionButton add_note;
-    private TextView empty_notify, banner_main;
+    private TextView empty_notify;
     private SearchView search_bar;
     private ImageView list_display, grid_display;
     private List<Notes> notes = new ArrayList<>();
     private RoomDB database;
-
-//    ImageView toRbin;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
@@ -72,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         grid_display = findViewById(R.id.grid_display);
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
-
-        banner_main = findViewById(R.id.banner_main);
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -144,25 +140,31 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
-        banner_main.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                notes.clear();
-                if(hasPinNote()) {
-                    notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
-                    notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
-                }
-                else {
-                    notes = database.noteDAO().getAllUserNote(userMail);
-                }
-                noteAdapter.notifyDataSetChanged();
-                updateNotify();
-            }
-        });
-
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        notes.clear();
+        if(hasPinNote()) {
+            notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
+            notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
+        }
+        else {
+            notes = database.noteDAO().getAllUserNote(userMail);
+        }
+        ListLayout(notes);
+
+        DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
+                LinearLayoutManager.VERTICAL);
+        if(recyclerView.getItemDecorationCount() == 0) {
+            recyclerView.addItemDecoration(divider);
+        }
+        noteAdapter.notifyDataSetChanged();
+        updateNotify();
     }
 
     private void updateNotify() {
@@ -226,6 +228,26 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
             }
+        }
+        else if(requestCode == 12) {
+            List<Notes> notes = new ArrayList<>();
+            database = RoomDB.getInstance(this);
+            if(hasPinNote()) {
+                notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
+                notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
+            }
+            else {
+                notes = database.noteDAO().getAllUserNote(userMail);
+            }
+            /*ListLayout(notes);
+
+            DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
+                    LinearLayoutManager.VERTICAL);
+            if(recyclerView.getItemDecorationCount() == 0) {
+                recyclerView.addItemDecoration(divider);
+            }*/
+            noteAdapter.notifyDataSetChanged();
+            updateNotify();
         }
     }
 
@@ -337,7 +359,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }else if(id == R.id.sound_change) {
 
         }else if(id == R.id.trash_can) {
-            startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
+            Intent intent = new Intent(MainActivity.this, RecycleBinActivity.class);
+            startActivityForResult(intent, 12);
         }else if(id == R.id.auth_nav){
 
         }else if(id == R.id.change_password){

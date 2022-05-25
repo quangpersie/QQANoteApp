@@ -103,6 +103,9 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
                 return true;
             case R.id.deleteP_note:
                 database.noteDAO().delete(selectedNote);
+                notes.clear();
+                notes.addAll(database.noteDAO().getAllDeletedNote(userMail));
+                noteAdapter.notifyDataSetChanged();
                 updateNotify();
                 return true;
             default:
