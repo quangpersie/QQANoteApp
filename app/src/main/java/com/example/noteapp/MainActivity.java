@@ -1,11 +1,15 @@
 package com.example.noteapp;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,15 +29,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+<<<<<<< HEAD
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+=======
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+>>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 
-public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener, NavigationView.OnNavigationItemSelectedListener{
 
     private RecyclerView recyclerView;
     private NoteAdapter noteAdapter;
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+
         database = RoomDB.getInstance(this);
 
         showInfo();
@@ -143,6 +153,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 recyclerView.removeItemDecoration(divider);
             }
         });
+
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     /*@Override
@@ -322,6 +336,41 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
+<<<<<<< HEAD
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.font_change){
+
+        }else if(id == R.id.delete_time){
+
+        }else if(id == R.id.sound_change){
+
+        }else if(id == R.id.change_password){
+            Intent intent = new Intent(MainActivity.this, ChangePasswordActivity.class);
+            startActivity(intent);
+        }else if(id == R.id.log_out){
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(this, SignInActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+
+=======
     private int maxOrder() {
         int max = -1;
         if(database.noteDAO().getCount() != 0) {
@@ -341,4 +390,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
     }
+>>>>>>> e9761dbc2a495d7d04f53eaf33d9aa48e74cbdce
 }

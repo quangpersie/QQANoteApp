@@ -8,4 +8,9 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="m_t_kh_u_hi_n_t_i">Mật khẩu hiện tại</string>
+    <string name="m_t_kh_u_m_i">Mật khẩu mới</string>
+    <string name="nh_p_l_i_m_t_kh_u_m_i">Nhập lại mật khẩu mới</string>
 </resources>
