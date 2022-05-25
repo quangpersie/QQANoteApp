@@ -229,26 +229,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 updateNotify();
             }
         }
-        else if(requestCode == 12) {
-            List<Notes> notes = new ArrayList<>();
-            database = RoomDB.getInstance(this);
-            if(hasPinNote()) {
-                notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
-                notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
-            }
-            else {
-                notes = database.noteDAO().getAllUserNote(userMail);
-            }
-            /*ListLayout(notes);
-
-            DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
-                    LinearLayoutManager.VERTICAL);
-            if(recyclerView.getItemDecorationCount() == 0) {
-                recyclerView.addItemDecoration(divider);
-            }*/
-            noteAdapter.notifyDataSetChanged();
-            updateNotify();
-        }
     }
 
     private void ListLayout(List<Notes> notes) {
@@ -359,8 +339,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }else if(id == R.id.sound_change) {
 
         }else if(id == R.id.trash_can) {
-            Intent intent = new Intent(MainActivity.this, RecycleBinActivity.class);
-            startActivityForResult(intent, 12);
+            startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
         }else if(id == R.id.auth_nav){
 
         }else if(id == R.id.change_password){

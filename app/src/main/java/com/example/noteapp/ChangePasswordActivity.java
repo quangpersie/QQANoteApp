@@ -1,6 +1,5 @@
 package com.example.noteapp;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 
 import android.os.Bundle;
