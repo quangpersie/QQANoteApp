@@ -26,7 +26,6 @@
 
     <item
         android:title="Tài khoản">
-
         <menu>
             <item
                 android:id="@+id/auth_nav"

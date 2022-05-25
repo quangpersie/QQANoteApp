@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private NoteAdapter noteAdapter;
     private Notes selectedNote;
     private FloatingActionButton add_note;
-    private TextView empty_notify;
+    private TextView empty_notify, banner_main;
     private SearchView search_bar;
     private ImageView list_display, grid_display;
     private List<Notes> notes = new ArrayList<>();
@@ -70,9 +70,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         search_bar = findViewById(R.id.search_bar);
         list_display = findViewById(R.id.list_display);
         grid_display = findViewById(R.id.grid_display);
-//        toRbin = findViewById(R.id.toRbin);
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
+
+        banner_main = findViewById(R.id.banner_main);
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -102,13 +103,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
 
         updateNotify();
-
-        /*toRbin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
-            }
-        });*/
 
         add_note.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,25 +144,26 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
+        banner_main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                notes.clear();
+                if(hasPinNote()) {
+                    notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
+                    notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
+                }
+                else {
+                    notes = database.noteDAO().getAllUserNote(userMail);
+                }
+                noteAdapter.notifyDataSetChanged();
+                updateNotify();
+            }
+        });
+
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-
-    /*@Override
-    protected void onRestart() {
-        super.onRestart();
-        notes.clear();
-        if(hasPinNote()) {
-            notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
-            notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
-        }
-        else {
-            notes = database.noteDAO().getAllUserNote(userMail);
-        }
-        noteAdapter.notifyDataSetChanged();
-        updateNotify();
-    }*/
 
     private void updateNotify() {
         if(database.noteDAO().getCount() > 0 && database.noteDAO().getAllUserNote(userMail).size() != 0) {
@@ -342,12 +337,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }else if(id == R.id.sound_change) {
 
         }else if(id == R.id.trash_can) {
-
+            startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
         }else if(id == R.id.auth_nav){
 
         }else if(id == R.id.change_password){
             Intent intent = new Intent(MainActivity.this, ChangePasswordActivity.class);
             startActivity(intent);
+            finish();
         }else if(id == R.id.log_out){
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, SignInActivity.class);

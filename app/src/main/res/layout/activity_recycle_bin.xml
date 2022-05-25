@@ -10,6 +10,33 @@
     android:paddingVertical="32dp"
     tools:context=".RecycleBinActivity">
 
+    <LinearLayout
+        android:id="@+id/backToMain"
+        android:background="@drawable/rectangle_solid_bg2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="8dp"
+        android:layout_marginHorizontal="32dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:text="QQA Note App"/>
+
+        <TextView
+            android:text="Về màn hình chính"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </LinearLayout>
+
     <TextView
         android:text="Thùng rác"
         android:textStyle="bold"

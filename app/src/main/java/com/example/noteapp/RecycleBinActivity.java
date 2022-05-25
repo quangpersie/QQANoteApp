@@ -28,6 +28,7 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
     TextView empty_bin;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
+    LinearLayout backToMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,14 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
 
         view_recycle_bin = findViewById(R.id.view_recycle_bin);
         empty_bin = findViewById(R.id.empty_bin);
+        backToMain = findViewById(R.id.backToMain);
+        backToMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(RecycleBinActivity.this, MainActivity.class));
+                finish();
+            }
+        });
 
         database = RoomDB.getInstance(this);
         notes = database.noteDAO().getAllDeletedNote(userMail);
