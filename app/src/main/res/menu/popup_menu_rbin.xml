@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/recover_note"
+        android:title="Khôi phục"/>
+    <item android:id="@+id/deleteP_note"
+        android:title="Xóa vĩnh viễn"/>
+</menu>

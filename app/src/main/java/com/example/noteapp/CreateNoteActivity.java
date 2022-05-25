@@ -11,9 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,10 +25,13 @@ import java.util.Date;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
+    private FirebaseAuth mAuth;
     TextView day_create, time_display, day_display;
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
+    ImageView remind_note;
+    LinearLayout layout_remind;
     boolean isOldNote = false;
 
     @Override
@@ -32,7 +39,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_note);
 
-//        day_create = findViewById(R.id.day_create);
+        mAuth = FirebaseAuth.getInstance();
+
+        day_create = findViewById(R.id.day_create);
         note_title_detail = findViewById(R.id.note_title_detail);
         note_desc_detail = findViewById(R.id.note_desc_detail);
         btn_save = findViewById(R.id.btn_save);
@@ -40,6 +49,11 @@ public class CreateNoteActivity extends AppCompatActivity {
         btn_setDay = findViewById(R.id.btn_setDay);
         time_display = findViewById(R.id.time_display);
         day_display = findViewById(R.id.day_display);
+        remind_note = findViewById(R.id.remind_note);
+        layout_remind = findViewById(R.id.layout_remind);
+
+        String date = (String) getIntent().getSerializableExtra("date_create");
+        day_create.setText(date);
 
         note = new Notes();
         try {
@@ -68,6 +82,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                     note = new Notes();
                 }
 
+                note.setUser(mAuth.getCurrentUser().getEmail());
                 note.setTitle(title);
                 note.setContent(desc);
                 note.setDate_create(formatter.format(date));
@@ -90,6 +105,18 @@ public class CreateNoteActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDateSelectionDialog();
+            }
+        });
+
+        remind_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (layout_remind.getVisibility() == View.GONE) {
+                    layout_remind.setVisibility(View.VISIBLE);
+                }
+                else if (layout_remind.getVisibility() == View.VISIBLE) {
+                    layout_remind.setVisibility(View.GONE);
+                }
             }
         });
     }

@@ -10,13 +10,14 @@
     android:background="@drawable/background_main"
     tools:context=".SignInActivity">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="56dp">
         <TextView
+            android:textColor="#99000000"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -27,6 +28,7 @@
 
         <TextView
             android:text="Ứng dụng ghi chú của bạn!"
+            android:textColor="#99000000"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -34,6 +36,7 @@
     </LinearLayout>
 
     <TextView
+        android:textColor="#99000000"
         android:text="Đăng Nhập"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,8 +46,10 @@
         android:textStyle="bold"/>
 
     <LinearLayout
+        android:background="#FFA726"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -61,15 +66,24 @@
 
             <EditText
                 android:id="@+id/user_email"
+<<<<<<< HEAD
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:hint="Địa chỉ email"
                 android:inputType="textEmailAddress" />
+=======
+                android:hint="Địa chỉ email"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
+>>>>>>> 93cc690cb34a4a34bd6f020c8856d601c213750d
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
 
     <LinearLayout
+        android:background="#FFA726"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -87,23 +101,27 @@
             <EditText
                 android:id="@+id/user_password"
                 android:hint="Mật khẩu"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:inputType="textPassword"/>
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <TextView
+        android:textColor="#99000000"
         android:id="@+id/forgot_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
         android:layout_gravity="end"
         android:textSize="18sp"
         android:textStyle="bold"
         android:text="Quên mật khẩu?"/>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:textColor="#99000000"
         android:id="@+id/btn_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -114,12 +132,14 @@
         android:text="Sign in"/>
 
     <LinearLayout
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
 
         <TextView
+            android:textColor="#99000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -127,6 +147,7 @@
             android:text="Bạn chưa có tài khoản?"/>
 
         <TextView
+            android:textColor="#99000000"
             android:id="@+id/sign_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

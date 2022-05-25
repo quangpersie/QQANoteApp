@@ -2,6 +2,7 @@ package com.example.noteapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,9 @@ import java.util.List;
 import java.util.Random;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
-    Context context;
-    List<Notes> listNode;
-    NoteClickListener listener;
+    private Context context;
+    private List<Notes> listNode;
+    private NoteClickListener listener;
 
     public NoteAdapter(Context context, List<Notes> listNode, NoteClickListener listener) {
         this.context = context;

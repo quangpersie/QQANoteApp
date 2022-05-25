@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:gravity="center"
+    android:background="#EF9A9A"
     android:orientation="vertical"
     tools:context=".RecoverActivity">
     <LinearLayout
@@ -25,26 +26,27 @@
             android:layout_height="wrap_content">
             <EditText
                 android:id="@+id/email_recover"
+                android:layout_marginHorizontal="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-      <androidx.constraintlayout.utils.widget.MotionButton
+      <androidx.appcompat.widget.AppCompatButton
           android:id="@+id/pass_recover"
           android:layout_gravity="center"
           android:text="Lấy lại mật khẩu"
           android:layout_marginTop="8dp"
           android:layout_marginHorizontal="64dp"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
 
-      <androidx.constraintlayout.utils.widget.MotionButton
+      <androidx.appcompat.widget.AppCompatButton
           android:id="@+id/back_toLogin"
           android:layout_gravity="center"
           android:text="Trở về màn hình đăng nhập"
           android:layout_marginTop="8dp"
           android:layout_marginHorizontal="64dp"
-          android:layout_width="match_parent"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"/>
 
         <ProgressBar
