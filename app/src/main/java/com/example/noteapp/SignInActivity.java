@@ -57,8 +57,8 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void loginAction() {
-        String email = user_email.getText().toString().trim();
-        String pass = user_password.getText().toString().trim();
+        String email = user_email.getText().toString();
+        String pass = user_password.getText().toString();
 
         if(email.equals("")) {
             user_email.setError("Vui lòng nhập email");
@@ -72,6 +72,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         }
         else if(pass.equals("")) {
             user_password.setError("Vui lòng nhập mật khẩu");
+            user_password.requestFocus();
+            return;
+        }
+        else if(pass.contains(" ")) {
+            user_password.setError("Mật khẩu không được chứa khoảng trắng");
             user_password.requestFocus();
             return;
         }
