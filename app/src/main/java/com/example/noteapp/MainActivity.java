@@ -206,12 +206,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 if(user.isEmailVerified() == true) {
                     database.noteDAO().insert(new_note);
-                    Log.e("CHECK","true");
                 }
                 else if((user.isEmailVerified() == false
                         && database.noteDAO().getAllUserNote(userMail).size() < 5)) {
                     database.noteDAO().insert(new_note);
-                    Log.e("CHECK","false-5");
                 }
                 else {
                     Toast toast = Toast.makeText(this, "Tài khoản chưa xác thực, ghi chú được tạo tối đa là 5", Toast.LENGTH_SHORT);
@@ -221,6 +219,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 notes.clear();
                 notes.addAll(database.noteDAO().getAllUserNote(userMail));
                 noteAdapter.notifyDataSetChanged();
+                updateNotify();
             }
         }
         else if(requestCode == 11) {
@@ -230,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 notes.clear();
                 notes.addAll(database.noteDAO().getAllUserNote(userMail));
                 noteAdapter.notifyDataSetChanged();
+                updateNotify();
             }
         }
     }
