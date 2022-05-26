@@ -34,6 +34,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private List<Notes> notes = new ArrayList<>();
     private RoomDB database;
     private boolean flag_display;
-
+    DatabaseReference noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
     private DrawerLayout drawerLayout;
@@ -327,11 +329,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.pin_note:
                 Log.e("TAG", selectedNote.getUser());
                 if(selectedNote.isPinned()) {
+                    //noteDbRef.push().setValue(selectedNote);
                     database.noteDAO().pin(selectedNote.getId(), false);
                     Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
-
+                    //noteDbRef.push().setValue(database.noteDAO().getNoteHasPin(false,userMail));
                     database.noteDAO().unPin(selectedNote.getId());
-
+                    selectedNote.setPinned(false);
+                    noteDbRef.push().setValue(selectedNote);
                     if(hasPinNote()) {
                         notes.clear();
                         notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
@@ -343,10 +347,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     }
                 }
                 else {
+                    //noteDbRef.push().setValue(selectedNote);
                     database.noteDAO().pin(selectedNote.getId(), true);
                     Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
 
                     database.noteDAO().updateOrder(selectedNote.getId(),maxOrder());
+                    selectedNote.setPinned(true);
+                    noteDbRef.push().setValue(selectedNote);
                     notes.clear();
                     notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
                     notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
@@ -356,6 +363,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return true;
             case R.id.delete_note:
                 database.noteDAO().deletedNote(selectedNote.getId());
+                selectedNote.setDelete(true);
+                noteDbRef.push().setValue(selectedNote);
                 notes.remove(selectedNote);
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();

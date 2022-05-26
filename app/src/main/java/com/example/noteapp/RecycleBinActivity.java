@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
     LinearLayout backToMain;
+    DatabaseReference noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,8 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         switch (item.getItemId()) {
             case R.id.recover_note:
                 database.noteDAO().recoverNoteDel(selectedNote.getId());
+                selectedNote.setDelete(false);
+                noteDbRef.push().setValue(selectedNote);
                 notes.clear();
                 notes.addAll(database.noteDAO().getAllDeletedNote(userMail));
                 noteAdapter.notifyDataSetChanged();
