@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private boolean flag_display;
     private Spinner mSpinner;
     private List<String> lShowByLabel  = new ArrayList<>();
+    private List<Notes> noteCopy = new ArrayList<>();
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
@@ -236,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         for(Label label:database.labelDAO().getAllLabel()) {
             lShowByLabel.add(label.getName());
         }
+        mSpinner.setSelection(0);
     }
 
     private void filterSearch(String s) {
@@ -490,6 +492,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 }
             }
         }
+        noteCopy = notes;
         noteAdapter = new NoteAdapter(this, notes, noteClickListener);
         recyclerView.setAdapter(noteAdapter);
         noteAdapter.notifyDataSetChanged();
