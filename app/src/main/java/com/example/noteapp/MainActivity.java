@@ -109,7 +109,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
         noteAdapter.notifyDataSetChanged();*/
 
-        updateNotify();
 
         add_note.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
         mSpinner.setOnItemSelectedListener(MainActivity.this);
+
+        updateNotify();
     }
 
     @Override
@@ -225,7 +226,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
         noteAdapter.notifyDataSetChanged();
-        updateNotify();
         lShowByLabel.clear();
         String allNote = "Tất cả ghi chú";
         lShowByLabel.add(allNote);
@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             lShowByLabel.add(label.getName());
         }
         mSpinner.setSelection(0);
+        updateNotify();
     }
 
     private void filterSearch(String s) {
@@ -275,7 +276,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 notes.clear();
                 notes.addAll(database.noteDAO().getAllUserNote(userMail));
                 noteAdapter.notifyDataSetChanged();
-                updateNotify();
+//                updateNotify();
+            }
+            if(empty_notify.getVisibility() == View.VISIBLE) {
+                empty_notify.setVisibility(View.GONE);
             }
         }
         else if(requestCode == 11) {
@@ -285,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 notes.clear();
                 notes.addAll(database.noteDAO().getAllUserNote(userMail));
                 noteAdapter.notifyDataSetChanged();
-                updateNotify();
+//                updateNotify();
             }
         }
     }
@@ -459,8 +463,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(database.noteDAO().getCount() > 0 && database.noteDAO().getAllUserNote(userMail).size() != 0) {
             empty_notify.setVisibility(View.GONE);
         }
+        else if(mSpinner.getSelectedItemPosition() != 0) {
+            empty_notify.setText("Nhãn đang chọn không bao gồm ghi chú nào");
+            empty_notify.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        }
         else {
             empty_notify.setVisibility(View.VISIBLE);
+            empty_notify.setText("Chưa có ghi chú nào\n Bấm vào dấu cộng để thêm ghi chú mới");
+            empty_notify.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         }
     }
 
@@ -476,7 +486,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             else {
                 notes = database.noteDAO().getAllUserNote(userMail);
             }
-            updateNotify();
         }
         else {
             String labelName = adapterView.getItemAtPosition(pos).toString().toLowerCase();
@@ -492,13 +501,16 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView.setAdapter(noteAdapter);
         noteAdapter.notifyDataSetChanged();
         if(notes.size() == 0 && pos != 0) {
-            empty_notify.setText("Nhãn đang chọn không có nằm trong ghi chú nào");
+            empty_notify.setText("Nhãn đang chọn không bao gồm ghi chú nào");
             empty_notify.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             empty_notify.setVisibility(View.VISIBLE);
         }
-        else {
+        else if(notes.size() == 0 && pos == 0) {
+            empty_notify.setText("Chưa có ghi chú nào\n Bấm vào dấu cộng để thêm ghi chú mới");
+            empty_notify.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             empty_notify.setVisibility(View.GONE);
         }
+        updateNotify();
     }
 
     @Override
