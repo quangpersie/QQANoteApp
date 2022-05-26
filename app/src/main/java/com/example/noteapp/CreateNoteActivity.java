@@ -7,6 +7,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -30,8 +31,8 @@ public class CreateNoteActivity extends AppCompatActivity {
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
-    ImageView remind_note;
-    LinearLayout layout_remind;
+    ImageView remind_note, label_note;
+    LinearLayout layout_remind, setting_note_layout;
     boolean isOldNote = false;
 
     @Override
@@ -51,8 +52,24 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
+        setting_note_layout = findViewById(R.id.setting_note_layout);
+        label_note = findViewById(R.id.label_note);
 
         String date = (String) getIntent().getSerializableExtra("date_create");
+        int idNote = -17;
+        if (getIntent().getSerializableExtra("id_note_click") != null) {
+            idNote = (int) getIntent().getSerializableExtra("id_note_click");
+        }
+        Log.e("idNote - CreateActivity",""+idNote);
+
+        boolean hideLabel = false;
+        if (getIntent().getSerializableExtra("hide_label") != null) {
+            hideLabel = true;
+        }
+        if(hideLabel == true) {
+            setting_note_layout.setVisibility(View.GONE);
+            day_create.setText("Nhập thông tin để tạo ghi chú mới");
+        }
         day_create.setText(date);
 
         note = new Notes();
@@ -117,6 +134,16 @@ public class CreateNoteActivity extends AppCompatActivity {
                 else if (layout_remind.getVisibility() == View.VISIBLE) {
                     layout_remind.setVisibility(View.GONE);
                 }
+            }
+        });
+
+        int finalIdNote = idNote;
+        label_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CreateNoteActivity.this, LabelActivity.class);
+                intent.putExtra("id_note", finalIdNote);
+                startActivity(intent);
             }
         });
     }

@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
+            android:name=".LabelActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateNoteActivity"
             android:exported="false" />
         <activity
@@ -30,8 +33,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="MainActivity">
-        </activity>
+            android:label="MainActivity"></activity>
         <activity
             android:name=".SettingsActivity"
             android:exported="false"

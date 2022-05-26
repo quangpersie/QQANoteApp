@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {Notes.class}, version = 4, exportSchema = false)
+@Database(entities = {Notes.class, Label.class}, version = 4, exportSchema = false)
 public abstract class RoomDB extends RoomDatabase {
     private static RoomDB database;
     private static String DATABASE_NAME = "QQANote";
@@ -23,4 +23,5 @@ public abstract class RoomDB extends RoomDatabase {
     }
 
     public abstract NoteDAO noteDAO();
+    public abstract LabelDAO labelDAO();
 }

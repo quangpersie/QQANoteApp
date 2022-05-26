@@ -15,7 +15,10 @@ public interface NoteDAO {
     void insert(Notes notes);
 
     @Query("SELECT * FROM note ORDER BY id DESC")
-    List<Notes> getAll();
+    List<Notes> getAllNote();
+
+    @Query("SELECT * FROM note WHERE id = :id")
+    Notes getNoteById(int id);
 
     @Query("SELECT * FROM note WHERE user = :user AND `delete` = 1 ORDER BY id DESC")
     List<Notes> getAllDeletedNote(String user);
@@ -29,6 +32,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM note WHERE pinned = :fal AND user = :user AND `delete` = 0 ORDER BY id DESC")
     List<Notes> getNoteNoPin(boolean fal, String user);
 
+    @Query("SELECT * FROM note WHERE id = :id")
+    Notes getNoteWithId(int id);
+
     @Query("UPDATE note SET `order` = 1 + :maxOrder WHERE id = :id")
     void updateOrder(int id, int maxOrder);
 
@@ -36,13 +42,16 @@ public interface NoteDAO {
     void unPin(int id);
 
     @Query("DELETE FROM note")
-    void deleteAll();
+    void deleteAllNote();
 
     @Query("DELETE FROM note WHERE user = :user")
     void deleteAllUserNote(String user);
 
     @Query("UPDATE note SET title = :title, content = :content WHERE id = :id")
     void update(int id, String title, String content);
+
+    @Query("UPDATE note SET label = :label WHERE id = :id")
+    void updateCheckLabel(int id, String label);
 
     @Query("SELECT COUNT(id) FROM note")
     int getCount();
