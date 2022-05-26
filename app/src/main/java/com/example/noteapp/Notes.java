@@ -109,11 +109,9 @@ public class Notes implements Serializable {
 
     /*@ColumnInfo(name = "labelId")
     int labelId = -1;
-
     public int getLabelId() {
         return labelId;
     }
-
     public void setLabelId(int labelId) {
         this.labelId = labelId;
     }*/
