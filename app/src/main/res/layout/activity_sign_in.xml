@@ -66,6 +66,13 @@
 
             <EditText
                 android:id="@+id/user_email"
+<<<<<<< HEAD
+=======
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Địa chỉ email"
+                android:inputType="textEmailAddress" />
+>>>>>>> c36bf252bc37e40a99ac99a64a3fabac7df052a7
                 android:hint="Địa chỉ email"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
@@ -159,5 +166,4 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="invisible"/>
-
 </LinearLayout>

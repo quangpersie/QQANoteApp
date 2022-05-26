@@ -38,6 +38,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:background="@drawable/bg5_orange_border"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:src="@drawable/ic_settings" />
@@ -53,20 +54,27 @@
                 android:textStyle="bold"/>
 
             <LinearLayout
-                android:paddingHorizontal="4dp"
+                android:background="@drawable/rectangle_bg4_orange_border"
                 android:layout_width="wrap_content"
                 android:layout_height="60dp">
                 <ImageView
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@color/select_layout_color"
                     android:id="@+id/list_display"
-                    android:layout_width="60dp"
+                    android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_listview"/>
 
                 <ImageView
+                    android:layout_marginVertical="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="2dp"
+                    android:background="@color/white"
                     android:id="@+id/grid_display"
-                    android:layout_marginStart="4dp"
                     android:paddingVertical="5dp"
-                    android:layout_width="60dp"
+                    android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_gridview"/>
             </LinearLayout>

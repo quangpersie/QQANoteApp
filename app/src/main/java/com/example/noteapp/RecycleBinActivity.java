@@ -41,7 +41,6 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         backToMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(RecycleBinActivity.this, MainActivity.class));
                 finish();
             }
         });
@@ -103,6 +102,9 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
                 return true;
             case R.id.deleteP_note:
                 database.noteDAO().delete(selectedNote);
+                notes.clear();
+                notes.addAll(database.noteDAO().getAllDeletedNote(userMail));
+                noteAdapter.notifyDataSetChanged();
                 updateNotify();
                 return true;
             default:
