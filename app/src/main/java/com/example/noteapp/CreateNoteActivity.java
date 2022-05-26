@@ -55,7 +55,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
-        setting_note_layout = findViewById(R.id.setting_note_layout);
+//        setting_note_layout = findViewById(R.id.setting_note_layout);
         label_note = findViewById(R.id.label_note);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
