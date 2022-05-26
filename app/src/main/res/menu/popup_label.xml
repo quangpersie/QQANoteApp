@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/rename_label"
+        android:title="Đổi tên nhãn"/>
+    <item android:id="@+id/delete_label"
+        android:title="Xóa nhãn"/>
+</menu>

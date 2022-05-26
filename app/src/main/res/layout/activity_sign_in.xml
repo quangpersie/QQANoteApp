@@ -66,6 +66,13 @@
 
             <EditText
                 android:id="@+id/user_email"
+<<<<<<< HEAD
+=======
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Địa chỉ email"
+                android:inputType="textEmailAddress" />
+>>>>>>> ae424d98eab70ad2637c2c625c81239e70492850
                 android:hint="Địa chỉ email"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
