@@ -38,10 +38,9 @@ public class CreateNoteActivity extends AppCompatActivity {
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
-    ImageView bold, italic, underline, align_center, align_justify, color_pick;
     ImageView remind_note;
     LinearLayout layout_remind;
-    DatabaseReference noteDbRef;
+    DatabaseReference noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");;
     boolean isOldNote = false;
 
     @Override
@@ -61,13 +60,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
-        bold = findViewById(R.id.bold);
-        italic = findViewById(R.id.italic);
-        underline = findViewById(R.id.underline);
-        align_center = findViewById(R.id.align_center);
-        align_justify = findViewById(R.id.align_justify);
-        color_pick = findViewById(R.id.color_pick);
-        noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
+        noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");;
         String date = (String) getIntent().getSerializableExtra("date_create");
         day_create.setText(date);
 
@@ -134,83 +127,6 @@ public class CreateNoteActivity extends AppCompatActivity {
                 else if (layout_remind.getVisibility() == View.VISIBLE) {
                     layout_remind.setVisibility(View.GONE);
                 }
-            }
-        });
-
-        bold.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-                spannable.setSpan(new StyleSpan(Typeface.BOLD),
-                        note_desc_detail.getSelectionStart(),
-                        note_desc_detail.getSelectionEnd(),
-                        0 );
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
-        });
-        italic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-                spannable.setSpan(new StyleSpan(Typeface.ITALIC),
-                        note_desc_detail.getSelectionStart(),
-                        note_desc_detail.getSelectionEnd(),
-                        0 );
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
-        });
-        underline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-                spannable.setSpan(new UnderlineSpan(),
-                        note_desc_detail.getSelectionStart(),
-                        note_desc_detail.getSelectionEnd(),
-                        0 );
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
-        });
-        align_center.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
-        });
-        align_justify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
             }
         });
     }

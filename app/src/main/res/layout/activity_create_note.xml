@@ -72,74 +72,59 @@
                 android:layout_height="32dp"
                 android:orientation="horizontal">
                 <ImageView
-                    android:id="@+id/color_pick"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/mic_color_pick"/>
                 <ImageView
-                    android:id="@+id/bold"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/img_bold"/>
                 <ImageView
-                    android:id="@+id/italic"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/img_italic"/>
                 <ImageView
-                    android:id="@+id/underline"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/img_underline"/>
                 <ImageView
-                    android:id="@+id/align_center"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/mic_align_center"/>
                 <ImageView
-                    android:id="@+id/align_justify"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/mic_align_justify"/>
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/setting_note_layout"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:layout_marginHorizontal="8dp"
                 android:layout_marginTop="8dp"
                 android:background="#FFC107"
                 android:orientation="horizontal">
-
                 <ImageView
                     android:id="@+id/remind_note"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="4dp"
-                    android:layout_weight="1"
                     android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_marginEnd="4dp"
                     android:clickable="true"
-                    android:src="@drawable/mic_alarm" />
-
+                    android:layout_weight="1"
+                    android:src="@drawable/mic_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
                 <ImageView
                     android:id="@+id/image_insert"
                     android:background="@drawable/rectangle_solid_bg2"

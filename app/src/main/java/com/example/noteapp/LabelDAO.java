@@ -31,4 +31,7 @@ public interface LabelDAO {
 
     @Query("UPDATE label SET checked = :check WHERE id = :id")
     void updateCheck(int id, boolean check);
+
+    /*@Query("UPDATE label SET checked = :check")
+    void updateDeleteAll(int id, boolean check);*/
 }
