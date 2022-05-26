@@ -40,7 +40,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     Notes note;
     ImageView remind_note;
     LinearLayout layout_remind;
-    DatabaseReference noteDbRef;
+    DatabaseReference noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");;
     boolean isOldNote = false;
 
     @Override
