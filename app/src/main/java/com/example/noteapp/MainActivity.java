@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         database = RoomDB.getInstance(this);
 //        showInfo();
 
-
         DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
                 LinearLayoutManager.VERTICAL);
 
@@ -166,8 +165,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         navigationView.setNavigationItemSelectedListener(this);
 
         lShowByLabel.clear();
-        /*String pickMode = "Chọn bộ lọc";
-        lShowByLabel.add(pickMode);*/
         String allNote = "Tất cả ghi chú";
         lShowByLabel.add(allNote);
         for(Label label:database.labelDAO().getAllLabel()) {
@@ -230,8 +227,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         noteAdapter.notifyDataSetChanged();
         updateNotify();
         lShowByLabel.clear();
-        /*String pickMode = "Chọn bộ lọc";
-        lShowByLabel.add(pickMode);*/
         String allNote = "Tất cả ghi chú";
         lShowByLabel.add(allNote);
         for(Label label:database.labelDAO().getAllLabel()) {
