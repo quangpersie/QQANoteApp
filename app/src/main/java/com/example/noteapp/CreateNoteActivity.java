@@ -8,15 +8,11 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
-=======
-import android.util.Log;
->>>>>>> ae424d98eab70ad2637c2c625c81239e70492850
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -42,15 +38,10 @@ public class CreateNoteActivity extends AppCompatActivity {
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
-<<<<<<< HEAD
-    ImageView remind_note, bold, italic, underline, align_center, align_justify, color_pick;
+    ImageView bold, italic, underline, align_center, align_justify, color_pick;
+    ImageView remind_note;
     LinearLayout layout_remind;
-    DatabaseReference noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");;
-=======
-    ImageView remind_note, label_note;
-    LinearLayout layout_remind, setting_note_layout;
     DatabaseReference noteDbRef;
->>>>>>> ae424d98eab70ad2637c2c625c81239e70492850
     boolean isOldNote = false;
 
     @Override
@@ -70,34 +61,14 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
-<<<<<<< HEAD
         bold = findViewById(R.id.bold);
         italic = findViewById(R.id.italic);
         underline = findViewById(R.id.underline);
         align_center = findViewById(R.id.align_center);
         align_justify = findViewById(R.id.align_justify);
         color_pick = findViewById(R.id.color_pick);
-=======
-        setting_note_layout = findViewById(R.id.setting_note_layout);
-        label_note = findViewById(R.id.label_note);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
->>>>>>> ae424d98eab70ad2637c2c625c81239e70492850
-
         String date = (String) getIntent().getSerializableExtra("date_create");
-        int idNote = -17;
-        if (getIntent().getSerializableExtra("id_note_click") != null) {
-            idNote = (int) getIntent().getSerializableExtra("id_note_click");
-        }
-        Log.e("idNote - CreateActivity",""+idNote);
-
-        boolean hideLabel = false;
-        if (getIntent().getSerializableExtra("hide_label") != null) {
-            hideLabel = true;
-        }
-        if(hideLabel == true) {
-            setting_note_layout.setVisibility(View.GONE);
-            day_create.setText("Nhập thông tin để tạo ghi chú mới");
-        }
         day_create.setText(date);
 
         note = new Notes();
@@ -166,7 +137,6 @@ public class CreateNoteActivity extends AppCompatActivity {
             }
         });
 
-<<<<<<< HEAD
         bold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -241,15 +211,6 @@ public class CreateNoteActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("note", note);
                 setResult(Activity.RESULT_OK, intent);
-=======
-        int finalIdNote = idNote;
-        label_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CreateNoteActivity.this, LabelActivity.class);
-                intent.putExtra("id_note", finalIdNote);
-                startActivity(intent);
->>>>>>> ae424d98eab70ad2637c2c625c81239e70492850
             }
         });
     }
