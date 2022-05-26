@@ -33,14 +33,9 @@ public class CreateNoteActivity extends AppCompatActivity {
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
-<<<<<<< HEAD
     ImageView remind_note, label_note;
     LinearLayout layout_remind, setting_note_layout;
-=======
-    ImageView remind_note;
-    LinearLayout layout_remind;
     DatabaseReference noteDbRef;
->>>>>>> 0d6ad295ea3e8a6144d8d6456db204cbb6bfdd53
     boolean isOldNote = false;
 
     @Override
@@ -60,12 +55,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
-<<<<<<< HEAD
         setting_note_layout = findViewById(R.id.setting_note_layout);
         label_note = findViewById(R.id.label_note);
-=======
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
->>>>>>> 0d6ad295ea3e8a6144d8d6456db204cbb6bfdd53
 
         String date = (String) getIntent().getSerializableExtra("date_create");
         int idNote = -17;
