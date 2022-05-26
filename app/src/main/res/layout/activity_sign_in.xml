@@ -66,18 +66,11 @@
 
             <EditText
                 android:id="@+id/user_email"
-<<<<<<< HEAD
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:hint="Địa chỉ email"
-                android:inputType="textEmailAddress" />
-=======
                 android:hint="Địa chỉ email"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"/>
->>>>>>> 93cc690cb34a4a34bd6f020c8856d601c213750d
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

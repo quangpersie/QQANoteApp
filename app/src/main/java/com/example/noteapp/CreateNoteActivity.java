@@ -18,6 +18,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -32,6 +34,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     Notes note;
     ImageView remind_note;
     LinearLayout layout_remind;
+    DatabaseReference noteDbRef;
     boolean isOldNote = false;
 
     @Override
@@ -51,6 +54,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
+        noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
         String date = (String) getIntent().getSerializableExtra("date_create");
         day_create.setText(date);
@@ -86,10 +90,11 @@ public class CreateNoteActivity extends AppCompatActivity {
                 note.setTitle(title);
                 note.setContent(desc);
                 note.setDate_create(formatter.format(date));
-
                 Intent intent = new Intent();
                 intent.putExtra("note", note);
                 setResult(Activity.RESULT_OK, intent);
+
+                noteDbRef.push().setValue(note);
                 finish();
             }
         });
