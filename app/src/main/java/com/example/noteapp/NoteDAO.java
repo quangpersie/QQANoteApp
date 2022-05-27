@@ -26,6 +26,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM note WHERE user = :user  AND `delete` = 0 ORDER BY id DESC")
     List<Notes> getAllUserNote(String user);
 
+    @Query("SELECT * FROM note WHERE user = :user ORDER BY id DESC")
+    List<Notes> getAllUserNoteAndRBin(String user);
+
     @Query("SELECT * FROM note WHERE pinned = :tru AND user = :user  AND `delete` = 0 ORDER BY `order` DESC")
     List<Notes> getNoteHasPin(boolean tru, String user);
 

@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     database.noteDAO().insert(new_note);
                 }
                 else if((user.isEmailVerified() == false
-                        && database.noteDAO().getAllUserNote(userMail).size() < 5)) {
+                        && database.noteDAO().getAllUserNoteAndRBin(userMail).size() < 5)) {
                     database.noteDAO().insert(new_note);
                 }
                 else {
