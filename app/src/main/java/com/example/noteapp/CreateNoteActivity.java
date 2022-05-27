@@ -2,6 +2,7 @@ package com.example.noteapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -15,7 +16,9 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -52,8 +55,12 @@ public class CreateNoteActivity extends AppCompatActivity {
     boolean isOldNote = false;
     String selectedImagePath;
     RoomDB db;
+    String fontSize = "";
+    String fontStyle = "";
     int idToGetImg = -1;
+    Typeface typeface, typeface1, typeface2, typeface3, typeface4;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +89,11 @@ public class CreateNoteActivity extends AppCompatActivity {
         db = RoomDB.getInstance(this);
 
 
+        Bundle extra1 = getIntent().getExtras();
+        if (extra1 != null) {
+            fontSize = extra1.getString("fontSize");
+            fontStyle = extra1.getString("fontStyle");
+        }
 
         selectedImagePath = "";
         String date = (String) getIntent().getSerializableExtra("date_create");
@@ -116,13 +128,90 @@ public class CreateNoteActivity extends AppCompatActivity {
                 Toast.makeText(this, "Không tìm thấy file, có thể đường dẫn đã mất hoặc bị thay đổi", Toast.LENGTH_SHORT).show();
             }
         }
+
         day_create.setText(date);
 
         note = new Notes();
         try {
+            switch (fontSize){
+                case "Nhỏ":
+                    note_desc_detail.setTextSize(15);
+                    break;
+                case "Bình thường":
+                    note_desc_detail.setTextSize(20);
+                    break;
+                case "Lớn":
+                    note_desc_detail.setTextSize(25);
+                    break;
+                case "Cực đại":
+                    note_desc_detail.setTextSize(30);
+                    break;
+            }
+            switch (fontStyle){
+                case "Mặc định":
+                    typeface = Typeface.DEFAULT;
+                    note_desc_detail.setTypeface(typeface);
+                    break;
+                case "Rokkit":
+                    typeface1 = getResources().getFont(R.font.rokkit);
+                    note_desc_detail.setTypeface(typeface1);
+                    break;
+                case "Librebodoni":
+                    typeface2 = getResources().getFont(R.font.librebodoni);
+                    note_desc_detail.setTypeface(typeface2);
+                    break;
+                case "RobotoSlab":
+                    typeface3 = getResources().getFont(R.font.robotoslab);
+                    note_desc_detail.setTypeface(typeface3);
+                    break;
+                case "Texturina":
+                    typeface4 = getResources().getFont(R.font.texturina);
+                    note_desc_detail.setTypeface(typeface4);
+                    break;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
             note = (Notes) getIntent().getSerializableExtra("old_note");
             note_title_detail.setText(note.getTitle());
             note_desc_detail.setText(note.getContent());
+            switch (note.getFontSize()){
+                case "Nhỏ":
+                    note_desc_detail.setTextSize(15);
+                    break;
+                case "Bình thường":
+                    note_desc_detail.setTextSize(20);
+                    break;
+                case "Lớn":
+                    note_desc_detail.setTextSize(25);
+                    break;
+                case "Cực đại":
+                    note_desc_detail.setTextSize(30);
+                    break;
+            }
+            switch (note.getFontStyle()){
+                case "Mặc định":
+                    typeface = Typeface.DEFAULT;
+                    note_desc_detail.setTypeface(typeface);
+                    break;
+                case "Rokkit":
+                    typeface1 = getResources().getFont(R.font.rokkit);
+                    note_desc_detail.setTypeface(typeface1);
+                    break;
+                case "Librebodoni":
+                    typeface2 = getResources().getFont(R.font.librebodoni);
+                    note_desc_detail.setTypeface(typeface2);
+                    break;
+                case "RobotoSlab":
+                    typeface3 = getResources().getFont(R.font.robotoslab);
+                    note_desc_detail.setTypeface(typeface3);
+                    break;
+                case "Texturina":
+                    typeface4 = getResources().getFont(R.font.texturina);
+                    note_desc_detail.setTypeface(typeface4);
+                    break;
+            }
             isOldNote = true;
         }
         catch (Exception e) {
@@ -148,10 +237,14 @@ public class CreateNoteActivity extends AppCompatActivity {
                     note = new Notes();
                 }
 
+
                 note.setUser(mAuth.getCurrentUser().getEmail());
                 note.setTitle(title);
                 note.setContent(desc);
                 note.setDate_create(formatter.format(date));
+                note.setFontSize(fontSize);
+                note.setFontStyle(fontStyle);
+
                 Intent intent = new Intent();
                 intent.putExtra("note", note);
                 setResult(Activity.RESULT_OK, intent);

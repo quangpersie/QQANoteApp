@@ -1,5 +1,7 @@
 package com.example.noteapp;
 
+import android.graphics.Typeface;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -118,6 +120,7 @@ public class Notes implements Serializable {
         this.password = password;
     }
 
+    public
     @ColumnInfo(name = "img_path")
     String img_path = "";
 
@@ -128,4 +131,24 @@ public class Notes implements Serializable {
     public void setImg_path(String img_path) {
         this.img_path = img_path;
     }
+
+    @ColumnInfo(name = "fontSize")
+    String fontSize = "";
+    public String getFontSize(){
+        return fontSize;
+    };
+
+    public void setFontSize(String fontSize){
+        this.fontSize = fontSize;
+    }
+    @ColumnInfo(name = "fontStyle")
+    String fontStyle = "";
+    public String getFontStyle(){
+        return fontStyle;
+    }
+
+    public void setFontStyle(String fontStyle){
+        this.fontStyle = fontStyle;
+    }
+
 }

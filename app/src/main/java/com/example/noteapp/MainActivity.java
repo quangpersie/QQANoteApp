@@ -106,13 +106,31 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         if(recyclerView.getItemDecorationCount() == 0) {
             recyclerView.addItemDecoration(divider);
         }
+        String fontSize = "";
+        String fontStyle = "";
+        Bundle extra1 = getIntent().getExtras();
+        if (extra1 != null) {
+            fontSize = extra1.getString("fontSize");
+            fontStyle = extra1.getString("fontStyle");
+        }
+        if (fontSize.equals("")){
+            fontSize = "Bình thường";
+        }
+        if (fontStyle.equals("")){
+            fontStyle = "Mặc định";
+        }
 
+        String finalFontSize = fontSize;
+        String finalFontStyle = fontStyle;
         add_note.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
                 intent.putExtra("hide_label",17);
+                intent.putExtra("fontSize", finalFontSize);
+                intent.putExtra("fontStyle", finalFontStyle);
                 startActivityForResult(intent, 10);
+
             }
         });
 
