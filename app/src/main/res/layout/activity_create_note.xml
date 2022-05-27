@@ -59,6 +59,7 @@
                     android:background="@drawable/rectangle_solid_bg2"
                     android:orientation="vertical">
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/image_field"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -73,6 +74,8 @@
                             android:layout_height="300dp"/>
                         <TextView
                             android:id="@+id/remove_img"
+                            android:background="@drawable/radius_border"
+                            android:backgroundTint="@color/white"
                             android:text="Gỡ ảnh"
                             android:textColor="@color/black"
                             android:paddingHorizontal="10dp"
@@ -80,7 +83,6 @@
                             android:textStyle="bold"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:background="@color/white"
                             android:textSize="18sp"
                             android:layout_gravity="center_horizontal"
                             android:layout_width="wrap_content"

@@ -99,6 +99,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         if(hideLabel == true) {
             setting_note_layout.setVisibility(View.GONE);
             day_create.setText("Nhập thông tin để tạo ghi chú mới");
+            day_create.setVisibility(View.VISIBLE);
         }
         else {
             try {
