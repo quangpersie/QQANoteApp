@@ -21,6 +21,8 @@
         <activity
             android:name=".LabelActivity"
             android:exported="false" />
+        <activity android:name=".FontSettingActivity"
+            android:exported="false"/>
         <activity
             android:name=".CreateNoteActivity"
             android:exported="false" />

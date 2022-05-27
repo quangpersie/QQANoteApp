@@ -7,7 +7,7 @@
             <item
             android:id="@+id/font_change"
             android:icon="@drawable/ic_font"
-            android:title="@string/c_i_t_k_ch_th_c_ch" />
+            android:title="Điều chỉnh phông chữ" />
             <item
                 android:id="@+id/delete_time"
                 android:icon="@drawable/ic_auto_delete"

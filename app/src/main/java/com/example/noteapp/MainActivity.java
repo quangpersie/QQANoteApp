@@ -430,7 +430,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if(id == R.id.font_change){
-
+             startActivity(new Intent(MainActivity.this, FontSettingActivity.class));
         }else if(id == R.id.delete_time){
 
         }else if(id == R.id.sound_change) {
