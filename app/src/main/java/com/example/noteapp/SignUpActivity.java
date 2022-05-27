@@ -23,11 +23,10 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
-    private TextView title_register;
     private EditText email_register;
     private EditText pass_register;
     private EditText pass2_register;
-    private Button register_button;
+    private Button register_button, back_button;
     private TextView notify_pass;
     private ProgressBar progressBar_register;
 
@@ -38,14 +37,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         mAuth = FirebaseAuth.getInstance();
         InitialVar();
-        title_register.setOnClickListener(this);
+        back_button.setOnClickListener(this);
         register_button.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.title_register:
+            case R.id.back_button:
                 finish();
                 break;
             case R.id.register_button:
@@ -101,7 +100,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void InitialVar() {
-        title_register = findViewById(R.id.title_register);
+        back_button = findViewById(R.id.back_button);
         email_register = findViewById(R.id.email_register);
         pass_register = findViewById(R.id.pass_register);
         pass2_register = findViewById(R.id.pass2_register);

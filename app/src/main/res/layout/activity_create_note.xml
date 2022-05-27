@@ -50,20 +50,53 @@
                 android:padding="8dp"
                 android:layout_margin="8dp"/>
             <ScrollView
+                android:layout_marginHorizontal="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/note_desc_detail"
-                    android:hint="Nội dung"
-                    android:textSize="18sp"
-                    android:textColor="@color/black"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/rectangle_solid_bg2"
-                    android:padding="8dp"
-                    android:layout_marginHorizontal="8dp"
-                    android:lines="12"
-                    android:gravity="top"/>
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/image_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@color/orange"
+                        android:orientation="vertical">
+                        <ImageView
+                            android:id="@+id/image_note"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"/>
+                        <TextView
+                            android:id="@+id/remove_img"
+                            android:text="Gỡ ảnh"
+                            android:textColor="@color/black"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:background="@color/white"
+                            android:textSize="18sp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                    <EditText
+                        android:id="@+id/note_desc_detail"
+                        android:hint="Nội dung"
+                        android:background="@null"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:lines="12"
+                        android:gravity="top"/>
+                </LinearLayout>
             </ScrollView>
             <LinearLayout
                 android:layout_marginHorizontal="8dp"
@@ -135,11 +168,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
                 <ImageView
-                    android:id="@+id/sound_insert"
+                    android:id="@+id/color_note_bg"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:src="@drawable/mic_sound_insert"
+                    android:src="@drawable/mic_color_bg"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"/>
                 <ImageView

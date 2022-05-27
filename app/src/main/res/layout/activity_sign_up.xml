@@ -87,31 +87,30 @@
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:gravity="center"
+            android:paddingBottom="8dp"
+            android:text="Xác nhận mật khẩu"
+            android:textSize="20sp"
+            android:textColor="@color/purple_500"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.google.android.material.textfield.TextInputLayout
+            app:passwordToggleEnabled="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:orientation="vertical">
-            <TextView
-                android:gravity="center"
-                android:paddingBottom="8dp"
-                android:text="Xác nhận mật khẩu"
-                android:textSize="20sp"
-                android:textColor="@color/purple_500"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <com.google.android.material.textfield.TextInputLayout
-                app:passwordToggleEnabled="true"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/pass2_register"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/pass2_register"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
     <TextView
@@ -123,15 +122,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
-    <Button
-        android:id="@+id/register_button"
-        android:text="Đăng ký"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/back_button"
+            android:text="Trở về đăng nhập"
+            android:textSize="16sp"
+            android:layout_gravity="start"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <Button
+            android:id="@+id/register_button"
+            android:text="Đăng ký"
+            android:textSize="16sp"
+            android:layout_marginStart="57dp"
+            android:paddingHorizontal="20dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
 
     <ProgressBar
@@ -139,7 +150,7 @@
         style="?android:progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:layout_gravity="center"
         android:visibility="invisible"/>
-
 </LinearLayout>

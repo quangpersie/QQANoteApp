@@ -1,12 +1,23 @@
 package com.example.noteapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,14 +42,17 @@ import java.util.Set;
 public class CreateNoteActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    TextView day_create, time_display, day_display;
+    TextView day_create, time_display, day_display, remove_img;
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
-    ImageView remind_note, label_note, password_note;
-    LinearLayout layout_remind, setting_note_layout;
+    ImageView remind_note, label_note, password_note, image_insert, image_note;
+    LinearLayout layout_remind, setting_note_layout, image_field;
     DatabaseReference noteDbRef;
     boolean isOldNote = false;
+    String selectedImagePath;
+    RoomDB db;
+    int idToGetImg = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +74,21 @@ public class CreateNoteActivity extends AppCompatActivity {
         setting_note_layout = findViewById(R.id.setting_note_layout);
         label_note = findViewById(R.id.label_note);
         password_note = findViewById(R.id.password_note);
+        image_insert = findViewById(R.id.image_insert);
+        image_note = findViewById(R.id.image_note);
+        remove_img = findViewById(R.id.remove_img);
+        image_field = findViewById(R.id.image_field);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
+        db = RoomDB.getInstance(this);
 
+
+
+        selectedImagePath = "";
         String date = (String) getIntent().getSerializableExtra("date_create");
         int idNote = -17;
         if (getIntent().getSerializableExtra("id_note_click") != null) {
             idNote = (int) getIntent().getSerializableExtra("id_note_click");
+            idToGetImg = idNote;
         }
         Log.e("idNote - CreateActivity",""+idNote);
 
@@ -75,6 +99,21 @@ public class CreateNoteActivity extends AppCompatActivity {
         if(hideLabel == true) {
             setting_note_layout.setVisibility(View.GONE);
             day_create.setText("Nhập thông tin để tạo ghi chú mới");
+        }
+        else {
+            try {
+                String pathImg = db.noteDAO().getNoteById(idNote).getImg_path();
+                if(!pathImg.equals("")) {
+                    image_note.setImageBitmap(BitmapFactory.decodeFile(pathImg));
+                    image_field.setVisibility(View.VISIBLE);
+                }
+                else {
+                    image_field.setVisibility(View.GONE);
+                }
+            }
+            catch (Exception e) {
+                Toast.makeText(this, "Không tìm thấy file, có thể đường dẫn đã mất hoặc bị thay đổi", Toast.LENGTH_SHORT).show();
+            }
         }
         day_create.setText(date);
 
@@ -89,6 +128,9 @@ public class CreateNoteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+
+        //onClicks
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -162,6 +204,93 @@ public class CreateNoteActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        image_insert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ContextCompat.checkSelfPermission(
+                        getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+                ) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(
+                            CreateNoteActivity.this,
+                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}
+                            , 17
+                    );
+                } else {
+                    selectImage();
+                }
+            }
+        });
+
+        remove_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.noteDAO().updateImgPath(idToGetImg, "");
+                image_field.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    private void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        if(intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 19);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 19) {
+            if(resultCode == RESULT_OK) {
+                if(data != null) {
+                    Uri selectedImageUri = data.getData();
+                    if(selectedImageUri != null) {
+                        try {
+                            InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                            Bitmap bitMap = BitmapFactory.decodeStream(inputStream);
+                            image_note.setImageBitmap(bitMap);
+                            image_field.setVisibility(View.VISIBLE);
+
+                            selectedImagePath = getPathFromUri(selectedImageUri);
+                            db.noteDAO().updateImgPath(idToGetImg, selectedImagePath);
+                        }
+                        catch (Exception e) {
+                            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 17 && grantResults.length > 0) {
+            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                selectImage();
+            }
+            else {
+                Toast.makeText(this,"Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private String getPathFromUri(Uri contentUri) {
+        String filePath;
+        Cursor cursor = getContentResolver()
+                .query(contentUri, null, null, null, null);
+        if(cursor == null) {
+            filePath = contentUri.getPath();
+        }
+        else {
+            cursor.moveToFirst();
+            int index = cursor.getColumnIndex("_data");
+            filePath = cursor.getString(index);
+            cursor.close();
+        }
+        return filePath;
     }
 
     private void showTimeSelectionDialog() {

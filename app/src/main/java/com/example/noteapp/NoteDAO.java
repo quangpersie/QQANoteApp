@@ -71,6 +71,9 @@ public interface NoteDAO {
     @Query("UPDATE note SET `delete` = 0 WHERE id = :id")
     void recoverNoteDel(int id);
 
+    @Query("UPDATE note SET img_path = :path WHERE id = :id")
+    void updateImgPath(int id, String path);
+
     /*@Query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'note'")
     void clearPrimaryKey();*/
 

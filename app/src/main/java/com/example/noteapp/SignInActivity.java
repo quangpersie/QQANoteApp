@@ -44,11 +44,11 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         progressBar_login.setVisibility(View.VISIBLE);
         if(user!= null) {
             startActivity(new Intent(SignInActivity.this, MainActivity.class));
-            progressBar_login.setVisibility(View.GONE);
+            progressBar_login.setVisibility(View.INVISIBLE);
             finish();
         }
         else {
-            progressBar_login.setVisibility(View.GONE);
+            progressBar_login.setVisibility(View.INVISIBLE);
         }
     }
 

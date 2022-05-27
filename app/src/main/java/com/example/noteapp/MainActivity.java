@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         flag_display = savedInstanceState.getBoolean("flag");
-        Log.e("Check",""+flag_display);
+//        Log.e("Check",""+flag_display);
     }
 
     @Override
@@ -438,10 +438,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }else if(id == R.id.trash_can) {
             startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
         }else if(id == R.id.auth_nav){
-
+            if(user.isEmailVerified()) {
+                Toast.makeText(this, "Tài khoản đã được xác thực", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                startActivity(new Intent(MainActivity.this, VerifyActivity.class));
+            }
         }else if(id == R.id.change_password){
             startActivity(new Intent(MainActivity.this, ChangePasswordActivity.class));
-            finish();
         }else if(id == R.id.log_out){
             FirebaseAuth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this, SignInActivity.class));
