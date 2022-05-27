@@ -107,14 +107,14 @@ public class Notes implements Serializable {
         this.order = order;
     }
 
-    /*@ColumnInfo(name = "labelId")
-    int labelId = -1;
+    @ColumnInfo(name = "password")
+    String password = "";
 
-    public int getLabelId() {
-        return labelId;
+    public String getPassword() {
+        return password;
     }
 
-    public void setLabelId(int labelId) {
-        this.labelId = labelId;
-    }*/
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignInActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -27,6 +28,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private TextView sign_up;
     private TextView forgot_pass;
     private ProgressBar progressBar_login;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,16 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         btn_sign_in.setOnClickListener(this);
         sign_up.setOnClickListener(this);
         forgot_pass.setOnClickListener(this);
+
+        progressBar_login.setVisibility(View.VISIBLE);
+        if(user!= null) {
+            startActivity(new Intent(SignInActivity.this, MainActivity.class));
+            progressBar_login.setVisibility(View.GONE);
+            finish();
+        }
+        else {
+            progressBar_login.setVisibility(View.GONE);
+        }
     }
 
     @Override

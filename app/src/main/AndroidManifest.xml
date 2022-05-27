@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NoteApp">
         <activity
+            android:label=""
+            android:theme="@style/Theme.AppCompat.Light.Dialog.Alert"
+            android:excludeFromRecents="true"
+            android:name=".SetNotePassActivity"
+            android:exported="false" />
+        <activity
             android:name=".LabelActivity"
             android:exported="false" />
         <activity
@@ -33,7 +39,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="MainActivity"></activity>
+            android:label="MainActivity" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false"
@@ -49,7 +55,7 @@
         <activity
             android:name=".SignInActivity"
             android:exported="true"
-            android:label="SignInActivity">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
