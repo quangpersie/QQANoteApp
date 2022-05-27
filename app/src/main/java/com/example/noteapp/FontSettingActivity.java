@@ -1,6 +1,7 @@
 package com.example.noteapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,16 +27,19 @@ public class FontSettingActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterSize;
     ArrayAdapter<String> adapterStyle;
     TextView editedTest;
-    String[] fontSize = {"Nhỏ", "Bình thường", "Lớn", "Cực đại"};
-    String[] fontStyle = {"Mặc định", "Rokkit", "Librebodoni", "RobotoSlab", "Texturina"};
+    Button btnConfirmChange;
+    String[] fontSizeAdapter = {"Nhỏ", "Bình thường", "Lớn", "Cực đại"};
+    String[] fontStyleAdapter = {"Mặc định", "Rokkit", "Librebodoni", "RobotoSlab", "Texturina"};
+    String fontSize = "";
+    String fontStyle = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.font_setting_layout);
         super.onCreate(savedInstanceState);
         initView();
 
-        adapterSize = new ArrayAdapter<String>(this, R.layout.list_dropdown_menu_item, fontSize);
-        adapterStyle = new ArrayAdapter<String>(this, R.layout.list_dropdown_menu_item, fontStyle);
+        adapterSize = new ArrayAdapter<String>(this, R.layout.list_dropdown_menu_item, fontSizeAdapter);
+        adapterStyle = new ArrayAdapter<String>(this, R.layout.list_dropdown_menu_item, fontStyleAdapter);
         autoCompleteTextViewSize.setAdapter(adapterSize);
         autoCompleteTextViewStyle.setAdapter(adapterStyle);
 
@@ -42,7 +47,7 @@ public class FontSettingActivity extends AppCompatActivity {
         autoCompleteTextViewSize.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String fontSize = adapterView.getItemAtPosition(i).toString();
+                fontSize = adapterView.getItemAtPosition(i).toString();
                 switch (fontSize){
                     case "Nhỏ":
                         editedTest.setTextSize(15);
@@ -64,7 +69,7 @@ public class FontSettingActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String fontStyle = adapterView.getItemAtPosition(i).toString();
+                fontStyle = adapterView.getItemAtPosition(i).toString();
                 switch (fontStyle){
                     case "Mặc định":
                         Typeface typeface = Typeface.DEFAULT;
@@ -90,12 +95,23 @@ public class FontSettingActivity extends AppCompatActivity {
 
             }
         });
+
+        btnConfirmChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FontSettingActivity.this, MainActivity.class);
+                intent.putExtra("fontSize", fontSize);
+                intent.putExtra("fontStyle", fontStyle);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initView() {
         autoCompleteTextViewSize = findViewById(R.id.auto_complete_fontSize);
         autoCompleteTextViewStyle = findViewById(R.id.auto_complete_fontStyle);
         editedTest = findViewById(R.id.editedTest);
+        btnConfirmChange = findViewById(R.id.btn_confirm_change);
         autoCompleteTextViewSize.setInputType(InputType.TYPE_NULL);
         autoCompleteTextViewStyle.setInputType(InputType.TYPE_NULL);
     }
