@@ -88,7 +88,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             edt_newPasswordConfirm.setError("Mật khẩu xác nhận không trùng khớp");
             edt_newPasswordConfirm.requestFocus();
         }
-        if(strNewPassword.equals(strNewPasswordConfirm)){
+        if(strNewPassword.equals(strNewPasswordConfirm) && (!currentPassword.equals("") && !strNewPassword.equals("") && !strNewPasswordConfirm.equals(""))){
             progressDialog.show();
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if(user != null && user.getEmail() != null) {
