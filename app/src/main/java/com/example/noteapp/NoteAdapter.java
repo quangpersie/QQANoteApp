@@ -2,6 +2,7 @@ package com.example.noteapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -86,6 +88,14 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
                 return true;
             }
         });
+
+        if(!note.getImg_path().equals("")) {
+            holder.note_img.setImageBitmap(BitmapFactory.decodeFile(note.getImg_path()));
+            holder.img_field.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.img_field.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -100,19 +110,22 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
-        LinearLayout layout_root;
+        LinearLayout layout_root, img_field;
         TextView note_title, note_desc, time_create;
         ImageView pin_note, has_label, has_pass;
+        ShapeableImageView note_img;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             layout_root = itemView.findViewById(R.id.layout_root);
+            img_field = itemView.findViewById(R.id.img_field);
             note_title = itemView.findViewById(R.id.note_title);
             note_desc = itemView.findViewById(R.id.note_desc);
             time_create = itemView.findViewById(R.id.time_create);
             pin_note = itemView.findViewById(R.id.pin_note);
             has_label = itemView.findViewById(R.id.has_label);
             has_pass = itemView.findViewById(R.id.has_pass);
+            note_img = itemView.findViewById(R.id.note_img);
         }
     }
 }
