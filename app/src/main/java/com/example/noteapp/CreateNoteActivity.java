@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class CreateNoteActivity extends AppCompatActivity {
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
     Notes note;
-    ImageView remind_note, label_note;
+    ImageView remind_note, label_note, password_note;
     LinearLayout layout_remind, setting_note_layout;
     DatabaseReference noteDbRef;
     boolean isOldNote = false;
@@ -55,8 +56,9 @@ public class CreateNoteActivity extends AppCompatActivity {
         day_display = findViewById(R.id.day_display);
         remind_note = findViewById(R.id.remind_note);
         layout_remind = findViewById(R.id.layout_remind);
-//        setting_note_layout = findViewById(R.id.setting_note_layout);
+        setting_note_layout = findViewById(R.id.setting_note_layout);
         label_note = findViewById(R.id.label_note);
+        password_note = findViewById(R.id.password_note);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
         String date = (String) getIntent().getSerializableExtra("date_create");
@@ -148,6 +150,15 @@ public class CreateNoteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CreateNoteActivity.this, LabelActivity.class);
                 intent.putExtra("id_note", finalIdNote);
+                startActivity(intent);
+            }
+        });
+
+        password_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CreateNoteActivity.this, SetNotePassActivity.class);
+                intent.putExtra("idNote",finalIdNote);
                 startActivity(intent);
             }
         });

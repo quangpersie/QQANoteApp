@@ -127,7 +127,7 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 if(label.isChecked()) {
                     database.labelDAO().updateCheck(label.getId(),true);
 
-                    String nameUpdate = database.noteDAO().getNoteWithId(idNote).getLabel().toLowerCase();
+                    String nameUpdate = database.noteDAO().getNoteById(idNote).getLabel().toLowerCase();
                     String labelName = label.getName().toLowerCase();
                     if(!nameUpdate.contains(labelName)) {
                         nameUpdate = nameUpdate + labelName;
@@ -138,7 +138,7 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     database.labelDAO().updateCheck(label.getId(),false);
 
                     String nameLabel = label.getName().toLowerCase();
-                    String allLabelOfId = database.noteDAO().getNoteWithId(idNote).getLabel().toLowerCase();
+                    String allLabelOfId = database.noteDAO().getNoteById(idNote).getLabel().toLowerCase();
 
                     if(allLabelOfId.contains(nameLabel)) {
                         String nameUpdate = allLabelOfId.replace(nameLabel,"");
@@ -232,10 +232,9 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 return true;
             case R.id.delete_label:
                 database.labelDAO().deleteLabel(labelSelected);
-
                 Log.e("idCopy",""+idNoteCopy);
                 String nameLabel = labelSelected.getName().toLowerCase();
-                String allLabelOfId = database.noteDAO().getNoteWithId(idNoteCopy).getLabel().toLowerCase();
+                String allLabelOfId = database.noteDAO().getNoteById(idNoteCopy).getLabel().toLowerCase();
 
                 if(allLabelOfId.contains(nameLabel)) {
                     String nameUpdate = allLabelOfId.replace(nameLabel,"");

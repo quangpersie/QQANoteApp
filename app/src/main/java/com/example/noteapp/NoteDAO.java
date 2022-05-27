@@ -32,9 +32,6 @@ public interface NoteDAO {
     @Query("SELECT * FROM note WHERE pinned = :fal AND user = :user AND `delete` = 0 ORDER BY id DESC")
     List<Notes> getNoteNoPin(boolean fal, String user);
 
-    @Query("SELECT * FROM note WHERE id = :id")
-    Notes getNoteWithId(int id);
-
     @Query("UPDATE note SET `order` = 1 + :maxOrder WHERE id = :id")
     void updateOrder(int id, int maxOrder);
 
@@ -52,6 +49,9 @@ public interface NoteDAO {
 
     @Query("UPDATE note SET label = :label WHERE id = :id")
     void updateCheckLabel(int id, String label);
+
+    @Query("UPDATE note SET password = :pw WHERE id = :id")
+    void updatePassNote(int id, String pw);
 
     @Query("SELECT COUNT(id) FROM note")
     int getCount();

@@ -13,6 +13,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,10 +50,24 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         holder.time_create.setSelected(true);
 
         if(note.isPinned()) {
-            holder.pin_note.setImageResource(R.drawable.ic_pin_note);
+            holder.pin_note.setVisibility(View.VISIBLE);
         }
         else {
-            holder.pin_note.setImageResource(0);
+            holder.pin_note.setVisibility(View.GONE);
+        }
+
+        if(note.getLabel().trim().equals("")) {
+            holder.has_label.setVisibility(View.GONE);
+        }
+        else {
+            holder.has_label.setVisibility(View.VISIBLE);
+        }
+
+        if(note.getPassword().equals("")) {
+            holder.has_pass.setVisibility(View.GONE);
+        }
+        else {
+            holder.has_pass.setVisibility(View.VISIBLE);
         }
 
 //        String color_code = getRandomColor();
@@ -101,7 +118,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
 
         LinearLayout layout_root;
         TextView note_title, note_desc, time_create;
-        ImageView pin_note;
+        ImageView pin_note, has_label, has_pass;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -110,6 +127,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             note_desc = itemView.findViewById(R.id.note_desc);
             time_create = itemView.findViewById(R.id.time_create);
             pin_note = itemView.findViewById(R.id.pin_note);
+            has_label = itemView.findViewById(R.id.has_label);
+            has_pass = itemView.findViewById(R.id.has_pass);
         }
     }
 }
