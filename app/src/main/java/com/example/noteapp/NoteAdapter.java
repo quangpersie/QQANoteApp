@@ -70,7 +70,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             holder.has_pass.setVisibility(View.VISIBLE);
         }
 
-//        String color_code = getRandomColor();
 //        holder.layout_root.setBackgroundColor(Color.parseColor(color_code));
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
@@ -87,21 +86,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
                 return true;
             }
         });
-    }
-
-    private String getRandomColor() {
-        List<String> colorCode = new ArrayList<>();
-        colorCode.add("#E53935");
-        colorCode.add("#FB8C00");
-        colorCode.add("#FDD835");
-        colorCode.add("#43A047");
-        colorCode.add("#1E88E5");
-        colorCode.add("#EC407A");
-        colorCode.add("#FF6200EE");
-
-        Random random = new Random();
-        int index = random.nextInt(colorCode.size());
-        return colorCode.get(index);
     }
 
     @Override

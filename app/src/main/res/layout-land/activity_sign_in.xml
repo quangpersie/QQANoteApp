@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     android:gravity="center"
     android:background="@drawable/background_main"
     tools:context=".SignInActivity">
@@ -13,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
         android:padding="16dp"
+        android:gravity="center"
         android:background="@drawable/background_main"
         tools:context=".SignInActivity">
 
@@ -22,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="56dp">
             <TextView
                 android:textColor="#99000000"
@@ -73,11 +75,15 @@
 
                 <EditText
                     android:id="@+id/user_email"
-                    android:hint="Địa chỉ email"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"/>
+                    android:hint="Địa chỉ email"
+                    android:inputType="textEmailAddress" />
+                android:hint="Địa chỉ email"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
@@ -125,11 +131,12 @@
             android:id="@+id/btn_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:layout_margin="16dp"
             android:textSize="18sp"
             android:textAllCaps="false"
             android:background="@drawable/button_style"
-            android:text="Sign in"/>
+            android:text="Đăng nhập"/>
 
         <LinearLayout
             android:layout_marginTop="8dp"
