@@ -128,4 +128,15 @@ public class Notes implements Serializable {
     public void setImg_path(String img_path) {
         this.img_path = img_path;
     }
+
+    @ColumnInfo(name = "color_code")
+    String color_code = "pink";
+
+    public String getColor_code() {
+        return color_code;
+    }
+
+    public void setColor_code(String color_code) {
+        this.color_code = color_code;
+    }
 }

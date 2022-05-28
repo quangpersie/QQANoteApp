@@ -74,6 +74,9 @@ public interface NoteDAO {
     @Query("UPDATE note SET img_path = :path WHERE id = :id")
     void updateImgPath(int id, String path);
 
+    @Query("UPDATE note SET color_code = :code WHERE id = :id")
+    void updateColorNote(int id, String code);
+
     /*@Query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'note'")
     void clearPrimaryKey();*/
 

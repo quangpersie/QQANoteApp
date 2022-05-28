@@ -45,9 +45,10 @@ public class CreateNoteActivity extends AppCompatActivity {
     TextView day_create, time_display, day_display, remove_img;
     EditText note_title_detail, note_desc_detail;
     Button btn_save, btn_setTime, btn_setDay;
+    Button pick_pink, pick_red, pick_yellow, pick_blue, pick_green;
     Notes note;
-    ImageView remind_note, label_note, password_note, image_insert, image_note;
-    LinearLayout layout_remind, setting_note_layout, image_field;
+    ImageView remind_note, label_note, password_note, image_insert, image_note, pick_color_note_bg;
+    LinearLayout layout_remind, setting_note_layout, image_field, color_bg_field;
     DatabaseReference noteDbRef;
     boolean isOldNote = false;
     String selectedImagePath;
@@ -78,10 +79,16 @@ public class CreateNoteActivity extends AppCompatActivity {
         image_note = findViewById(R.id.image_note);
         remove_img = findViewById(R.id.remove_img);
         image_field = findViewById(R.id.image_field);
+        pick_color_note_bg = findViewById(R.id.pick_color_note_bg);
+        color_bg_field = findViewById(R.id.color_bg_field);
+
+        pick_pink = findViewById(R.id.pick_pink);
+        pick_red = findViewById(R.id.pick_red);
+        pick_yellow = findViewById(R.id.pick_yellow);
+        pick_blue = findViewById(R.id.pick_blue);
+        pick_green = findViewById(R.id.pick_green);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
         db = RoomDB.getInstance(this);
-
-
 
         selectedImagePath = "";
         String date = (String) getIntent().getSerializableExtra("date_create");
@@ -98,6 +105,7 @@ public class CreateNoteActivity extends AppCompatActivity {
         }
         if(hideLabel == true) {
             setting_note_layout.setVisibility(View.GONE);
+            color_bg_field.setVisibility(View.GONE);
             day_create.setText("Nhập thông tin để tạo ghi chú mới");
             day_create.setVisibility(View.VISIBLE);
         }
@@ -129,7 +137,7 @@ public class CreateNoteActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        colorPickOnClick();
 
         //onClicks
         btn_save.setOnClickListener(new View.OnClickListener() {
@@ -230,6 +238,41 @@ public class CreateNoteActivity extends AppCompatActivity {
                 image_field.setVisibility(View.GONE);
             }
         });
+
+        pick_color_note_bg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(color_bg_field.getVisibility() == View.VISIBLE) {
+                    color_bg_field.setVisibility(View.GONE);
+                }
+                else {
+                    color_bg_field.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void colorPickOnClick() {
+        pick_pink.setOnClickListener(view -> {
+            db.noteDAO().updateColorNote(idToGetImg, "pink");
+            Toast.makeText(this, "Hồng", Toast.LENGTH_SHORT).show();
+        });
+        pick_red.setOnClickListener(view -> {
+            db.noteDAO().updateColorNote(idToGetImg, "red");
+            Toast.makeText(this, "Đỏ", Toast.LENGTH_SHORT).show();
+        });
+        pick_yellow.setOnClickListener(view -> {
+            db.noteDAO().updateColorNote(idToGetImg, "yellow");
+            Toast.makeText(this, "Vàng", Toast.LENGTH_SHORT).show();
+        });
+        pick_blue.setOnClickListener(view -> {
+            db.noteDAO().updateColorNote(idToGetImg, "blue");
+            Toast.makeText(this, "Lam", Toast.LENGTH_SHORT).show();
+        });
+        pick_green.setOnClickListener(view -> {
+            db.noteDAO().updateColorNote(idToGetImg, "green");
+            Toast.makeText(this, "Lục", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void selectImage() {
@@ -273,7 +316,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                 selectImage();
             }
             else {
-                Toast.makeText(this,"Permission denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Quyền truy cập bị từ chối", Toast.LENGTH_SHORT).show();
             }
         }
     }
