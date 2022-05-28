@@ -178,12 +178,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        lShowByLabel.clear();
-        String allNote = "Tất cả ghi chú";
-        lShowByLabel.add(allNote);
-        for(Label label:database.labelDAO().getAllLabel()) {
-            lShowByLabel.add(label.getName());
-        }
+        addDataDefaultLabels();
 
         mSpinner = findViewById(R.id.mSpinner);
         ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(MainActivity.this,
@@ -205,7 +200,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         flag_display = savedInstanceState.getBoolean("flag");
-//        Log.e("Check",""+flag_display);
     }
 
     @Override
@@ -241,15 +235,29 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         }
         noteAdapter.notifyDataSetChanged();
-        lShowByLabel.clear();
-        String allNote = "Tất cả ghi chú";
-        lShowByLabel.add(allNote);
-        for(Label label:database.labelDAO().getAllLabel()) {
-            lShowByLabel.add(label.getName());
-        }
+        addDataDefaultLabels();
         mSpinner.setSelection(0);
         updateNotify();
     }
+
+    private void addDataDefaultLabels() {
+        List<Label> labels = database.labelDAO().getAllLabel();
+        if(labels.size() == 0) {
+            lShowByLabel.clear();
+            lShowByLabel.add("Tất cả ghi chú");
+            lShowByLabel.add("Work");
+            lShowByLabel.add("Personal");
+            lShowByLabel.add("Family");
+        }
+        else {
+            lShowByLabel.clear();
+            lShowByLabel.add("Tất cả ghi chú");
+            for(Label label:labels) {
+                lShowByLabel.add(label.getName());
+            }
+        }
+    }
+
 
     private void filterSearch(String s) {
         List<Notes> containList = new ArrayList<>();

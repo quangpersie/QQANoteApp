@@ -18,12 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
     private Context context;
@@ -111,7 +106,23 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             holder.has_pass.setVisibility(View.VISIBLE);
         }
 
-//        holder.layout_root.setBackgroundColor(Color.parseColor(color_code));
+        switch (note.getColor_code()) {
+            case "pink":
+                holder.layout_root.setBackgroundResource(R.drawable.row_style_bg);
+                break;
+            case "red":
+                holder.layout_root.setBackgroundResource(R.drawable.mbg_note_red);
+                break;
+            case "yellow":
+                holder.layout_root.setBackgroundResource(R.drawable.mbg_note_yellow);
+                break;
+            case "blue":
+                holder.layout_root.setBackgroundResource(R.drawable.mbg_note_blue);
+                break;
+            case "green":
+                holder.layout_root.setBackgroundResource(R.drawable.mbg_note_green);
+                break;
+        }
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
             @Override
