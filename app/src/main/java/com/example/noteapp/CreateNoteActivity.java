@@ -258,7 +258,7 @@ public class CreateNoteActivity extends AppCompatActivity {
                 intent.putExtra("note", note);
                 setResult(Activity.RESULT_OK, intent);
 
-                noteDbRef.push().setValue(note);
+                //noteDbRef.push().setValue(note);
                 finish();
             }
         });

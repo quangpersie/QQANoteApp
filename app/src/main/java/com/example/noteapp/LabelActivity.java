@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,8 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
     LinearLayout zone_create;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
+    String label = "";
+    DatabaseReference noteDbRef;
     int idNoteCopy;
 
     @Override
@@ -52,6 +56,7 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
         save_check = findViewById(R.id.save_check);
         confirm_create = findViewById(R.id.confirm_create);
         zone_create = findViewById(R.id.zone_create);
+        noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
         Label label1 = new Label();
         label1.setName("Work");
@@ -148,7 +153,6 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
             }
             finish();
             updateAdapter();
-
             String labelStr = database.noteDAO().getNoteById(idNote).getLabel();
             for(Label label:labels) {
                 if (labelStr.contains(label.getName().toLowerCase())) {
@@ -158,6 +162,9 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
                     label.setChecked(false);
                 }
             }
+            Notes note = database.noteDAO().getNoteById(idNote);
+            note.setLabel(labelStr);
+            noteDbRef.push().setValue(note);
             labelAdapter.notifyDataSetChanged();
         });
 
