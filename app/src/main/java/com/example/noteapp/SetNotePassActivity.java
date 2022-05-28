@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -22,6 +24,7 @@ public class SetNotePassActivity extends AppCompatActivity {
     Button skip_pass_note, confirm_pass_note, cancel_pass_mode;
     EditText set_pass_note, set_pass_note2, current_pass_note, change_pass_note, change_pass_note2;
     RoomDB db;
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference noteDbRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class SetNotePassActivity extends AppCompatActivity {
                         db.noteDAO().updatePassNote(idNote,pass);
                         Notes note = db.noteDAO().getNoteById(idNote);
                         note.setPassword(pass);
+                        //noteDbRef.child(user.getUid()).child("password").setValue(pass);
                         noteDbRef.push().setValue(note);
                         Toast.makeText(SetNotePassActivity.this, "Đặt mật khẩu thành công", Toast.LENGTH_SHORT).show();
                         finish();
@@ -126,6 +130,7 @@ public class SetNotePassActivity extends AppCompatActivity {
                         db.noteDAO().updatePassNote(idNote,newPass);
                         Notes note = db.noteDAO().getNoteById(idNote);
                         note.setPassword(newPass);
+                        //noteDbRef.child(user.getUid()).child("password").setValue(newPass);
                         noteDbRef.push().setValue(note);
                         Toast.makeText(SetNotePassActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
                         finish();
@@ -140,6 +145,7 @@ public class SetNotePassActivity extends AppCompatActivity {
                 db.noteDAO().updatePassNote(idNote,"");
                 Notes note = db.noteDAO().getNoteById(idNote);
                 note.setPassword("");
+                //noteDbRef.child(user.getUid()).child("password").setValue("");
                 noteDbRef.push().setValue(note);
                 Toast.makeText(SetNotePassActivity.this, "Xóa mật khẩu thành công", Toast.LENGTH_SHORT).show();
                 finish();

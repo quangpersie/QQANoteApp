@@ -1,5 +1,6 @@
 package com.example.noteapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -21,8 +22,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.SnapshotHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -165,6 +170,26 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
             Notes note = database.noteDAO().getNoteById(idNote);
             note.setLabel(labelStr);
             noteDbRef.push().setValue(note);
+            //noteDbRef.child(user.getUid()).child("label").setValue(labelStr);
+            /*noteDbRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds: snapshot.getChildren())
+                    {
+                        int id = ds.child("id").getValue(Integer.class);
+                        String user = ds.child("user").getValue(String.class);
+                        if (id == note.getId() && user.equals(note.getUser()))
+                        {
+                            noteDbRef.child(ds.getKey()).child("label").setValue(labelStr);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });*/
             labelAdapter.notifyDataSetChanged();
         });
 
