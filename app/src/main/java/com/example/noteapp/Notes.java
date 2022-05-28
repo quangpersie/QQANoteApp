@@ -132,7 +132,6 @@ public class Notes implements Serializable {
         this.img_path = img_path;
     }
 
-<<<<<<< HEAD
     @ColumnInfo(name = "color_code")
     String color_code = "pink";
 
@@ -143,9 +142,10 @@ public class Notes implements Serializable {
     public void setColor_code(String color_code) {
         this.color_code = color_code;
     }
-=======
+
     @ColumnInfo(name = "fontSize")
     String fontSize = "";
+
     public String getFontSize(){
         return fontSize;
     };
@@ -153,8 +153,10 @@ public class Notes implements Serializable {
     public void setFontSize(String fontSize){
         this.fontSize = fontSize;
     }
+
     @ColumnInfo(name = "fontStyle")
     String fontStyle = "";
+
     public String getFontStyle(){
         return fontStyle;
     }
@@ -162,6 +164,4 @@ public class Notes implements Serializable {
     public void setFontStyle(String fontStyle){
         this.fontStyle = fontStyle;
     }
-
->>>>>>> 1f6a31e7af89080d2be3beedc495a2476d26a21f
 }

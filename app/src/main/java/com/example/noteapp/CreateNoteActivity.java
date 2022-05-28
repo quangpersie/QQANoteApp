@@ -97,16 +97,12 @@ public class CreateNoteActivity extends AppCompatActivity {
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
         db = RoomDB.getInstance(this);
 
-<<<<<<< HEAD
-=======
-
         Bundle extra1 = getIntent().getExtras();
         if (extra1 != null) {
             fontSize = extra1.getString("fontSize");
             fontStyle = extra1.getString("fontStyle");
         }
 
->>>>>>> 1f6a31e7af89080d2be3beedc495a2476d26a21f
         selectedImagePath = "";
         String date = (String) getIntent().getSerializableExtra("date_create");
         int idNote = -17;
