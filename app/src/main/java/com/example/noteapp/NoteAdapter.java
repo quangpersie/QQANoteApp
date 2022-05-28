@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.imageview.ShapeableImageView;
@@ -34,13 +37,49 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.note_row,parent,false));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull NoteAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Notes note = listNode.get(position);
 
         holder.note_title.setText(note.getTitle());
         holder.note_title.setSelected(true);
-
+        switch (note.getFontSize()){
+            case "Nhỏ":
+                holder.note_desc.setTextSize(15);
+                break;
+            case "Bình thường":
+                holder.note_desc.setTextSize(20);
+                break;
+            case "Lớn":
+                holder.note_desc.setTextSize(25);
+                break;
+            case "Cực đại":
+                holder.note_desc.setTextSize(30);
+                break;
+        }
+        switch (note.getFontStyle()){
+            case "Mặc định":
+                Typeface typeface = Typeface.DEFAULT;
+                holder.note_desc.setTypeface(typeface);
+                break;
+            case "Rokkit":
+                Typeface typeface1 = context.getResources().getFont(R.font.rokkit);
+                holder.note_desc.setTypeface(typeface1);
+                break;
+            case "Librebodoni":
+                Typeface typeface2 = context.getResources().getFont(R.font.librebodoni);
+                holder.note_desc.setTypeface(typeface2);
+                break;
+            case "RobotoSlab":
+                Typeface typeface3 = context.getResources().getFont(R.font.robotoslab);
+                holder.note_desc.setTypeface(typeface3);
+                break;
+            case "Texturina":
+                Typeface typeface4 = context.getResources().getFont(R.font.texturina);
+                holder.note_desc.setTypeface(typeface4);
+                break;
+        }
         holder.note_desc.setText(note.getContent());
 
         holder.time_create.setText(note.getDate_create());
