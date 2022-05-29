@@ -460,7 +460,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }else if(id == R.id.delete_time){
 
         }else if(id == R.id.sound_change) {
-
+            startActivity(new Intent(MainActivity.this,PickSoundNotifyDefault.class));
         }else if(id == R.id.trash_can) {
             startActivity(new Intent(MainActivity.this, RecycleBinActivity.class));
         }else if(id == R.id.auth_nav){

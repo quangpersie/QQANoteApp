@@ -164,4 +164,37 @@ public class Notes implements Serializable {
     public void setFontStyle(String fontStyle){
         this.fontStyle = fontStyle;
     }
+
+    @ColumnInfo(name = "date_remind")
+    String date_remind = "";
+
+    public String getDate_remind() {
+        return date_remind;
+    }
+
+    public void setDate_remind(String date_remind) {
+        this.date_remind = date_remind;
+    }
+
+    @ColumnInfo(name = "time_remind")
+    String time_remind = "";
+
+    public String getTime_remind() {
+        return time_remind;
+    }
+
+    public void setTime_remind(String time_remind) {
+        this.time_remind = time_remind;
+    }
+
+    @ColumnInfo(name = "sound_default")
+    String sound_default = "Default";
+
+    public String getSound_default() {
+        return sound_default;
+    }
+
+    public void setSound_default(String sound_default) {
+        this.sound_default = sound_default;
+    }
 }

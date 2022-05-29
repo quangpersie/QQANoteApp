@@ -77,6 +77,15 @@ public interface NoteDAO {
     @Query("UPDATE note SET color_code = :code WHERE id = :id")
     void updateColorNote(int id, String code);
 
+    @Query("UPDATE note SET date_remind = :date WHERE id = :id")
+    void updateDateRemind(int id, String date);
+
+    @Query("UPDATE note SET time_remind = :time WHERE id = :id")
+    void updateTimeRemind(int id, String time);
+
+    @Query("UPDATE note SET sound_default = :sound")
+    void updateDefaultSound(String sound);
+
     /*@Query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'note'")
     void clearPrimaryKey();*/
 

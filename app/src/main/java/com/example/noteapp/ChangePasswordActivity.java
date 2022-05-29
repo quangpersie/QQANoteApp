@@ -34,12 +34,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_password);
 
         initView();
-        btn_changePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onClickChangePassword();
-            }
-        });
+        btn_changePassword.setOnClickListener(view -> onClickChangePassword());
     }
 
     private void initView() {
@@ -95,29 +90,25 @@ public class ChangePasswordActivity extends AppCompatActivity {
             if(user != null && user.getEmail() != null) {
                 AuthCredential credential = EmailAuthProvider
                         .getCredential(user.getEmail(), currentPassword);
-                user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()) {
-//                            Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
-                            user.updatePassword(strNewPassword)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_LONG).show();
-                                            }
+                user.reauthenticate(credential).addOnCompleteListener(task -> {
+                    if(task.isSuccessful()) {
+                        user.updatePassword(strNewPassword)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu thành công", Toast.LENGTH_LONG).show();
                                         }
-                                    });
-                            progressDialog.dismiss();
-                            FirebaseAuth.getInstance().signOut();
-                            startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class));
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu không thành công, kiểm tra lại mật khẩu hiện tại", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
+                                    }
+                                });
+                        progressDialog.dismiss();
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(ChangePasswordActivity.this, SignInActivity.class));
+                        finish();
+                    }
+                    else {
+                        Toast.makeText(ChangePasswordActivity.this, "Đổi mật khẩu không thành công, kiểm tra lại mật khẩu hiện tại", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
                     }
                 });
             }
