@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -50,7 +51,7 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
 
         database = RoomDB.getInstance(this);
 //        notes = database.noteDAO().getAllDeletedNote(userMail);
-        notes = database.noteDAO().showNoteDelInOrder();
+        notes = database.noteDAO().showNoteDelInOrder(userMail);
         updateNotify();
         ListLayout(notes);
     }
@@ -103,9 +104,13 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
                 selectedNote.setDelete(false);
                 noteDbRef.push().setValue(selectedNote);
                 notes.clear();
-                notes.addAll(database.noteDAO().getAllDeletedNote(userMail));
+                notes.addAll(database.noteDAO().showNoteDelInOrder(userMail));
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
+                List<Notes> ln = database.noteDAO().getAllDeletedNote(userMail);
+                for(Notes l:ln){
+                    Log.e("ORDER",l.getTitle()+", "+l.getOrderNoteDel());
+                }
                 return true;
             case R.id.deleteP_note:
                 database.noteDAO().delete(selectedNote);

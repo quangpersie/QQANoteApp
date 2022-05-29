@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.delete_note:
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
                 database.noteDAO().updateDateDel(selectedNote.getId(),formatter.format(new Date()));
-                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), database.noteDAO().getMaxOrderDel()+1);
+                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), database.noteDAO().getMaxOrderDel(userMail)+1);
 
                 database.noteDAO().deletedNote(selectedNote.getId());
                 selectedNote.setDelete(true);
