@@ -44,6 +44,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private Spinner mSpinner;
     private List<String> lShowByLabel  = new ArrayList<>();
     private List<Notes> noteCopy = new ArrayList<>();
+    DatabaseReference noteDbRef;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
@@ -88,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Toolbar toolbar = findViewById(R.id.toolbar);
         drawerLayout = findViewById(R.id.drawer_layout);
         mSpinner = findViewById(R.id.mSpinner);
+        noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
@@ -286,10 +290,12 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 if(user.isEmailVerified() == true) {
                     database.noteDAO().insert(new_note);
+                    noteDbRef.push().setValue(new_note);
                 }
                 else if((user.isEmailVerified() == false
                         && database.noteDAO().getAllUserNoteAndRBin(userMail).size() < 5)) {
                     database.noteDAO().insert(new_note);
+                    noteDbRef.push().setValue(new_note);
                 }
                 else {
                     Toast toast = Toast.makeText(this, "Tài khoản chưa xác thực, ghi chú được tạo tối đa là 5", Toast.LENGTH_SHORT);
@@ -417,6 +423,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
 
                     database.noteDAO().unPin(selectedNote.getId());
+                    selectedNote.setPinned(false);
+                    noteDbRef.push().setValue(selectedNote);
                     notes.clear();
                     if(hasPinNote()) {
 
@@ -433,6 +441,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
 
                     database.noteDAO().updateOrder(selectedNote.getId(),maxOrder());
+                    selectedNote.setPinned(true);
+                    noteDbRef.push().setValue(selectedNote);
                     notes.clear();
                     notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
                     notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
@@ -442,6 +452,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 return true;
             case R.id.delete_note:
                 database.noteDAO().deletedNote(selectedNote.getId());
+                selectedNote.setDelete(true);
+                noteDbRef.push().setValue(selectedNote);
                 notes.remove(selectedNote);
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
