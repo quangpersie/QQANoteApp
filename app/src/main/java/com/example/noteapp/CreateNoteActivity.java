@@ -25,15 +25,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-<<<<<<< HEAD
+
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-=======
+
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
->>>>>>> f32f56fcf70cecadd5db26d4b15ec763db25262b
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -107,20 +106,20 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         image_field = findViewById(R.id.image_field);
         pick_color_note_bg = findViewById(R.id.pick_color_note_bg);
         color_bg_field = findViewById(R.id.color_bg_field);
-<<<<<<< HEAD
+
         cancel_remind = findViewById(R.id.cancel_remind);
         confirm_remind = findViewById(R.id.confirm_remind);
 
         cancel_remind.setOnClickListener(this);
         confirm_remind.setOnClickListener(this);
-=======
+
         bold = findViewById(R.id.bold);
         italic = findViewById(R.id.italic);
         underline = findViewById(R.id.underline);
         align_center = findViewById(R.id.align_center);
         align_justify = findViewById(R.id.align_justify);
         color_pick = findViewById(R.id.color_pick);
->>>>>>> f32f56fcf70cecadd5db26d4b15ec763db25262b
+
 
         pick_pink = findViewById(R.id.pick_pink);
         pick_red = findViewById(R.id.pick_red);
@@ -297,7 +296,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 intent.putExtra("note", note);
                 setResult(Activity.RESULT_OK, intent);
 
-<<<<<<< HEAD
+
                 noteDbRef.push().setValue(note);
                 if(desc.isEmpty()) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(CreateNoteActivity.this);
@@ -310,12 +309,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                     });
                     alert.setNegativeButton("Thêm nội dung", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-=======
-                //noteDbRef.push().setValue(note);
-                finish();
-            }
-        });
->>>>>>> f32f56fcf70cecadd5db26d4b15ec763db25262b
 
                         }
                     });
@@ -323,6 +316,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 }
                 else {
                     finish();
+                    //noteDbRef.push().setValue(note);
                 }
             }
         });
