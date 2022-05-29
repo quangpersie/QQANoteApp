@@ -88,6 +88,18 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_timeDel.setAdapter(mAdapter);
         spinner_timeDel.setOnItemSelectedListener(RecycleBinActivity.this);
+
+        switch (database.defaultDAO().getSettingById(1).getDelete_default()) {
+            case "1 phút":
+                spinner_timeDel.setSelection(0);
+                break;
+            case "1 ngày":
+                spinner_timeDel.setSelection(1);
+                break;
+            case "7 ngày":
+                spinner_timeDel.setSelection(2);
+                break;
+        }
     }
 
     @Override
@@ -195,7 +207,7 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         }
     }
 
-    private int getBroadcastCode() {
+    /*private int getBroadcastCode() {
         return (int) new Date().getTime();
-    }
+    }*/
 }

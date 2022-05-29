@@ -299,11 +299,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             if(resultCode == Activity.RESULT_OK) {
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 if(user.isEmailVerified() == true) {
+                    new_note.setRequest_code(database.noteDAO().getMaxRequestCode()+1);
                     database.noteDAO().insert(new_note);
                     noteDbRef.push().setValue(new_note);
                 }
                 else if((user.isEmailVerified() == false
                         && database.noteDAO().getAllUserNoteAndRBin(userMail).size() < 5)) {
+                    new_note.setRequest_code(database.noteDAO().getMaxRequestCode()+1);
                     database.noteDAO().insert(new_note);
                     noteDbRef.push().setValue(new_note);
                 }
@@ -429,7 +431,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
         intent.putExtra("idNoteDelAuto",selectedNote.getId());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this,
-                getBroadcastCode(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                selectedNote.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         switch (item.getItemId()) {
@@ -480,10 +482,21 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
 
                 Calendar startTime = Calendar.getInstance();
-                startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                switch (database.defaultDAO().getSettingById(idDF).getDelete_default()) {
+                    case "1 phút":
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                        break;
+                    case "1 ngày":
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
+                        break;
+                    case "7 ngày":
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
+                        break;
+                }
                 long alarmStartTime = startTime.getTimeInMillis();
                 alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
 
+                //delete ve sau
                 try{
                     Log.e("TG auto del", "Mỗi ghi chú trong thùng rác sẽ được xóa sau " +
                             database.defaultDAO().getSettingById(idDF).getDelete_default());
@@ -581,7 +594,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-        Log.e("POS",""+pos);
+//        Log.e("POS",""+pos);
         if(pos == 0) {
             notes.clear();
             if(hasPinNote()) {
@@ -613,7 +626,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     }
 
-    private int getBroadcastCode() {
+    /*private int getBroadcastCode() {
         return (int) new Date().getTime();
-    }
+    }*/
 }

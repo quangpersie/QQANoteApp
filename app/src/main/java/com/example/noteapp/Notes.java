@@ -189,17 +189,6 @@ public class Notes implements Serializable {
         this.time_remind = time_remind;
     }
 
-    @ColumnInfo(name = "sound_default")
-    String sound_default = "Default";
-
-    public String getSound_default() {
-        return sound_default;
-    }
-
-    public void setSound_default(String sound_default) {
-        this.sound_default = sound_default;
-    }
-
     @ColumnInfo(name = "date_delete")
     String date_delete = "";
 
@@ -220,5 +209,16 @@ public class Notes implements Serializable {
 
     public void setOrderNoteDel(int orderNoteDel) {
         this.orderNoteDel = orderNoteDel;
+    }
+
+    @ColumnInfo(name = "request_code")
+    int request_code = 0;
+
+    public int getRequest_code() {
+        return request_code;
+    }
+
+    public void setRequest_code(int request_code) {
+        this.request_code = request_code;
     }
 }

@@ -26,9 +26,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
-import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
-
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
@@ -52,7 +49,6 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
 
 public class CreateNoteActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -579,12 +575,12 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         Intent intent = new Intent(CreateNoteActivity.this, AlarmReceiver.class);
 
         intent.putExtra("name_sound",
-                db.noteDAO().getNoteById(idToGetImg).getSound_default());
+                db.defaultDAO().getSettingById(1).getSound_default());
 
         intent.putExtra("title_note", db.noteDAO().getNoteById(idToGetImg).getTitle());
         intent.putExtra("desc_note", db.noteDAO().getNoteById(idToGetImg).getContent());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(CreateNoteActivity.this,
-                getBroadcastCode(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                db.noteDAO().getNoteById(idToGetImg).getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         switch (view.getId()) {
             case R.id.confirm_remind:
@@ -617,7 +613,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private int getBroadcastCode() {
+    /*private int getBroadcastCode() {
         return (int) new Date().getTime();
-    }
+    }*/
 }

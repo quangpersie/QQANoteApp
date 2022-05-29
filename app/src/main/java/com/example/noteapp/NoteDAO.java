@@ -86,14 +86,12 @@ public interface NoteDAO {
     @Query("UPDATE note SET time_remind = :time WHERE id = :id")
     void updateTimeRemind(int id, String time);
 
-    @Query("UPDATE note SET sound_default = :sound WHERE user = :userMail")
-    void updateDefaultSound(String sound, String userMail);
-
-    /*@Query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'note'")
-    void clearPrimaryKey();*/
-
     @Query("SELECT MAX(orderNoteDel) FROM note WHERE user = :userMail")
     int getMaxOrderDel(String userMail);
+
+    //requestCode for each Note
+    @Query("SELECT MAX(request_code) FROM note")
+    int getMaxRequestCode();
 
     @Query("SELECT * FROM note WHERE orderNoteDel = 0")
     List<Notes> noteInUse();

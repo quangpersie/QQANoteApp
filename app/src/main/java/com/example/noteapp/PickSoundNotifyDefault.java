@@ -23,8 +23,6 @@ public class PickSoundNotifyDefault extends AppCompatActivity implements Adapter
     Button save_sound, back_main;
     List<String> listSound = new ArrayList<>();
     RoomDB db;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    String userMail = user.getEmail();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +49,7 @@ public class PickSoundNotifyDefault extends AppCompatActivity implements Adapter
         spinner_sound.setOnItemSelectedListener(PickSoundNotifyDefault.this);
 
         try {
-            List<Notes> lNotes = db.noteDAO().getAllUserNote(userMail);
-            String soundDefault = lNotes.get(0).getSound_default();
-            switch (soundDefault) {
+            switch (db.defaultDAO().getSettingById(1).getSound_default()) {
                 case "MTP":
                     spinner_sound.setSelection(1);
                     break;
@@ -72,7 +68,7 @@ public class PickSoundNotifyDefault extends AppCompatActivity implements Adapter
         }
 
         save_sound.setOnClickListener(view -> {
-            db.noteDAO().updateDefaultSound(spinner_sound.getSelectedItem().toString(), userMail);
+            db.defaultDAO().updateDefaultSound(spinner_sound.getSelectedItem().toString());
             Toast.makeText(this, "Cài âm thanh mặc định thành công", Toast.LENGTH_SHORT).show();
         });
         back_main.setOnClickListener(view -> finish());
