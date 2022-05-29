@@ -432,7 +432,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     database.noteDAO().pin(selectedNote.getId(), true);
                     Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
 
-                    database.noteDAO().updateOrder(selectedNote.getId(),maxOrder());
+                    database.noteDAO().updateOrder(selectedNote.getId(),database.noteDAO().maxOrderForPin(userMail));
                     selectedNote.setPinned(true);
                     noteDbRef.push().setValue(selectedNote);
                     notes.clear();
@@ -440,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
                 }
                 noteAdapter.notifyDataSetChanged();
-                showInfo();
+//                showInfo();
                 return true;
             case R.id.delete_note:
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");

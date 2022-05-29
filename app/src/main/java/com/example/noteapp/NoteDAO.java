@@ -35,6 +35,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM note WHERE pinned = :fal AND user = :user AND `delete` = 0 ORDER BY id DESC")
     List<Notes> getNoteNoPin(boolean fal, String user);
 
+    @Query("SELECT MAX(`order`) FROM note WHERE user = :userMail")
+    int maxOrderForPin(String userMail);
+
     @Query("UPDATE note SET `order` = 1 + :maxOrder WHERE id = :id")
     void updateOrder(int id, int maxOrder);
 
