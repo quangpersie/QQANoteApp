@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM"/>
 
     <application
         android:name=".MyApplication"
@@ -70,8 +71,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".AlarmReceiver" />
-        <receiver android:name=".AlarmReceiverDel"/>
+        <receiver android:name=".AlarmReceiver" android:enabled="true"/>
+        <receiver android:name=".AlarmReceiverDel" android:enabled="true"/>
     </application>
 
 </manifest>

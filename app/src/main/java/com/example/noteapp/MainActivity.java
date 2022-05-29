@@ -188,53 +188,55 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         });
 
         remove_all.setOnClickListener(view -> {
-            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
-            alert.setTitle("Xóa tất cả vào thùng rác");
-            alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
-            alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    database.noteDAO().deletedAllNoteToTrash();
-                    for(Notes n:database.noteDAO().getAllDeletedNoteAsc(userMail)) {
-                        database.noteDAO().updateNoteOrderDel(n.getId(),
-                                database.noteDAO().getMaxOrderDel(userMail) + 1);
+            if(notes.size() > 0) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                alert.setTitle("Xóa tất cả vào thùng rác");
+                alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
+                alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        database.noteDAO().deletedAllNoteToTrash();
+                        for(Notes n:database.noteDAO().getAllDeletedNoteAsc(userMail)) {
+                            database.noteDAO().updateNoteOrderDel(n.getId(),
+                                    database.noteDAO().getMaxOrderDel(userMail) + 1);
 
-                        Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
-                        intent.putExtra("idNoteDelAuto",n.getId());
-                        PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this,
-                                n.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                            Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
+                            intent.putExtra("idNoteDelAuto",n.getId());
+                            PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this,
+                                    n.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                            AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-                        try {
                             Calendar startTime = Calendar.getInstance();
-                            switch (database.defaultDAO().getSettingById(idDF).getDelete_default()) {
-                                case "1 phút":
+                            switch (database.defaultDAO().getSettingById(1).getDelete_default()) {
+                                /*case "1 phút":
                                     startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
-                                    break;
+                                    break;*/
                                 case "1 ngày":
                                     startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
                                     break;
                                 case "7 ngày":
                                     startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
                                     break;
+                                default:
+                                    startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
                             }
                             long alarmStartTime = startTime.getTimeInMillis();
                             alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                         }
-                        catch (Exception e) {
-
-                        }
+                        notes.clear();
+                        noteAdapter.notifyDataSetChanged();
+                        updateNotify();
                     }
-                    notes.clear();
-                    noteAdapter.notifyDataSetChanged();
-                    updateNotify();
-                }
-            });
-            alert.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+                });
+                alert.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
 
-                }
-            });
-            alert.show();
+                    }
+                });
+                alert.show();
+            }
+            else {
+                Toast.makeText(this, "Không có ghi chú để xóa", Toast.LENGTH_SHORT).show();
+            }
         });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -253,6 +255,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, add_note));
 //        recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, remove_all));
         updateNotify();
+
+        for(Notes n:database.noteDAO().getAllUserNote(userMail)) {
+            Log.e(""+n.getTitle(),n.getRequest_code()+"");
+        }
     }
 
     @Override
@@ -520,6 +526,24 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 //                showInfo();
                 return true;
             case R.id.delete_note:
+                Calendar startTime = Calendar.getInstance();
+                switch (database.defaultDAO().getSettingById(1).getDelete_default()) {
+                    /*case "1 phút":
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                        break;*/
+                    case "1 ngày":
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
+                        break;
+                    case "7 ngày":
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
+                        break;
+                    default:
+                        startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+//                            startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                }
+                long alarmStartTime = startTime.getTimeInMillis();
+                alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
+
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
                 database.noteDAO().updateDateDel(selectedNote.getId(),formatter.format(new Date()));
                 database.noteDAO().updateNoteOrderDel(selectedNote.getId(),
@@ -532,26 +556,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
                 Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
-
-                try {
-                    Calendar startTime = Calendar.getInstance();
-                    switch (database.defaultDAO().getSettingById(idDF).getDelete_default()) {
-                        case "1 phút":
-                            startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
-                            break;
-                        case "1 ngày":
-                            startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
-                            break;
-                        case "7 ngày":
-                            startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
-                            break;
-                    }
-                    long alarmStartTime = startTime.getTimeInMillis();
-                    alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
-                }
-                catch (Exception e) {
-
-                }
                 return true;
             default:
                 return false;
@@ -674,7 +678,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     }
 
-    /*private int getBroadcastCode() {
+    private int getBroadcastCode() {
         return (int) new Date().getTime();
-    }*/
+    }
 }

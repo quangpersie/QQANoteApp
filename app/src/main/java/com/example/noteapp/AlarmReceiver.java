@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -24,6 +26,8 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+        Toast.makeText(context, "Received", Toast.LENGTH_SHORT).show();
+        Log.e("MS","ReceivedNoti");
 
         String title = intent.getStringExtra("title_note");
         String desc = intent.getStringExtra("desc_note");

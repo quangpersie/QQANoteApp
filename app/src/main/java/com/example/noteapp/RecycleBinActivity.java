@@ -64,23 +64,28 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         backToMain.setOnClickListener(view -> finish());
 
         btn_empty_bin.setOnClickListener(view -> {
-            AlertDialog.Builder alert = new AlertDialog.Builder(RecycleBinActivity.this);
-            alert.setTitle("Xóa tất cả ghi chú vĩnh viễn");
-            alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
-            alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    database.noteDAO().deleteAllDelNote(userMail);
-                    notes.clear();
-                    noteAdapter.notifyDataSetChanged();
-                    updateNotify();
-                }
-            });
-            alert.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+            if(notes.size() > 0) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(RecycleBinActivity.this);
+                alert.setTitle("Xóa tất cả ghi chú vĩnh viễn");
+                alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
+                alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        database.noteDAO().deleteAllDelNote(userMail);
+                        notes.clear();
+                        noteAdapter.notifyDataSetChanged();
+                        updateNotify();
+                    }
+                });
+                alert.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
 
-                }
-            });
-            alert.show();
+                    }
+                });
+                alert.show();
+            }
+            else {
+                Toast.makeText(this, "Thùng rác trống!", Toast.LENGTH_SHORT).show();
+            }
         });
 
         btn_set_delTime.setOnClickListener(this);
@@ -157,15 +162,21 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        Intent intent = new Intent(RecycleBinActivity.this, AlarmReceiver.class);
+        Intent intent = new Intent(RecycleBinActivity.this, AlarmReceiverDel.class);
+        intent.putExtra("idNoteDelAuto",selectedNote.getId());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(RecycleBinActivity.this,
                 selectedNote.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+
         switch (item.getItemId()) {
             case R.id.recover_note:
+                Calendar startTime = Calendar.getInstance();
+                startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                long alarmStartTime = startTime.getTimeInMillis();
+                alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                 alarm.cancel(alarmIntent);
-                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), 0);
 
+                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), 0);
                 database.noteDAO().recoverNoteDel(selectedNote.getId());
                 selectedNote.setDelete(false);
                 noteDbRef.push().setValue(selectedNote);
@@ -173,6 +184,7 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
                 notes.addAll(database.noteDAO().showNoteDelInOrder(userMail));
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
+                //tbao
                 List<Notes> ln = database.noteDAO().getAllDeletedNote(userMail);
                 for(Notes l:ln){
                     Log.e("ORDER",l.getTitle()+", "+l.getOrderNoteDel());
@@ -202,15 +214,17 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         switch (adapterView.getItemAtPosition(i).toString()) {
-            case "1 phút":
+            /*case "1 phút":
                 database.defaultDAO().updateTimeDelAuto("1 phút");
-                break;
+                break;*/
             case "1 ngày":
                 database.defaultDAO().updateTimeDelAuto("1 ngày");
                 break;
             case "7 ngày":
                 database.defaultDAO().updateTimeDelAuto("7 ngày");
                 break;
+            default:
+                database.defaultDAO().updateTimeDelAuto("1 phút");
         }
     }
 
