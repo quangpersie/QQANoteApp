@@ -157,14 +157,13 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        Intent intent = new Intent(RecycleBinActivity.this, AlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(RecycleBinActivity.this,
+                selectedNote.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         switch (item.getItemId()) {
             case R.id.recover_note:
-                Intent intent = new Intent(RecycleBinActivity.this, AlarmReceiver.class);
-                PendingIntent alarmIntent = PendingIntent.getBroadcast(RecycleBinActivity.this,
-                        selectedNote.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
                 alarm.cancel(alarmIntent);
-
                 database.noteDAO().updateNoteOrderDel(selectedNote.getId(), 0);
 
                 database.noteDAO().recoverNoteDel(selectedNote.getId());
