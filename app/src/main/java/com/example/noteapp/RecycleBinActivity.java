@@ -1,5 +1,6 @@
 package com.example.noteapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -7,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -62,10 +64,23 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         backToMain.setOnClickListener(view -> finish());
 
         btn_empty_bin.setOnClickListener(view -> {
-            database.noteDAO().deleteAllDelNote(userMail);
-            notes.clear();
-            noteAdapter.notifyDataSetChanged();
-            updateNotify();
+            AlertDialog.Builder alert = new AlertDialog.Builder(RecycleBinActivity.this);
+            alert.setTitle("Xóa tất cả ghi chú vĩnh viễn");
+            alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
+            alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    database.noteDAO().deleteAllDelNote(userMail);
+                    notes.clear();
+                    noteAdapter.notifyDataSetChanged();
+                    updateNotify();
+                }
+            });
+            alert.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
         });
 
         btn_set_delTime.setOnClickListener(this);
@@ -144,6 +159,12 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.recover_note:
+                Intent intent = new Intent(RecycleBinActivity.this, AlarmReceiver.class);
+                PendingIntent alarmIntent = PendingIntent.getBroadcast(RecycleBinActivity.this,
+                        selectedNote.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+                alarm.cancel(alarmIntent);
+
                 database.noteDAO().updateNoteOrderDel(selectedNote.getId(), 0);
 
                 database.noteDAO().recoverNoteDel(selectedNote.getId());

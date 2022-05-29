@@ -23,6 +23,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM note WHERE user = :user AND `delete` = 1 ORDER BY id DESC")
     List<Notes> getAllDeletedNote(String user);
 
+    @Query("SELECT * FROM note WHERE user = :user AND `delete` = 1 ORDER BY id ASC")
+    List<Notes> getAllDeletedNoteAsc(String user);
+
     @Query("SELECT * FROM note WHERE user = :user  AND `delete` = 0 ORDER BY id DESC")
     List<Notes> getAllUserNote(String user);
 
@@ -70,6 +73,9 @@ public interface NoteDAO {
 
     @Query("UPDATE note SET `delete` = 1 WHERE id = :id")
     void deletedNote(int id);
+
+    @Query("UPDATE note SET `delete` = 1")
+    void deletedAllNoteToTrash();
 
     @Query("UPDATE note SET `delete` = 0 WHERE id = :id")
     void recoverNoteDel(int id);

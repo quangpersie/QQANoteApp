@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.appcompat.widget.SearchView;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private RecyclerView recyclerView;
     private NoteAdapter noteAdapter;
     private Notes selectedNote;
-    private FloatingActionButton add_note;
+    private FloatingActionButton add_note, remove_all;
     private TextView empty_notify;
     private SearchView search_bar;
     private ImageView list_display, grid_display;
@@ -84,9 +85,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         /*Log.e("TAG",""+userMail);
         Log.e("TAG",""+user.isEmailVerified());*/
 
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         drawerLayout = findViewById(R.id.drawer_layout);
         mSpinner = findViewById(R.id.mSpinner);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
-
+        remove_all = findViewById(R.id.remove_all);
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -189,6 +187,56 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             recyclerView.removeItemDecoration(divider);
         });
 
+        remove_all.setOnClickListener(view -> {
+            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setTitle("Xóa tất cả vào thùng rác");
+            alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
+            alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    database.noteDAO().deletedAllNoteToTrash();
+                    for(Notes n:database.noteDAO().getAllDeletedNoteAsc(userMail)) {
+                        database.noteDAO().updateNoteOrderDel(n.getId(),
+                                database.noteDAO().getMaxOrderDel(userMail) + 1);
+
+                        Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
+                        intent.putExtra("idNoteDelAuto",n.getId());
+                        PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this,
+                                n.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+                        try {
+                            Calendar startTime = Calendar.getInstance();
+                            switch (database.defaultDAO().getSettingById(idDF).getDelete_default()) {
+                                case "1 phút":
+                                    startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                                    break;
+                                case "1 ngày":
+                                    startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
+                                    break;
+                                case "7 ngày":
+                                    startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
+                                    break;
+                            }
+                            long alarmStartTime = startTime.getTimeInMillis();
+                            alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
+                        }
+                        catch (Exception e) {
+
+                        }
+                    }
+                    notes.clear();
+                    noteAdapter.notifyDataSetChanged();
+                    updateNotify();
+                }
+            });
+            alert.setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
+        });
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -201,6 +249,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         mSpinner.setAdapter(mAdapter);
         mSpinner.setOnItemSelectedListener(MainActivity.this);
 
+        add_note.animate().setDuration(100);
+        recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, add_note));
+//        recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, remove_all));
         updateNotify();
     }
 
@@ -471,7 +522,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.delete_note:
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
                 database.noteDAO().updateDateDel(selectedNote.getId(),formatter.format(new Date()));
-                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), database.noteDAO().getMaxOrderDel(userMail)+1);
+                database.noteDAO().updateNoteOrderDel(selectedNote.getId(),
+                        database.noteDAO().getMaxOrderDel(userMail)+1);
 
                 database.noteDAO().deletedNote(selectedNote.getId());
                 selectedNote.setDelete(true);
@@ -481,28 +533,24 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 updateNotify();
                 Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
 
-                Calendar startTime = Calendar.getInstance();
-                switch (database.defaultDAO().getSettingById(idDF).getDelete_default()) {
-                    case "1 phút":
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
-                        break;
-                    case "1 ngày":
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
-                        break;
-                    case "7 ngày":
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
-                        break;
-                }
-                long alarmStartTime = startTime.getTimeInMillis();
-                alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
-
-                //delete ve sau
-                try{
-                    Log.e("TG auto del", "Mỗi ghi chú trong thùng rác sẽ được xóa sau " +
-                            database.defaultDAO().getSettingById(idDF).getDelete_default());
+                try {
+                    Calendar startTime = Calendar.getInstance();
+                    switch (database.defaultDAO().getSettingById(idDF).getDelete_default()) {
+                        case "1 phút":
+                            startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                            break;
+                        case "1 ngày":
+                            startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
+                            break;
+                        case "7 ngày":
+                            startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
+                            break;
+                    }
+                    long alarmStartTime = startTime.getTimeInMillis();
+                    alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                 }
                 catch (Exception e) {
-                    Log.e("EXC",e.getMessage());
+
                 }
                 return true;
             default:
