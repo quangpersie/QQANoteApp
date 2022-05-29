@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.appcompat.widget.SearchView;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
@@ -49,6 +51,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -75,11 +78,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
     private DrawerLayout drawerLayout;
+    int idDF = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         /*Log.e("TAG",""+userMail);
         Log.e("TAG",""+user.isEmailVerified());*/
@@ -103,6 +109,17 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         toggle.syncState();
 
         database = RoomDB.getInstance(this);
+
+        try {
+            if(database.defaultDAO().getCount() == 0) {
+                database.defaultDAO().insert(new DefaultSetting());
+                List<DefaultSetting> lDF = database.defaultDAO().getAllDF();
+                idDF = lDF.get(0).getId(); //=1
+            }
+        }
+        catch (Exception e) {
+
+        }
 //        showInfo();
 
         DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
@@ -408,6 +425,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+
+        Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
+        intent.putExtra("idNoteDelAuto",selectedNote.getId());
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this,
+                getBroadcastCode(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
+
         switch (item.getItemId()) {
             case R.id.pin_note:
                 Log.e("TAG", selectedNote.getUser());
@@ -454,6 +478,19 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
                 Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
+
+                Calendar startTime = Calendar.getInstance();
+                startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                long alarmStartTime = startTime.getTimeInMillis();
+                alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
+
+                try{
+                    Log.e("TG auto del", "Mỗi ghi chú trong thùng rác sẽ được xóa sau " +
+                            database.defaultDAO().getSettingById(idDF).getDelete_default());
+                }
+                catch (Exception e) {
+                    Log.e("EXC",e.getMessage());
+                }
                 return true;
             default:
                 return false;
@@ -574,5 +611,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private int getBroadcastCode() {
+        return (int) new Date().getTime();
     }
 }

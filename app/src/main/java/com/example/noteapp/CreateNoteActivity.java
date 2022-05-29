@@ -577,7 +577,10 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View view) {
         Intent intent = new Intent(CreateNoteActivity.this, AlarmReceiver.class);
-        intent.putExtra("name_sound", db.noteDAO().getNoteById(idToGetImg).getSound_default());
+
+        intent.putExtra("name_sound",
+                db.noteDAO().getNoteById(idToGetImg).getSound_default());
+
         intent.putExtra("title_note", db.noteDAO().getNoteById(idToGetImg).getTitle());
         intent.putExtra("desc_note", db.noteDAO().getNoteById(idToGetImg).getContent());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(CreateNoteActivity.this,
@@ -585,7 +588,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         switch (view.getId()) {
             case R.id.confirm_remind:
-                Log.e("OK","OK");
+//                Log.e("OK","OK");
                 Calendar remindTime = Calendar.getInstance();
                 try {
                     remindTime.set(Calendar.HOUR_OF_DAY, mTimePicker.getCurrentHour());

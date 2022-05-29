@@ -3,6 +3,7 @@ package com.example.noteapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -71,7 +72,7 @@ public class PickSoundNotifyDefault extends AppCompatActivity implements Adapter
         }
 
         save_sound.setOnClickListener(view -> {
-            db.noteDAO().updateDefaultSound(spinner_sound.getSelectedItem().toString());
+            db.noteDAO().updateDefaultSound(spinner_sound.getSelectedItem().toString(), userMail);
             Toast.makeText(this, "Cài âm thanh mặc định thành công", Toast.LENGTH_SHORT).show();
         });
         back_main.setOnClickListener(view -> finish());

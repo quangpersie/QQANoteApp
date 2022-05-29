@@ -58,12 +58,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         Notification notification = new NotificationCompat.Builder(context, channel)
                 .setContentTitle(title)
                 .setContentText(desc)
-                .setSmallIcon(android.R.drawable.ic_dialog_info)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(bitmap)
                 .setAutoCancel(true)
                 .setContentIntent(contentIntent)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(desc))
-                .setColor(context.getResources().getColor(R.color.purple_500))
+                .setColor(context.getResources().getColor(R.color.ic_launcher_background))
                 .setSound(uri)
                 .build();
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);

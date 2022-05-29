@@ -37,18 +37,52 @@
             android:gravity="center"/>
     </LinearLayout>
 
-    <TextView
-        android:text="Thùng rác"
-        android:textStyle="bold"
-        android:textSize="24sp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:orientation="vertical">
+        <TextView
+            android:text="Thùng rác"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <Button
+                android:id="@+id/btn_set_delTime"
+                android:backgroundTint="#FF5722"
+                android:textColor="@color/white"
+                android:text="Mỗi ghi chú tự xóa sau:"
+                android:textAllCaps="false"
+                android:layout_marginEnd="18dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <FrameLayout
+                android:background="@drawable/radius_border"
+                android:backgroundTint="@color/white"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <Spinner
+                    android:id="@+id/spinner_timeDel"
+                    android:backgroundTint="@color/black"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </FrameLayout>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <FrameLayout
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content">
         <TextView
             android:id="@+id/empty_bin"
             android:text="Thùng rác trống"
@@ -59,9 +93,18 @@
             android:layout_height="wrap_content"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="8dp"
             android:id="@+id/view_recycle_bin"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
 
+    <Button
+        android:id="@+id/btn_empty_bin"
+        android:text="Làm trống thùng rác"
+        android:backgroundTint="#FF5722"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

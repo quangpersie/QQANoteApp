@@ -86,8 +86,8 @@ public interface NoteDAO {
     @Query("UPDATE note SET time_remind = :time WHERE id = :id")
     void updateTimeRemind(int id, String time);
 
-    @Query("UPDATE note SET sound_default = :sound")
-    void updateDefaultSound(String sound);
+    @Query("UPDATE note SET sound_default = :sound WHERE user = :userMail")
+    void updateDefaultSound(String sound, String userMail);
 
     /*@Query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'note'")
     void clearPrimaryKey();*/
@@ -109,6 +109,9 @@ public interface NoteDAO {
 
     @Query("UPDATE note SET date_delete = :date WHERE id = :id")
     void updateDateDel(int id, String date);
+
+    @Query("DELETE FROM note WHERE orderNoteDel > 0 AND user = :userMail")
+    void deleteAllDelNote(String userMail);
 
     @Delete
     void delete(Notes notes);
