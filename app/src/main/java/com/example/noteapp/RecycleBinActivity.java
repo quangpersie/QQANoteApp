@@ -49,8 +49,8 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
         });
 
         database = RoomDB.getInstance(this);
-        notes = database.noteDAO().getAllDeletedNote(userMail);
-
+//        notes = database.noteDAO().getAllDeletedNote(userMail);
+        notes = database.noteDAO().showNoteDelInOrder();
         updateNotify();
         ListLayout(notes);
     }
@@ -97,6 +97,8 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.recover_note:
+                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), 0);
+
                 database.noteDAO().recoverNoteDel(selectedNote.getId());
                 selectedNote.setDelete(false);
                 noteDbRef.push().setValue(selectedNote);

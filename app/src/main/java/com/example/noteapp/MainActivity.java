@@ -47,7 +47,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -126,16 +128,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         String finalFontSize = fontSize;
         String finalFontStyle = fontStyle;
-        add_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
-                intent.putExtra("hide_label",17);
-                intent.putExtra("fontSize", finalFontSize);
-                intent.putExtra("fontStyle", finalFontStyle);
-                startActivityForResult(intent, 10);
+        add_note.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
+            intent.putExtra("hide_label",17);
+            intent.putExtra("fontSize", finalFontSize);
+            intent.putExtra("fontStyle", finalFontStyle);
+            startActivityForResult(intent, 10);
 
-            }
         });
 
         search_bar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -155,28 +154,22 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
-        list_display.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag_display = false;
-                grid_display.setBackgroundColor(getResources().getColor(R.color.white));
-                list_display.setBackgroundColor(getResources().getColor(R.color.select_layout_color));
-                ListLayout(notes);
-                if(recyclerView.getItemDecorationCount() == 0) {
-                    recyclerView.addItemDecoration(divider);
-                }
+        list_display.setOnClickListener(view -> {
+            flag_display = false;
+            grid_display.setBackgroundColor(MainActivity.this.getResources().getColor(R.color.white));
+            list_display.setBackgroundColor(MainActivity.this.getResources().getColor(R.color.select_layout_color));
+            MainActivity.this.ListLayout(notes);
+            if (recyclerView.getItemDecorationCount() == 0) {
+                recyclerView.addItemDecoration(divider);
             }
         });
 
-        grid_display.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                flag_display = true;
-                grid_display.setBackgroundColor(getResources().getColor(R.color.select_layout_color));
-                list_display.setBackgroundColor(getResources().getColor(R.color.white));
-                GridLayout(notes);
-                recyclerView.removeItemDecoration(divider);
-            }
+        grid_display.setOnClickListener(view -> {
+            flag_display = true;
+            grid_display.setBackgroundColor(getResources().getColor(R.color.select_layout_color));
+            list_display.setBackgroundColor(getResources().getColor(R.color.white));
+            GridLayout(notes);
+            recyclerView.removeItemDecoration(divider);
         });
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -427,7 +420,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     noteDbRef.push().setValue(selectedNote);
                     notes.clear();
                     if(hasPinNote()) {
-
                         notes.addAll(database.noteDAO().getNoteHasPin(true,userMail));
                         notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
                     }
@@ -451,6 +443,10 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 showInfo();
                 return true;
             case R.id.delete_note:
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+                database.noteDAO().updateDateDel(selectedNote.getId(),formatter.format(new Date()));
+                database.noteDAO().updateNoteOrderDel(selectedNote.getId(), database.noteDAO().getMaxOrderDel()+1);
+
                 database.noteDAO().deletedNote(selectedNote.getId());
                 selectedNote.setDelete(true);
                 noteDbRef.push().setValue(selectedNote);
@@ -469,8 +465,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         int id = item.getItemId();
         if(id == R.id.font_change){
              startActivity(new Intent(MainActivity.this, FontSettingActivity.class));
-        }else if(id == R.id.delete_time){
-
         }else if(id == R.id.sound_change) {
             startActivity(new Intent(MainActivity.this,PickSoundNotifyDefault.class));
         }else if(id == R.id.trash_can) {

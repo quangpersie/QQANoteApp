@@ -7,6 +7,8 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity(tableName = "note")
 public class Notes implements Serializable {
@@ -196,5 +198,27 @@ public class Notes implements Serializable {
 
     public void setSound_default(String sound_default) {
         this.sound_default = sound_default;
+    }
+
+    @ColumnInfo(name = "date_delete")
+    String date_delete = "";
+
+    public String getDate_delete() {
+        return date_delete;
+    }
+
+    public void setDate_delete(String date_delete) {
+        this.date_delete = date_delete;
+    }
+
+    @ColumnInfo(name = "orderNoteDel")
+    int orderNoteDel = 0;
+
+    public int getOrderNoteDel() {
+        return orderNoteDel;
+    }
+
+    public void setOrderNoteDel(int orderNoteDel) {
+        this.orderNoteDel = orderNoteDel;
     }
 }

@@ -82,7 +82,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         }
         holder.note_desc.setText(note.getContent());
 
-        holder.time_create.setText(note.getDate_create());
+        if(note.getOrderNoteDel() != 0) {
+            holder.time_create.setText(note.getDate_delete());
+        }
+        else {
+            holder.time_create.setText(note.getDate_create());
+        }
         holder.time_create.setSelected(true);
 
         if(note.isPinned()) {

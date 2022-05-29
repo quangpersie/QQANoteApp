@@ -89,6 +89,24 @@ public interface NoteDAO {
     /*@Query("UPDATE SQLITE_SEQUENCE SET seq = 0 WHERE name = 'note'")
     void clearPrimaryKey();*/
 
+    @Query("SELECT MAX(orderNoteDel) FROM note")
+    int getMaxOrderDel();
+
+    @Query("SELECT * FROM note WHERE orderNoteDel = 0")
+    List<Notes> noteInUse();
+
+    @Query("SELECT * FROM note WHERE orderNoteDel > 0")
+    List<Notes> noteInTrash();
+
+    @Query("SELECT * FROM note WHERE orderNoteDel != 0 ORDER BY orderNoteDel DESC")
+    List<Notes> showNoteDelInOrder();
+
+    @Query("UPDATE note SET orderNoteDel = :orderNoteDel WHERE id = :id")
+    void updateNoteOrderDel(int id,int orderNoteDel);
+
+    @Query("UPDATE note SET date_delete = :date WHERE id = :id")
+    void updateDateDel(int id, String date);
+
     @Delete
     void delete(Notes notes);
 }
