@@ -95,6 +95,12 @@ public interface NoteDAO {
     @Query("UPDATE note SET time_remind = :time WHERE id = :id")
     void updateTimeRemind(int id, String time);
 
+    @Query("UPDATE note SET align = :align WHERE id = :id")
+    void updateAlign(int id, String align);
+
+    @Query("UPDATE note SET color_text = :color WHERE id = :id")
+    void updateColorText(int id, String color);
+
     @Query("SELECT MAX(orderNoteDel) FROM note WHERE user = :userMail")
     int getMaxOrderDel(String userMail);
 

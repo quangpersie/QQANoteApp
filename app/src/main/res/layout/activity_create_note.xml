@@ -12,37 +12,67 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#FF8A65"
-        android:padding="12dp"
+        android:paddingHorizontal="16dp"
         tools:context=".CreateNoteActivity">
-
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:background="@drawable/rectangle_solid_bg2"
+            android:layout_marginHorizontal="12dp"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/day_create"
-                android:text="22/10/2021"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textStyle="bold"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_back"
+                android:text="Trở về"
+                android:layout_marginStart="12dp"
+                android:paddingHorizontal="16dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/white"
+                android:textColor="#FF5722"/>
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_save"
+                android:text="Lưu &amp; Thoát"
+                android:layout_marginEnd="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:backgroundTint="@color/white"
+                android:textColor="#FF5722"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/day_create"
+            android:text="Nhập tiêu đề, nội dung để tạo ghi chú mới"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginVertical="12dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="12dp"
-            android:layout_marginVertical="12dp"
+            android:layout_marginBottom="16dp"
             android:weightSum="6"
             android:background="@drawable/radius_round_solid">
             <EditText
                 android:id="@+id/note_title_detail"
                 android:hint="Tiêu đề"
-                android:textSize="18sp"
+                android:textSize="22sp"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,19 +80,19 @@
                 android:padding="8dp"
                 android:layout_margin="8dp"/>
             <ScrollView
+                android:background="@drawable/rectangle_solid_bg2"
                 android:layout_marginHorizontal="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rectangle_solid_bg2"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
                     <LinearLayout
                         android:visibility="gone"
                         android:id="@+id/image_field"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_margin="8dp"
                         android:background="@color/orange"
                         android:orientation="vertical">
@@ -92,15 +122,17 @@
                         android:id="@+id/note_desc_detail"
                         android:hint="Nội dung"
                         android:background="@null"
+                        android:textSize="20dp"
                         android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="8dp"
-                        android:lines="8"
+                        android:lines="9"
                         android:gravity="top"/>
                 </LinearLayout>
             </ScrollView>
             <LinearLayout
+                android:id="@+id/rich_texts"
                 android:layout_marginHorizontal="8dp"
                 android:background="@drawable/rectangle_solid_bg2"
                 android:layout_width="match_parent"
@@ -114,26 +146,19 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/mic_color_pick"/>
                 <ImageView
-                    android:id="@+id/bold"
+                    android:id="@+id/align_left"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/img_bold"/>
+                    android:src="@drawable/mic_align_left"/>
                 <ImageView
-                    android:id="@+id/italic"
+                    android:id="@+id/align_right"
                     android:background="@drawable/rectangle_solid_bg2"
                     android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/img_italic"/>
-                <ImageView
-                    android:id="@+id/underline"
-                    android:background="@drawable/rectangle_solid_bg2"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/img_underline"/>
+                    android:src="@drawable/mic_align_right"/>
                 <ImageView
                     android:id="@+id/align_center"
                     android:background="@drawable/rectangle_solid_bg2"
@@ -148,6 +173,57 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:src="@drawable/mic_align_justify"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/field_pick_color"
+                android:visibility="gone"
+                android:layout_marginHorizontal="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/radius_border"
+                android:backgroundTint="#F48FB1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:id="@+id/red_text"
+                    android:backgroundTint="#E53935"
+                    android:background="@drawable/radius_border"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/blue_text"
+                    android:backgroundTint="#1E88E5"
+                    android:background="@drawable/radius_border"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/green_text"
+                    android:backgroundTint="#43A047"
+                    android:background="@drawable/radius_border"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/purple_text"
+                    android:backgroundTint="#5E35B1"
+                    android:background="@drawable/radius_border"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/black_text"
+                    android:backgroundTint="#000000"
+                    android:background="@drawable/radius_border"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"/>
             </LinearLayout>
 
             <LinearLayout
@@ -219,12 +295,13 @@
             android:orientation="vertical">
             <TextView
                 android:text="Chọn màu nền cho ghi chú"
+                android:background="@drawable/radius_border"
+                android:backgroundTint="@color/white"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:paddingVertical="4dp"
+                android:paddingVertical="8dp"
                 android:paddingHorizontal="8dp"
                 android:layout_gravity="center_horizontal"
-                android:background="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
@@ -233,6 +310,7 @@
                 android:layout_height="50dp"
                 android:background="@drawable/radius_border"
                 android:backgroundTint="@color/white"
+                android:layout_marginBottom="16dp"
                 android:orientation="horizontal">
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/pick_pink"
@@ -289,15 +367,16 @@
         <LinearLayout
             android:id="@+id/layout_remind"
             android:visibility="gone"
-            android:backgroundTint="#9CCC65"
+            android:layout_marginBottom="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_bg3"
+            android:background="@drawable/radius_border"
+            android:backgroundTint="#F06292"
             android:orientation="vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingVertical="4dp"
+                android:paddingVertical="8dp"
                 android:text="Cài đặt thời gian nhắc nhở"
                 android:textSize="18dp"
                 android:textStyle="bold"
@@ -305,7 +384,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rectangle_bg3"
+                android:background="@drawable/radius_round_border"
                 android:padding="12dp"
                 android:orientation="horizontal">
 
@@ -314,6 +393,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/radius_round_border"
+                    android:backgroundTint="#FF8A65"
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
@@ -322,6 +402,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
+                        android:paddingVertical="4dp"
                         android:layout_marginBottom="4dp"
                         android:layout_gravity="center"
                         app:backgroundTint="@color/white"
@@ -345,6 +426,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/radius_round_border"
+                    android:backgroundTint="#FF8A65"
                     android:orientation="vertical">
 
                     <com.google.android.material.button.MaterialButton
@@ -353,6 +435,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="4dp"
+                        android:paddingVertical="4dp"
                         android:background="@drawable/radius_round_solid"
                         android:text="Đặt ngày"
                         android:textColor="#FF5722"
@@ -372,13 +455,17 @@
             </LinearLayout>
 
             <LinearLayout
-                android:background="#FFEE58"
+                android:background="#F06292"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <Button
                     android:id="@+id/cancel_remind"
                     android:text="Hủy bỏ"
+                    android:textColor="@color/common_google_signin_btn_text_light_default"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:backgroundTint="#FF8A65"
                     android:layout_weight="1"
                     android:layout_marginStart="34dp"
                     android:layout_width="wrap_content"
@@ -387,22 +474,15 @@
                 <Button
                     android:id="@+id/confirm_remind"
                     android:text="Xác nhận"
+                    android:textColor="@color/common_google_signin_btn_text_light_default"
+                    android:textStyle="bold"
+                    android:textSize="15sp"
+                    android:backgroundTint="#FF8A65"
                     android:layout_weight="1"
                     android:layout_marginEnd="28dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save"
-            android:text="Lưu thay đổi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/white"
-            android:textColor="#FF5722"/>
     </LinearLayout>
 </ScrollView>

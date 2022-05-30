@@ -24,7 +24,6 @@ public class SetNotePassActivity extends AppCompatActivity {
     Button skip_pass_note, confirm_pass_note, cancel_pass_mode;
     EditText set_pass_note, set_pass_note2, current_pass_note, change_pass_note, change_pass_note2;
     RoomDB db;
-    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     DatabaseReference noteDbRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

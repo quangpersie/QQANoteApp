@@ -9,6 +9,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
@@ -20,6 +21,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -55,12 +57,13 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     private FirebaseAuth mAuth;
     TextView day_create, time_display, day_display, remove_img;
     EditText note_title_detail, note_desc_detail;
-    Button btn_save, btn_setTime, btn_setDay;
+    Button btn_save, btn_setTime, btn_setDay, btn_back;
     Button pick_pink, pick_red, pick_yellow, pick_blue, pick_green;
     Notes note;
     ImageView remind_note, label_note, password_note, image_insert, image_note, pick_color_note_bg;
-    ImageView bold, italic, underline, align_center, align_justify, color_pick;
-    LinearLayout layout_remind, setting_note_layout, image_field, color_bg_field;
+    ImageView align_left, align_right, align_center, align_justify, color_pick;
+    ImageView red_text, blue_text, green_text, black_text, purple_text;
+    LinearLayout layout_remind, setting_note_layout, image_field, color_bg_field, rich_texts, field_pick_color;
     DatabaseReference noteDbRef;
     boolean isCreatedNote = false;
     String selectedImagePath;
@@ -70,6 +73,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     DatePicker mDatePicker;
     TimePicker mTimePicker;
 
+    @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,9 +110,8 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         cancel_remind.setOnClickListener(this);
         confirm_remind.setOnClickListener(this);
 
-        bold = findViewById(R.id.bold);
-        italic = findViewById(R.id.italic);
-        underline = findViewById(R.id.underline);
+        align_left = findViewById(R.id.align_left);
+        align_right = findViewById(R.id.align_right);
         align_center = findViewById(R.id.align_center);
         align_justify = findViewById(R.id.align_justify);
         color_pick = findViewById(R.id.color_pick);
@@ -118,27 +121,35 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         pick_yellow = findViewById(R.id.pick_yellow);
         pick_blue = findViewById(R.id.pick_blue);
         pick_green = findViewById(R.id.pick_green);
+        btn_back = findViewById(R.id.btn_back);
+        rich_texts = findViewById(R.id.rich_texts);
+        field_pick_color = findViewById(R.id.field_pick_color);
+
+        red_text = findViewById(R.id.red_text);
+        blue_text = findViewById(R.id.blue_text);
+        green_text = findViewById(R.id.green_text);
+        black_text = findViewById(R.id.black_text);
+        purple_text = findViewById(R.id.purple_text);
+
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
         db = RoomDB.getInstance(this);
 
         selectedImagePath = "";
-        String date = (String) getIntent().getSerializableExtra("date_create");
         int idNote = -17;
         if (getIntent().getSerializableExtra("id_note_click") != null) {
             idNote = (int) getIntent().getSerializableExtra("id_note_click");
             idToGetImg = idNote;
         }
-//        Log.e("idNote - CreateActivity",""+idNote);
 
         boolean hideLabel = false;
         if (getIntent().getSerializableExtra("hide_label") != null) {
             hideLabel = true;
         }
+//        Log.e("hide",""+hideLabel);
         if(hideLabel == true) {
             setting_note_layout.setVisibility(View.GONE);
             color_bg_field.setVisibility(View.GONE);
-//            day_create.setText("Nhập thông tin để tạo ghi chú mới");
-//            day_create.setVisibility(View.VISIBLE);
+            rich_texts.setVisibility(View.GONE);
         }
         else {
             try {
@@ -151,9 +162,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                     image_field.setVisibility(View.GONE);
                 }
             }
-            catch (Exception e) {
-//                Toast.makeText(this, "Không tìm thấy file, có thể đường dẫn đã mất hoặc bị thay đổi", Toast.LENGTH_SHORT).show();
-            }
+            catch (Exception e) {}
             try {
                 if(db.noteDAO().getNoteById(idToGetImg).getDate_remind() != null) {
                     time_display.setText(db.noteDAO().getNoteById(idToGetImg).getTime_remind());
@@ -162,70 +171,90 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                     day_display.setText(db.noteDAO().getNoteById(idToGetImg).getDate_remind());
                 }
             }
-            catch (Exception e) {
-
-            }
+            catch (Exception e) {}
         }
 
-        day_create.setText(date);
+        try {
+            String date = (String) getIntent().getSerializableExtra("date_create");
+            if(date.equals("")) {
+                day_create.setText("Nhập tiêu đề, nội dung để tạo ghi chú mới");
+            }
+            else {
+                day_create.setText(date);
+            }
+        } catch (Exception e) {}
 
         note = new Notes();
+
         try {
             switch (db.defaultDAO().getSettingById(1).getSize_default()){
                 case "Nhỏ":
-                    note_desc_detail.setTextSize(15);
+//                    note_title_detail.setTextSize(15);
+                    note_desc_detail.setTextSize(14);
                     break;
                 case "Lớn":
-                    note_desc_detail.setTextSize(20);
+//                    note_title_detail.setTextSize(20);
+                    note_desc_detail.setTextSize(22);
                     break;
                 case "Rất lớn":
-                    note_desc_detail.setTextSize(24);
+//                    note_title_detail.setTextSize(24);
+                    note_desc_detail.setTextSize(26);
                     break;
                 case "Cực đại":
+//                    note_title_detail.setTextSize(30);
                     note_desc_detail.setTextSize(30);
                     break;
                 default:
-                    note_desc_detail.setTextSize(17);
+//                    note_title_detail.setTextSize(17);
+                    note_desc_detail.setTextSize(18);
             }
             switch (db.defaultDAO().getSettingById(1).getFont_default()){
-                case "Mặc định":
-                    note_desc_detail.setTypeface(Typeface.DEFAULT);
-                    break;
                 case "Rokkit":
+//                    note_title_detail.setTypeface(getResources().getFont(R.font.rokkit));
                     note_desc_detail.setTypeface(getResources().getFont(R.font.rokkit));
                     break;
                 case "Librebodoni":
+//                    note_title_detail.setTypeface(getResources().getFont(R.font.librebodoni));
                     note_desc_detail.setTypeface(getResources().getFont(R.font.librebodoni));
                     break;
                 case "RobotoSlab":
+//                    note_title_detail.setTypeface(getResources().getFont(R.font.robotoslab));
                     note_desc_detail.setTypeface(getResources().getFont(R.font.robotoslab));
                     break;
                 case "Texturina":
+//                    note_title_detail.setTypeface(getResources().getFont(R.font.texturina));
                     note_desc_detail.setTypeface(getResources().getFont(R.font.texturina));
                     break;
+                default:
+//                    note_title_detail.setTypeface(Typeface.DEFAULT);
+                    note_desc_detail.setTypeface(Typeface.DEFAULT);
             }
-        }catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
+
         try {
             note = (Notes) getIntent().getSerializableExtra("old_note");
             note_title_detail.setText(note.getTitle());
             note_desc_detail.setText(note.getContent());
+            isCreatedNote = true;
+
             switch (note.getFontSize()){
                 case "Nhỏ":
-                    note_desc_detail.setTextSize(15);
+                    note_desc_detail.setTextSize(14);
                     break;
                 case "Lớn":
-                    note_desc_detail.setTextSize(20);
+                    note_desc_detail.setTextSize(22);
                     break;
                 case "Rất lớn":
-                    note_desc_detail.setTextSize(24);
+                    note_desc_detail.setTextSize(26);
                     break;
                 case "Cực đại":
                     note_desc_detail.setTextSize(30);
                     break;
                 default:
-                    note_desc_detail.setTextSize(17);
+                    note_desc_detail.setTextSize(18);
             }
             switch (note.getFontStyle()){
                 case "Rokkit":
@@ -243,15 +272,85 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 default:
                     note_desc_detail.setTypeface(Typeface.DEFAULT);
             }
-            isCreatedNote = true;
-        }
-        catch (Exception e) {
+            switch (note.getAlign()){
+                case "right":
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                    break;
+                case "center":
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    break;
+                case "justify":
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
+                    break;
+                default:
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            }
+            switch (note.getAlign()){
+                case "right":
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                    break;
+                case "center":
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    break;
+                case "justify":
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
+                    break;
+                default:
+                    note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            }
+            switch (note.getColor_text()){
+                case "red":
+                    note_desc_detail.setTextColor(getResources().getColor(R.color.red_text));
+                    break;
+                case "blue":
+                    note_desc_detail.setTextColor(getResources().getColor(R.color.blue_text));
+                    break;
+                case "green":
+                    note_desc_detail.setTextColor(getResources().getColor(R.color.green_text));
+                    break;
+                case "purple":
+                    note_desc_detail.setTextColor(getResources().getColor(R.color.purple_text));
+                    break;
+                default:
+                    note_desc_detail.setTextColor(getResources().getColor(R.color.black));
+            }
+        }catch (Exception e) {
             e.printStackTrace();
         }
 
         colorPickOnClick();
 
+        //From Alarm
+        try {
+            int id_from_alarm = (int) getIntent().getSerializableExtra("idNoteFromAlarm");
+            Notes note_from_alarm = db.noteDAO().getNoteById(id_from_alarm);
+            note_title_detail.setText(note_from_alarm.getTitle());
+            note_desc_detail.setText(note_from_alarm.getContent());
+            day_create.setText(note_from_alarm.getDate_create());
+
+
+            rich_texts.setVisibility(View.GONE);
+            setting_note_layout.setVisibility(View.GONE);
+            btn_save.setEnabled(false);
+            btn_save.setBackgroundColor(getResources().getColor(R.color.grey));
+        }
+        catch (Exception e) {}
+
         //onClicks
+        color_pick.setOnClickListener(view -> {
+            if(field_pick_color.getVisibility() == View.GONE) {
+                field_pick_color.setVisibility(View.VISIBLE);
+            }
+            else {
+                field_pick_color.setVisibility(View.GONE);
+            }
+        });
+
+        btn_back.setOnClickListener(view -> {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        });
+
         btn_save.setOnClickListener(view -> {
             String title = note_title_detail.getText().toString();
             String desc = note_desc_detail.getText().toString();
@@ -259,18 +358,15 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 Toast.makeText(CreateNoteActivity.this, "Tiêu đề không được để trống!", Toast.LENGTH_SHORT).show();
                 return;
             }
-
             SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
-            Date date1 = new Date();
 
             if(!isCreatedNote) {
                 note = new Notes();
             }
-
             note.setUser(mAuth.getCurrentUser().getEmail());
             note.setTitle(title);
             note.setContent(desc);
-            note.setDate_create(formatter.format(date1));
+            note.setDate_create(formatter.format(new Date()));
             note.setFontSize(db.defaultDAO().getSettingById(1).getSize_default());
             note.setFontStyle(db.defaultDAO().getSettingById(1).getFont_default());
 
@@ -278,8 +374,8 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             intent.putExtra("note", note);
             setResult(Activity.RESULT_OK, intent);
 
-
             noteDbRef.push().setValue(note);
+
             if(desc.isEmpty()) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(CreateNoteActivity.this);
                 alert.setTitle("Nội dung ghi chú rỗng");
@@ -312,6 +408,9 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             }
             else if (layout_remind.getVisibility() == View.VISIBLE) {
                 layout_remind.setVisibility(View.GONE);
+            }
+            if(color_bg_field.getVisibility() == View.VISIBLE) {
+                color_bg_field.setVisibility(View.GONE);
             }
         });
 
@@ -354,67 +453,76 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             else {
                 color_bg_field.setVisibility(View.VISIBLE);
             }
+            if(layout_remind.getVisibility() == View.VISIBLE) {
+                layout_remind.setVisibility(View.GONE);
+            }
         });
-        bold.setOnClickListener(view -> {
+
+        align_left.setOnClickListener(view -> {
+            note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            db.noteDAO().updateAlign(finalIdNote,"left");
+
             Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-            spannable.setSpan(new StyleSpan(Typeface.BOLD),
-                    note_desc_detail.getSelectionStart(),
-                    note_desc_detail.getSelectionEnd(),
-                    0 );
             note_desc_detail.setText(spannable);
-            note.setUser(mAuth.getCurrentUser().getEmail());
             note.setContent(note_desc_detail.getText().toString());
-            Intent intent = new Intent();
-            intent.putExtra("note", note);
-            setResult(Activity.RESULT_OK, intent);
         });
-        italic.setOnClickListener(view -> {
+
+        align_right.setOnClickListener(view -> {
+            db.noteDAO().updateAlign(finalIdNote,"right");
+            note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+
             Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-            spannable.setSpan(new StyleSpan(Typeface.ITALIC),
-                    note_desc_detail.getSelectionStart(),
-                    note_desc_detail.getSelectionEnd(),
-                    0 );
             note_desc_detail.setText(spannable);
-            note.setUser(mAuth.getCurrentUser().getEmail());
             note.setContent(note_desc_detail.getText().toString());
-            Intent intent = new Intent();
-            intent.putExtra("note", note);
-            setResult(Activity.RESULT_OK, intent);
-        });
-        underline.setOnClickListener(view -> {
-            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-            spannable.setSpan(new UnderlineSpan(),
-                    note_desc_detail.getSelectionStart(),
-                    note_desc_detail.getSelectionEnd(),
-                    0 );
-            note_desc_detail.setText(spannable);
-            note.setUser(mAuth.getCurrentUser().getEmail());
-            note.setContent(note_desc_detail.getText().toString());
-            Intent intent = new Intent();
-            intent.putExtra("note", note);
-            setResult(Activity.RESULT_OK, intent);
         });
         align_center.setOnClickListener(view -> {
+            db.noteDAO().updateAlign(finalIdNote,"center");
             note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
 
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
             note_desc_detail.setText(spannable);
-            note.setUser(mAuth.getCurrentUser().getEmail());
             note.setContent(note_desc_detail.getText().toString());
-            Intent intent = new Intent();
-            intent.putExtra("note", note);
-            setResult(Activity.RESULT_OK, intent);
         });
         align_justify.setOnClickListener(view -> {
+            db.noteDAO().updateAlign(finalIdNote,"justify");
             note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
-            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
 
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
             note_desc_detail.setText(spannable);
-            note.setUser(mAuth.getCurrentUser().getEmail());
             note.setContent(note_desc_detail.getText().toString());
-            Intent intent = new Intent();
-            intent.putExtra("note", note);
-            setResult(Activity.RESULT_OK, intent);
+        });
+
+        red_text.setOnClickListener(view -> {
+            db.noteDAO().updateColorText(finalIdNote, "red");
+            note_desc_detail.setTextColor(getResources().getColor(R.color.red_text));
+
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+            note_desc_detail.setText(spannable);
+            note.setContent(note_desc_detail.getText().toString());
+        });
+        blue_text.setOnClickListener(view -> {
+            db.noteDAO().updateColorText(finalIdNote, "blue");
+            note_desc_detail.setTextColor(getResources().getColor(R.color.blue_text));
+        });
+        green_text.setOnClickListener(view -> {
+            db.noteDAO().updateColorText(finalIdNote, "green");
+            note_desc_detail.setTextColor(getResources().getColor(R.color.green_text));
+        });
+        purple_text.setOnClickListener(view -> {
+            db.noteDAO().updateColorText(finalIdNote, "red");
+            note_desc_detail.setTextColor(getResources().getColor(R.color.red_text));
+        });
+        black_text.setOnClickListener(view -> {
+            db.noteDAO().updateColorText(finalIdNote, "black");
+            note_desc_detail.setTextColor(getResources().getColor(R.color.black));
+        });
+        purple_text.setOnClickListener(view -> {
+            db.noteDAO().updateColorText(finalIdNote, "purple");
+            note_desc_detail.setTextColor(getResources().getColor(R.color.purple_text));
+
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+            note_desc_detail.setText(spannable);
+            note.setContent(note_desc_detail.getText().toString());
         });
     }
 
@@ -568,10 +676,20 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 }
                 long alarmStartTime = remindTime.getTimeInMillis();
                 Calendar currentTime = Calendar.getInstance();
-                if (remindTime.getTimeInMillis() > currentTime.getTimeInMillis()) {
+                if(time_display.getText().toString().equals("")) {
+                    Toast.makeText(this, "Vui lòng chọn giờ nhắc nhở", Toast.LENGTH_SHORT).show();
+                }
+                else if(day_display.getText().toString().equals("")) {
+                    Toast.makeText(this, "Vui lòng chọn ngày nhắc nhở", Toast.LENGTH_SHORT).show();
+                }
+                else if (remindTime.getTimeInMillis() > currentTime.getTimeInMillis()) {
                     alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                     Toast.makeText(CreateNoteActivity.this, "Đặt nhắc nhở thành công", Toast.LENGTH_SHORT).show();
                 } else {
+                    db.noteDAO().updateDateRemind(idToGetImg,"");
+                    day_display.setText("");
+                    db.noteDAO().updateTimeRemind(idToGetImg,"");
+                    time_display.setText("");
                     Toast.makeText(CreateNoteActivity.this, "Không đặt được thời gian trong quá khứ", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -583,8 +701,4 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 break;
         }
     }
-
-    /*private int getBroadcastCode() {
-        return (int) new Date().getTime();
-    }*/
 }

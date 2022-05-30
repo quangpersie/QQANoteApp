@@ -29,6 +29,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     private TextView forgot_pass;
     private ProgressBar progressBar_login;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    RoomDB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
         btn_sign_in.setOnClickListener(this);
         sign_up.setOnClickListener(this);
         forgot_pass.setOnClickListener(this);
+        db = RoomDB.getInstance(this);
 
         progressBar_login.setVisibility(View.VISIBLE);
         if(user!= null) {
@@ -56,6 +58,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.btn_sign_in:
+                db.defaultDAO().updateDefaultFont("Mặc định");
+                db.defaultDAO().updateDefaultSize("Bình thường");
+                db.defaultDAO().updateDefaultSound("Default");
+                db.defaultDAO().updateTimeDelAuto("1 phút");
                 loginAction();
                 break;
             case R.id.sign_up:

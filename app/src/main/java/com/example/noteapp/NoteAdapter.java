@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.note_row,parent,false));
     }
 
+    @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull NoteAdapter.MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -44,26 +46,26 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
 
         holder.note_title.setText(note.getTitle());
         holder.note_title.setSelected(true);
+        holder.note_desc.setText(note.getContent());
+
         switch (note.getFontSize()){
             case "Nhỏ":
-                holder.note_desc.setTextSize(15);
+                holder.note_desc.setTextSize(14);
                 break;
             case "Lớn":
-                holder.note_desc.setTextSize(20);
+                holder.note_desc.setTextSize(22);
                 break;
             case "Rất lớn":
-                holder.note_desc.setTextSize(24);
+                holder.note_desc.setTextSize(26);
                 break;
             case "Cực đại":
                 holder.note_desc.setTextSize(30);
                 break;
             default:
-                holder.note_desc.setTextSize(17);
+                holder.note_desc.setTextSize(18);
         }
+
         switch (note.getFontStyle()){
-            case "Mặc định":
-                holder.note_desc.setTypeface(Typeface.DEFAULT);
-                break;
             case "Rokkit":
                 holder.note_desc.setTypeface(context.getResources().getFont(R.font.rokkit));
                 break;
@@ -76,8 +78,40 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             case "Texturina":
                 holder.note_desc.setTypeface(context.getResources().getFont(R.font.texturina));
                 break;
+            default:
+                holder.note_desc.setTypeface(Typeface.DEFAULT);
         }
-        holder.note_desc.setText(note.getContent());
+
+        switch (note.getAlign()){
+            case "right":
+                holder.note_desc.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                break;
+            case "center":
+                holder.note_desc.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                break;
+            case "justify":
+                holder.note_desc.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
+                break;
+            default:
+                holder.note_desc.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        }
+
+        switch (note.getColor_text()){
+            case "red":
+                holder.note_desc.setTextColor(context.getResources().getColor(R.color.red_text));
+                break;
+            case "blue":
+                holder.note_desc.setTextColor(context.getResources().getColor(R.color.blue_text));
+                break;
+            case "green":
+                holder.note_desc.setTextColor(context.getResources().getColor(R.color.green_text));
+                break;
+            case "purple":
+                holder.note_desc.setTextColor(context.getResources().getColor(R.color.purple_text));
+                break;
+            default:
+                holder.note_desc.setTextColor(context.getResources().getColor(R.color.black));
+        }
 
         if(note.getOrderNoteDel() != 0) {
             holder.time_create.setText(note.getDate_delete());
@@ -116,9 +150,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         }
 
         switch (note.getColor_code()) {
-            case "pink":
-                holder.layout_root.setBackgroundResource(R.drawable.row_style_bg);
-                break;
             case "red":
                 holder.layout_root.setBackgroundResource(R.drawable.mbg_note_red);
                 break;
@@ -131,6 +162,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             case "green":
                 holder.layout_root.setBackgroundResource(R.drawable.mbg_note_green);
                 break;
+            default:
+                holder.layout_root.setBackgroundResource(R.drawable.row_style_bg);
         }
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {

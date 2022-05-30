@@ -11,7 +11,6 @@ import java.util.List;
 
 @Dao
 public interface DefaultDAO {
-
     @Insert(onConflict = REPLACE)
     void insert(DefaultSetting df);
 
@@ -38,6 +37,4 @@ public interface DefaultDAO {
 
     @Delete
     void delete(DefaultSetting df);
-
-
 }

@@ -9,28 +9,20 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.appcompat.widget.SearchView;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.text.method.SingleLineTransformationMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -64,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private RecyclerView recyclerView;
     private NoteAdapter noteAdapter;
     private Notes selectedNote;
-    private FloatingActionButton add_note, remove_all;
+    private FloatingActionButton add_note, remove_all, hide_show;
     private TextView empty_notify;
     private SearchView search_bar;
     private ImageView list_display, grid_display;
@@ -75,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private List<String> lShowByLabel  = new ArrayList<>();
 //    private List<Notes> noteCopy = new ArrayList<>();
     DatabaseReference noteDbRef;
+    NavigationView navigationView;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
@@ -99,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         mSpinner = findViewById(R.id.mSpinner);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
         remove_all = findViewById(R.id.remove_all);
+        hide_show = findViewById(R.id.hide_show);
         setSupportActionBar(toolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -127,8 +121,20 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             recyclerView.addItemDecoration(divider);
         }
 
+        hide_show.setOnClickListener(view -> {
+            if(add_note.getVisibility() == View.VISIBLE && remove_all.getVisibility() == View.VISIBLE) {
+                add_note.setVisibility(View.GONE);
+                remove_all.setVisibility(View.GONE);
+            }
+            else {
+                add_note.setVisibility(View.VISIBLE);
+                remove_all.setVisibility(View.VISIBLE);
+            }
+        });
+
         add_note.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, CreateNoteActivity.class);
+            intent.putExtra("hide_label",707);
             startActivityForResult(intent, 10);
         });
 
@@ -191,9 +197,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
                             Calendar startTime = Calendar.getInstance();
                             switch (database.defaultDAO().getSettingById(1).getDelete_default()) {
-                                /*case "1 phút":
-                                    startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
-                                    break;*/
                                 case "1 ngày":
                                     startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
                                     break;
@@ -223,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             }
         });
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         addDataDefaultLabels();
@@ -234,15 +237,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
         mSpinner.setOnItemSelectedListener(MainActivity.this);
-
-        add_note.animate().setDuration(100);
-        recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, add_note));
-//        recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, remove_all));
         updateNotify();
 
-        /*for(Notes n:database.noteDAO().getAllUserNote(userMail)) {
-            Log.e(""+n.getTitle(),n.getRequest_code()+"");
-        }*/
+        try {
+            TextView tvDisplay = (TextView) navigationView.getHeaderView(0).findViewById(R.id.display_user_name);
+            tvDisplay.setText(userMail);
+        }
+        catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -591,26 +594,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         }
     }
 
-    private int maxOrder() {
-        int max = -1;
-        if(database.noteDAO().getCount() != 0) {
-            for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
-                if(note.getOrder() > max) {
-                    max = note.getOrder();
-                }
-            }
-        }
-        return max;
-    }
-
-    void showInfo() {
-        if(database.noteDAO().getCount() != 0) {
-            for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
-                Log.e("TAG","id = "+note.getId()+", order = "+note.getOrder());
-            }
-        }
-    }
-
     private void updateNotify() {
         if(database.noteDAO().getAllUserNote(userMail).size() != 0 &&
                 notes.size() == 0 && mSpinner.getSelectedItemPosition() != 0) {
@@ -638,7 +621,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-//        Log.e("POS",""+pos);
         if(pos == 0) {
             notes.clear();
             if(hasPinNote()) {
@@ -668,9 +650,5 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
-    }
-
-    private int getBroadcastCode() {
-        return (int) new Date().getTime();
     }
 }

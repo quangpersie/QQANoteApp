@@ -135,31 +135,50 @@
                     android:layout_height="match_parent"/>
             </ScrollView>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/add_note"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="30dp"
                 android:layout_gravity="bottom|end"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:foregroundGravity="center"
-                android:src="@drawable/ic_add_new_note"
-                app:maxImageSize="54dp" />
+                android:orientation="vertical">
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/remove_all"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/ic_trashcan"
+                    app:maxImageSize="54dp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/remove_all"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
-                android:layout_marginLeft="18dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/white"
-                android:backgroundTint="@color/white"
-                android:foregroundGravity="center"
-                android:src="@drawable/ic_trashcan"
-                app:maxImageSize="54dp" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/add_note"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:background="@color/white"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/white"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/ic_add_new_note"
+                    app:maxImageSize="54dp" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/hide_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/white"
+                    android:layout_marginTop="8dp"
+                    android:foregroundGravity="center"
+                    android:src="@drawable/ic_hideshow"
+                    app:maxImageSize="54dp" />
+            </LinearLayout>
         </FrameLayout>
 
 

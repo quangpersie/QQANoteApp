@@ -35,9 +35,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         String desc = intent.getStringExtra("desc_note");
         String name_sound = intent.getStringExtra("name_sound");
 
-        Intent resultIntent = new Intent(context,CreateNoteActivity.class);
+        /*Intent resultIntent = new Intent(context,CreateNoteActivity.class);
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addNextIntentWithParentStack(resultIntent);
+        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);*/
 
         switch (name_sound) {
             case "MTP":
@@ -57,8 +58,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
 
-        Intent mainIntent = new Intent(context, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(context,0,mainIntent,0);
+        Intent mainIntent = new Intent(context, CreateNoteActivity.class);
+        mainIntent.putExtra("idNoteFromAlarm", idNote);
+        mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+        | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent contentIntent = PendingIntent.getActivity(context,
+                0,mainIntent,PendingIntent.FLAG_UPDATE_CURRENT);
         Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
 
         Notification notification = new NotificationCompat.Builder(context, channel)

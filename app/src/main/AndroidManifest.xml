@@ -31,6 +31,7 @@
             android:exported="false" />
         <activity
             android:name=".CreateNoteActivity"
+            android:parentActivityName=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".ChangePasswordActivity"
@@ -41,10 +42,6 @@
         <activity
             android:name=".RecoverActivity"
             android:exported="false" />
-        <activity
-            android:name=".NoteDetailsActivity"
-            android:exported="false"
-            android:label="NoteDetailsActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

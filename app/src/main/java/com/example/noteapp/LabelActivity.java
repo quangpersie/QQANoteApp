@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,9 +46,9 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
     LinearLayout zone_create;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
-    String label = "";
     DatabaseReference noteDbRef;
     int idNoteCopy;
+    TextView notify_label_empty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
         save_check = findViewById(R.id.save_check);
         confirm_create = findViewById(R.id.confirm_create);
         zone_create = findViewById(R.id.zone_create);
+        notify_label_empty = findViewById(R.id.notify_label_empty);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
 
         Label label1 = new Label();
@@ -83,8 +85,19 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
         delete_allLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                database.labelDAO().deleteAllLabel();
-                updateAdapter();
+                AlertDialog.Builder alert = new AlertDialog.Builder(LabelActivity.this);
+                alert.setTitle("Bạn muốn xóa tất cả nhãn?");
+                alert.setMessage("Nếu bạn xóa mà chưa tạo mới thì sau đó hệ thống sẽ tự tạo 3 nhãn ban đầu để bạn quản lý ghi chú của mình");
+
+                alert.setPositiveButton("Tiếp tục", (dialogInterface, i) -> {
+                    database.labelDAO().deleteAllLabel();
+                    updateAdapter();
+                    updateNotify();
+                });
+                alert.setNegativeButton("Hủy bỏ", (dialog, whichButton) -> {
+
+                });
+                alert.show();
             }
         });
 
@@ -129,7 +142,7 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
         int idNote = (int) getIntent().getSerializableExtra("id_note");
         idNoteCopy = idNote;
         labelAdapter.getIdNote(idNote);
-        Log.e("id - LabelActivity",""+idNote);
+//        Log.e("id - LabelActivity",""+idNote);
 
         save_check.setOnClickListener(view -> {
             for(Label label: labels) {
@@ -193,8 +206,17 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
             labelAdapter.notifyDataSetChanged();
         });
 
-        for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
+        /*for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
             Log.e("LBLBLB",note.getLabel()+"");
+        }*/
+    }
+
+    private void updateNotify() {
+        if(database.noteDAO().getAllDeletedNote(userMail).size() != 0) {
+            notify_label_empty.setVisibility(View.GONE);
+        }
+        else {
+            notify_label_empty.setVisibility(View.VISIBLE);
         }
     }
 

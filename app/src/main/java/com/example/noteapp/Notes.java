@@ -221,4 +221,26 @@ public class Notes implements Serializable {
     public void setRequest_code(int request_code) {
         this.request_code = request_code;
     }
+
+    @ColumnInfo(name = "align")
+    String align = "left";
+
+    public String getAlign() {
+        return align;
+    }
+
+    public void setAlign(String align) {
+        this.align = align;
+    }
+
+    @ColumnInfo(name = "color_text")
+    String color_text = "black";
+
+    public String getColor_text() {
+        return color_text;
+    }
+
+    public void setColor_text(String color_text) {
+        this.color_text = color_text;
+    }
 }
