@@ -173,11 +173,15 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 alert.setTitle("Xóa tất cả vào thùng rác");
                 alert.setMessage("Bạn vẫn muốn tiếp tục thực hiện thao tác này?");
                 alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                    SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+                    Date date = new Date();
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        database.noteDAO().deletedAllNoteToTrash();
-                        for(Notes n:database.noteDAO().getAllDeletedNoteAsc(userMail)) {
+//                        database.noteDAO().deletedAllNoteToTrash();
+                        for(Notes n:database.noteDAO().getAllUserNoteInUse(userMail)) {
+                            database.noteDAO().deletedNote(n.getId());
                             database.noteDAO().updateNoteOrderDel(n.getId(),
                                     database.noteDAO().getMaxOrderDel(userMail) + 1);
+                            database.noteDAO().updateDateDel(n.getId(),formatter.format(date));
 
                             Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
                             intent.putExtra("idNoteDelAuto",n.getId());
@@ -475,7 +479,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
             case R.id.pin_note:
                 if(selectedNote.isPinned()) {
                     database.noteDAO().pin(selectedNote.getId(), false);
-                    Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
 
                     database.noteDAO().unPin(selectedNote.getId());
                     selectedNote.setPinned(false);
@@ -492,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 }
                 else {
                     database.noteDAO().pin(selectedNote.getId(), true);
-                    Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "Đã ghim", Toast.LENGTH_SHORT).show();
 
                     database.noteDAO().updateOrder(selectedNote.getId(),database.noteDAO().maxOrderForPin(userMail));
                     selectedNote.setPinned(true);
@@ -508,7 +512,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                         && !selectedNote.getDate_remind().equals("")) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                     alert.setTitle("Ghi chú trong thời gian nhắc nhở");
-                    alert.setMessage("Để xóa, hãy hủy nhắc nhở trong màn hình sửa đổi ghi chú");
+                    alert.setMessage("Để xóa, hãy hủy nhắc nhở của ghi chú này trong màn hình sửa đổi ghi chú");
                     alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
 

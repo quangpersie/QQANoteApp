@@ -29,6 +29,9 @@ public interface NoteDAO {
     @Query("SELECT * FROM note WHERE user = :user  AND `delete` = 0 ORDER BY id DESC")
     List<Notes> getAllUserNote(String user);
 
+    @Query("SELECT * FROM note WHERE user = :user  AND `delete` = 0 ORDER BY id ASC")
+    List<Notes> getAllUserNoteInUse(String user);
+
     @Query("SELECT * FROM note WHERE user = :user ORDER BY id DESC")
     List<Notes> getAllUserNoteAndRBin(String user);
 
