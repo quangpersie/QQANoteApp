@@ -46,20 +46,19 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         holder.note_title.setSelected(true);
         switch (note.getFontSize()){
             case "Nhỏ":
-                holder.note_desc.setTextSize(16);
-                break;
-            case "Bình thường":
-                holder.note_desc.setTextSize(22);
+                holder.note_desc.setTextSize(15);
                 break;
             case "Lớn":
-                holder.note_desc.setTextSize(26);
+                holder.note_desc.setTextSize(20);
                 break;
             case "Rất lớn":
-                holder.note_desc.setTextSize(30);
+                holder.note_desc.setTextSize(24);
                 break;
             case "Cực đại":
-                holder.note_desc.setTextSize(18);
+                holder.note_desc.setTextSize(30);
                 break;
+            default:
+                holder.note_desc.setTextSize(17);
         }
         switch (note.getFontStyle()){
             case "Mặc định":

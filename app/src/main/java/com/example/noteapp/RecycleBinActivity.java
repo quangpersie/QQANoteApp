@@ -185,10 +185,10 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
                 noteAdapter.notifyDataSetChanged();
                 updateNotify();
                 //tbao
-                List<Notes> ln = database.noteDAO().getAllDeletedNote(userMail);
+                /*List<Notes> ln = database.noteDAO().getAllDeletedNote(userMail);
                 for(Notes l:ln){
                     Log.e("ORDER",l.getTitle()+", "+l.getOrderNoteDel());
-                }
+                }*/
                 return true;
             case R.id.deleteP_note:
                 database.noteDAO().delete(selectedNote);

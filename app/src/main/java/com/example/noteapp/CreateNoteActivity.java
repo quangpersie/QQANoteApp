@@ -137,8 +137,8 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         if(hideLabel == true) {
             setting_note_layout.setVisibility(View.GONE);
             color_bg_field.setVisibility(View.GONE);
-            day_create.setText("Nhập thông tin để tạo ghi chú mới");
-            day_create.setVisibility(View.VISIBLE);
+//            day_create.setText("Nhập thông tin để tạo ghi chú mới");
+//            day_create.setVisibility(View.VISIBLE);
         }
         else {
             try {
@@ -150,6 +150,11 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 else {
                     image_field.setVisibility(View.GONE);
                 }
+            }
+            catch (Exception e) {
+//                Toast.makeText(this, "Không tìm thấy file, có thể đường dẫn đã mất hoặc bị thay đổi", Toast.LENGTH_SHORT).show();
+            }
+            try {
                 if(db.noteDAO().getNoteById(idToGetImg).getDate_remind() != null) {
                     time_display.setText(db.noteDAO().getNoteById(idToGetImg).getTime_remind());
                 }
@@ -158,7 +163,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 }
             }
             catch (Exception e) {
-                Toast.makeText(this, "Không tìm thấy file, có thể đường dẫn đã mất hoặc bị thay đổi", Toast.LENGTH_SHORT).show();
+
             }
         }
 
@@ -168,19 +173,19 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         try {
             switch (db.defaultDAO().getSettingById(1).getSize_default()){
                 case "Nhỏ":
-                    note_desc_detail.setTextSize(16);
+                    note_desc_detail.setTextSize(15);
                     break;
                 case "Lớn":
-                    note_desc_detail.setTextSize(22);
+                    note_desc_detail.setTextSize(20);
                     break;
                 case "Rất lớn":
-                    note_desc_detail.setTextSize(26);
+                    note_desc_detail.setTextSize(24);
                     break;
                 case "Cực đại":
                     note_desc_detail.setTextSize(30);
                     break;
                 default:
-                    note_desc_detail.setTextSize(18);
+                    note_desc_detail.setTextSize(17);
             }
             switch (db.defaultDAO().getSettingById(1).getFont_default()){
                 case "Mặc định":
@@ -208,19 +213,19 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(note.getContent());
             switch (note.getFontSize()){
                 case "Nhỏ":
-                    note_desc_detail.setTextSize(16);
+                    note_desc_detail.setTextSize(15);
                     break;
                 case "Lớn":
-                    note_desc_detail.setTextSize(22);
+                    note_desc_detail.setTextSize(20);
                     break;
                 case "Rất lớn":
-                    note_desc_detail.setTextSize(26);
+                    note_desc_detail.setTextSize(24);
                     break;
                 case "Cực đại":
                     note_desc_detail.setTextSize(30);
                     break;
                 default:
-                    note_desc_detail.setTextSize(18);
+                    note_desc_detail.setTextSize(17);
             }
             switch (note.getFontStyle()){
                 case "Rokkit":
@@ -350,81 +355,66 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 color_bg_field.setVisibility(View.VISIBLE);
             }
         });
-        bold.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-                spannable.setSpan(new StyleSpan(Typeface.BOLD),
-                        note_desc_detail.getSelectionStart(),
-                        note_desc_detail.getSelectionEnd(),
-                        0 );
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
+        bold.setOnClickListener(view -> {
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+            spannable.setSpan(new StyleSpan(Typeface.BOLD),
+                    note_desc_detail.getSelectionStart(),
+                    note_desc_detail.getSelectionEnd(),
+                    0 );
+            note_desc_detail.setText(spannable);
+            note.setUser(mAuth.getCurrentUser().getEmail());
+            note.setContent(note_desc_detail.getText().toString());
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(Activity.RESULT_OK, intent);
         });
-        italic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-                spannable.setSpan(new StyleSpan(Typeface.ITALIC),
-                        note_desc_detail.getSelectionStart(),
-                        note_desc_detail.getSelectionEnd(),
-                        0 );
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
+        italic.setOnClickListener(view -> {
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+            spannable.setSpan(new StyleSpan(Typeface.ITALIC),
+                    note_desc_detail.getSelectionStart(),
+                    note_desc_detail.getSelectionEnd(),
+                    0 );
+            note_desc_detail.setText(spannable);
+            note.setUser(mAuth.getCurrentUser().getEmail());
+            note.setContent(note_desc_detail.getText().toString());
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(Activity.RESULT_OK, intent);
         });
-        underline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
-                spannable.setSpan(new UnderlineSpan(),
-                        note_desc_detail.getSelectionStart(),
-                        note_desc_detail.getSelectionEnd(),
-                        0 );
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
+        underline.setOnClickListener(view -> {
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+            spannable.setSpan(new UnderlineSpan(),
+                    note_desc_detail.getSelectionStart(),
+                    note_desc_detail.getSelectionEnd(),
+                    0 );
+            note_desc_detail.setText(spannable);
+            note.setUser(mAuth.getCurrentUser().getEmail());
+            note.setContent(note_desc_detail.getText().toString());
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(Activity.RESULT_OK, intent);
         });
-        align_center.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+        align_center.setOnClickListener(view -> {
+            note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
 
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
+            note_desc_detail.setText(spannable);
+            note.setUser(mAuth.getCurrentUser().getEmail());
+            note.setContent(note_desc_detail.getText().toString());
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(Activity.RESULT_OK, intent);
         });
-        align_justify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
-                Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
+        align_justify.setOnClickListener(view -> {
+            note_desc_detail.setTextAlignment(View.TEXT_ALIGNMENT_INHERIT);
+            Spannable spannable = new SpannableStringBuilder(note_desc_detail.getText());
 
-                note_desc_detail.setText(spannable);
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setContent(note_desc_detail.getText().toString());
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
-            }
+            note_desc_detail.setText(spannable);
+            note.setUser(mAuth.getCurrentUser().getEmail());
+            note.setContent(note_desc_detail.getText().toString());
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(Activity.RESULT_OK, intent);
         });
     }
 
@@ -564,7 +554,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         switch (view.getId()) {
             case R.id.confirm_remind:
-//                Log.e("OK","OK");
                 Calendar remindTime = Calendar.getInstance();
                 try {
                     remindTime.set(Calendar.HOUR_OF_DAY, mTimePicker.getCurrentHour());
@@ -575,7 +564,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                     remindTime.set(Calendar.DAY_OF_MONTH, mDatePicker.getDayOfMonth());
                 }
                 catch (Exception e) {
-//                    Toast.makeText(this, "date or time null", Toast.LENGTH_SHORT).show();
+
                 }
                 long alarmStartTime = remindTime.getTimeInMillis();
                 Calendar currentTime = Calendar.getInstance();

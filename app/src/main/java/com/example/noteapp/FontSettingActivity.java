@@ -108,15 +108,15 @@ public class FontSettingActivity extends AppCompatActivity implements AdapterVie
                 switch (adapterView.getItemAtPosition(i).toString()) {
                     case "Nhỏ":
                         Toast.makeText(this, "Nhỏ", Toast.LENGTH_SHORT).show();
-                        editedTest.setTextSize(16);
+                        editedTest.setTextSize(15);
                         db.defaultDAO().updateDefaultSize("Nhỏ");
                         break;
                     case "Lớn":
-                        editedTest.setTextSize(22);
+                        editedTest.setTextSize(20);
                         db.defaultDAO().updateDefaultSize("Lớn");
                         break;
                     case "Rất lớn":
-                        editedTest.setTextSize(26);
+                        editedTest.setTextSize(24);
                         db.defaultDAO().updateDefaultSize("Rất lớn");
                         break;
                     case "Cực đại":
@@ -124,7 +124,7 @@ public class FontSettingActivity extends AppCompatActivity implements AdapterVie
                         db.defaultDAO().updateDefaultSize("Cực đại");
                         break;
                     default:
-                        editedTest.setTextSize(18);
+                        editedTest.setTextSize(17);
                         db.defaultDAO().updateDefaultSize("Bình thường");
                 }
                 break;

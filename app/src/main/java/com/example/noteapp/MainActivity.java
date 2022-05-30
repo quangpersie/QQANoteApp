@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         catch (Exception e) {
 
         }
-//        showInfo();
 
         DividerItemDecoration divider = new DividerItemDecoration(MainActivity.this,
                 LinearLayoutManager.VERTICAL);
@@ -237,9 +236,9 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 //        recyclerView.setOnTouchListener(new TranslateAnimationUtil(this, remove_all));
         updateNotify();
 
-        for(Notes n:database.noteDAO().getAllUserNote(userMail)) {
+        /*for(Notes n:database.noteDAO().getAllUserNote(userMail)) {
             Log.e(""+n.getTitle(),n.getRequest_code()+"");
-        }
+        }*/
     }
 
     @Override
@@ -474,7 +473,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         switch (item.getItemId()) {
             case R.id.pin_note:
-                Log.e("TAG", selectedNote.getUser());
+//                Log.e("TAG", selectedNote.getUser());
                 if(selectedNote.isPinned()) {
                     database.noteDAO().pin(selectedNote.getId(), false);
                     Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
