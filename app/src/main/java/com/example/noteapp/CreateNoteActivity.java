@@ -65,10 +65,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     boolean isCreatedNote = false;
     String selectedImagePath;
     RoomDB db;
-    String fontSize = "";
-    String fontStyle = "";
     int idToGetImg = -1;
-    Typeface typeface, typeface1, typeface2, typeface3, typeface4;
     Button cancel_remind, confirm_remind;
     DatePicker mDatePicker;
     TimePicker mTimePicker;
@@ -116,7 +113,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         align_justify = findViewById(R.id.align_justify);
         color_pick = findViewById(R.id.color_pick);
 
-
         pick_pink = findViewById(R.id.pick_pink);
         pick_red = findViewById(R.id.pick_red);
         pick_yellow = findViewById(R.id.pick_yellow);
@@ -124,12 +120,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         pick_green = findViewById(R.id.pick_green);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
         db = RoomDB.getInstance(this);
-
-        Bundle extra1 = getIntent().getExtras();
-        if (extra1 != null) {
-            fontSize = extra1.getString("fontSize");
-            fontStyle = extra1.getString("fontStyle");
-        }
 
         selectedImagePath = "";
         String date = (String) getIntent().getSerializableExtra("date_create");
@@ -160,15 +150,15 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 else {
                     image_field.setVisibility(View.GONE);
                 }
+                if(db.noteDAO().getNoteById(idToGetImg).getDate_remind() != null) {
+                    time_display.setText(db.noteDAO().getNoteById(idToGetImg).getTime_remind());
+                }
+                if(db.noteDAO().getNoteById(idToGetImg).getTime_remind() != null) {
+                    day_display.setText(db.noteDAO().getNoteById(idToGetImg).getDate_remind());
+                }
             }
             catch (Exception e) {
                 Toast.makeText(this, "Không tìm thấy file, có thể đường dẫn đã mất hoặc bị thay đổi", Toast.LENGTH_SHORT).show();
-            }
-            if(db.noteDAO().getNoteById(idToGetImg).getDate_remind() != null) {
-                time_display.setText(db.noteDAO().getNoteById(idToGetImg).getTime_remind());
-            }
-            if(db.noteDAO().getNoteById(idToGetImg).getTime_remind() != null) {
-                day_display.setText(db.noteDAO().getNoteById(idToGetImg).getDate_remind());
             }
         }
 
@@ -176,40 +166,37 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
 
         note = new Notes();
         try {
-            switch (fontSize){
+            switch (db.defaultDAO().getSettingById(1).getSize_default()){
                 case "Nhỏ":
-                    note_desc_detail.setTextSize(15);
-                    break;
-                case "Bình thường":
-                    note_desc_detail.setTextSize(20);
+                    note_desc_detail.setTextSize(16);
                     break;
                 case "Lớn":
-                    note_desc_detail.setTextSize(25);
+                    note_desc_detail.setTextSize(22);
+                    break;
+                case "Rất lớn":
+                    note_desc_detail.setTextSize(26);
                     break;
                 case "Cực đại":
                     note_desc_detail.setTextSize(30);
                     break;
+                default:
+                    note_desc_detail.setTextSize(18);
             }
-            switch (fontStyle){
+            switch (db.defaultDAO().getSettingById(1).getFont_default()){
                 case "Mặc định":
-                    typeface = Typeface.DEFAULT;
-                    note_desc_detail.setTypeface(typeface);
+                    note_desc_detail.setTypeface(Typeface.DEFAULT);
                     break;
                 case "Rokkit":
-                    typeface1 = getResources().getFont(R.font.rokkit);
-                    note_desc_detail.setTypeface(typeface1);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.rokkit));
                     break;
                 case "Librebodoni":
-                    typeface2 = getResources().getFont(R.font.librebodoni);
-                    note_desc_detail.setTypeface(typeface2);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.librebodoni));
                     break;
                 case "RobotoSlab":
-                    typeface3 = getResources().getFont(R.font.robotoslab);
-                    note_desc_detail.setTypeface(typeface3);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.robotoslab));
                     break;
                 case "Texturina":
-                    typeface4 = getResources().getFont(R.font.texturina);
-                    note_desc_detail.setTypeface(typeface4);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.texturina));
                     break;
             }
         }catch (Exception e) {
@@ -221,39 +208,35 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(note.getContent());
             switch (note.getFontSize()){
                 case "Nhỏ":
-                    note_desc_detail.setTextSize(15);
-                    break;
-                case "Bình thường":
-                    note_desc_detail.setTextSize(20);
+                    note_desc_detail.setTextSize(16);
                     break;
                 case "Lớn":
-                    note_desc_detail.setTextSize(25);
+                    note_desc_detail.setTextSize(22);
+                    break;
+                case "Rất lớn":
+                    note_desc_detail.setTextSize(26);
                     break;
                 case "Cực đại":
                     note_desc_detail.setTextSize(30);
                     break;
+                default:
+                    note_desc_detail.setTextSize(18);
             }
             switch (note.getFontStyle()){
-                case "Mặc định":
-                    typeface = Typeface.DEFAULT;
-                    note_desc_detail.setTypeface(typeface);
-                    break;
                 case "Rokkit":
-                    typeface1 = getResources().getFont(R.font.rokkit);
-                    note_desc_detail.setTypeface(typeface1);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.rokkit));
                     break;
                 case "Librebodoni":
-                    typeface2 = getResources().getFont(R.font.librebodoni);
-                    note_desc_detail.setTypeface(typeface2);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.librebodoni));
                     break;
                 case "RobotoSlab":
-                    typeface3 = getResources().getFont(R.font.robotoslab);
-                    note_desc_detail.setTypeface(typeface3);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.robotoslab));
                     break;
                 case "Texturina":
-                    typeface4 = getResources().getFont(R.font.texturina);
-                    note_desc_detail.setTypeface(typeface4);
+                    note_desc_detail.setTypeface(getResources().getFont(R.font.texturina));
                     break;
+                default:
+                    note_desc_detail.setTypeface(Typeface.DEFAULT);
             }
             isCreatedNote = true;
         }
@@ -264,56 +247,53 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         colorPickOnClick();
 
         //onClicks
-        btn_save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String title = note_title_detail.getText().toString();
-                String desc = note_desc_detail.getText().toString();
-                if(title.isEmpty()) {
-                    Toast.makeText(CreateNoteActivity.this, "Tiêu đề không được để trống!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+        btn_save.setOnClickListener(view -> {
+            String title = note_title_detail.getText().toString();
+            String desc = note_desc_detail.getText().toString();
+            if(title.isEmpty()) {
+                Toast.makeText(CreateNoteActivity.this, "Tiêu đề không được để trống!", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
-                SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
-                Date date = new Date();
+            SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+            Date date1 = new Date();
 
-                if(!isCreatedNote) {
-                    note = new Notes();
-                }
-                
-                note.setUser(mAuth.getCurrentUser().getEmail());
-                note.setTitle(title);
-                note.setContent(desc);
-                note.setDate_create(formatter.format(date));
-                note.setFontSize(fontSize);
-                note.setFontStyle(fontStyle);
+            if(!isCreatedNote) {
+                note = new Notes();
+            }
 
-                Intent intent = new Intent();
-                intent.putExtra("note", note);
-                setResult(Activity.RESULT_OK, intent);
+            note.setUser(mAuth.getCurrentUser().getEmail());
+            note.setTitle(title);
+            note.setContent(desc);
+            note.setDate_create(formatter.format(date1));
+            note.setFontSize(db.defaultDAO().getSettingById(1).getSize_default());
+            note.setFontStyle(db.defaultDAO().getSettingById(1).getFont_default());
+
+            Intent intent = new Intent();
+            intent.putExtra("note", note);
+            setResult(Activity.RESULT_OK, intent);
 
 
-                noteDbRef.push().setValue(note);
-                if(desc.isEmpty()) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(CreateNoteActivity.this);
-                    alert.setTitle("Nội dung ghi chú rỗng");
-                    alert.setMessage("Bạn đang tạo ghi chú mà không có nội dung");
-                    alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            finish();
-                        }
-                    });
-                    alert.setNegativeButton("Thêm nội dung", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
+            noteDbRef.push().setValue(note);
+            if(desc.isEmpty()) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(CreateNoteActivity.this);
+                alert.setTitle("Nội dung ghi chú rỗng");
+                alert.setMessage("Bạn đang tạo ghi chú mà không có nội dung");
+                alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        finish();
+                    }
+                });
+                alert.setNegativeButton("Thêm nội dung", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
 
-                        }
-                    });
-                    alert.show();
-                }
-                else {
-                    finish();
-                    //noteDbRef.push().setValue(note);
-                }
+                    }
+                });
+                alert.show();
+            }
+            else {
+                finish();
+                //noteDbRef.push().setValue(note);
             }
         });
 

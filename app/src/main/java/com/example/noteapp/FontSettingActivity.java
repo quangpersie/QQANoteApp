@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,89 +22,73 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.lang.reflect.Type;
 
-public class FontSettingActivity extends AppCompatActivity {
+public class FontSettingActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
 
-    AutoCompleteTextView autoCompleteTextViewSize, autoCompleteTextViewStyle;
-    ArrayAdapter<String> adapterSize;
-    ArrayAdapter<String> adapterStyle;
+    Spinner autoCompleteTextViewSize, autoCompleteTextViewStyle;
     TextView editedTest;
     Button btnConfirmChange;
-    String[] fontSizeAdapter = {"Nhỏ", "Bình thường", "Lớn", "Cực đại"};
+    String[] fontSizeAdapter = {"Nhỏ", "Bình thường", "Lớn", "Rất lớn", "Cực đại"};
     String[] fontStyleAdapter = {"Mặc định", "Rokkit", "Librebodoni", "RobotoSlab", "Texturina"};
-    String fontSize = "";
-    String fontStyle = "";
+    RoomDB db;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.font_setting_layout);
         super.onCreate(savedInstanceState);
+
         initView();
+        db = RoomDB.getInstance(this);
+        autoCompleteTextViewSize = findViewById(R.id.auto_complete_fontSize);
+        autoCompleteTextViewStyle = findViewById(R.id.auto_complete_fontStyle);
 
-        adapterSize = new ArrayAdapter<String>(this, R.layout.list_dropdown_menu_item, fontSizeAdapter);
-        adapterStyle = new ArrayAdapter<String>(this, R.layout.list_dropdown_menu_item, fontStyleAdapter);
-        autoCompleteTextViewSize.setAdapter(adapterSize);
-        autoCompleteTextViewStyle.setAdapter(adapterStyle);
+        ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>(FontSettingActivity.this,
+                android.R.layout.simple_list_item_1, fontSizeAdapter);
+        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        autoCompleteTextViewSize.setAdapter(sizeAdapter);
 
+        switch (db.defaultDAO().getSettingById(1).getSize_default()) {
+            case "Nhỏ":
+                autoCompleteTextViewSize.setSelection(0);
+                break;
+            case "Lớn":
+                autoCompleteTextViewSize.setSelection(2);
+                break;
+            case "Rất lớn":
+                autoCompleteTextViewSize.setSelection(3);
+                break;
+            case "Cực đại":
+                autoCompleteTextViewSize.setSelection(4);
+                break;
+            default:
+                autoCompleteTextViewSize.setSelection(1);
+        }
 
-        autoCompleteTextViewSize.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                fontSize = adapterView.getItemAtPosition(i).toString();
-                switch (fontSize){
-                    case "Nhỏ":
-                        editedTest.setTextSize(15);
-                        break;
-                    case "Bình thường":
-                        editedTest.setTextSize(20);
-                        break;
-                    case "Lớn":
-                        editedTest.setTextSize(25);
-                        break;
-                    case "Cực đại":
-                        editedTest.setTextSize(30);
-                        break;
-                }
-            }
-        });
+        ArrayAdapter<String> styleAdapter = new ArrayAdapter<String>(FontSettingActivity.this,
+                android.R.layout.simple_list_item_1, fontStyleAdapter);
+        styleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        autoCompleteTextViewStyle.setAdapter(styleAdapter);
 
-        autoCompleteTextViewStyle.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                fontStyle = adapterView.getItemAtPosition(i).toString();
-                switch (fontStyle){
-                    case "Mặc định":
-                        Typeface typeface = Typeface.DEFAULT;
-                        editedTest.setTypeface(typeface);
-                        break;
-                    case "Rokkit":
-                        Typeface typeface1 = getResources().getFont(R.font.rokkit);
-                        editedTest.setTypeface(typeface1);
-                        break;
-                    case "Librebodoni":
-                        Typeface typeface2 = getResources().getFont(R.font.librebodoni);
-                        editedTest.setTypeface(typeface2);
-                        break;
-                    case "RobotoSlab":
-                        Typeface typeface3 = getResources().getFont(R.font.robotoslab);
-                        editedTest.setTypeface(typeface3);
-                        break;
-                    case "Texturina":
-                        Typeface typeface4 = getResources().getFont(R.font.texturina);
-                        editedTest.setTypeface(typeface4);
-                        break;
-                }
+        switch (db.defaultDAO().getSettingById(1).getFont_default()){
+            case "Rokkit":
+                autoCompleteTextViewStyle.setSelection(1);
+                break;
+            case "Librebodoni":
+                autoCompleteTextViewStyle.setSelection(2);
+                break;
+            case "RobotoSlab":
+                autoCompleteTextViewStyle.setSelection(3);
+                break;
+            case "Texturina":
+                autoCompleteTextViewStyle.setSelection(4);
+                break;
+            default:
+                autoCompleteTextViewStyle.setSelection(0);
+        }
 
-            }
-        });
-
-        btnConfirmChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(FontSettingActivity.this, MainActivity.class);
-                intent.putExtra("fontSize", fontSize);
-                intent.putExtra("fontStyle", fontStyle);
-                startActivity(intent);
-            }
+        autoCompleteTextViewSize.setOnItemSelectedListener(FontSettingActivity.this);
+        autoCompleteTextViewStyle.setOnItemSelectedListener(FontSettingActivity.this);
+        btnConfirmChange.setOnClickListener(view -> {
+            finish();
         });
     }
 
@@ -112,7 +97,65 @@ public class FontSettingActivity extends AppCompatActivity {
         autoCompleteTextViewStyle = findViewById(R.id.auto_complete_fontStyle);
         editedTest = findViewById(R.id.editedTest);
         btnConfirmChange = findViewById(R.id.btn_confirm_change);
-        autoCompleteTextViewSize.setInputType(InputType.TYPE_NULL);
-        autoCompleteTextViewStyle.setInputType(InputType.TYPE_NULL);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(this, ""+view.getId(), Toast.LENGTH_SHORT).show();
+        switch (adapterView.getId()) {
+            case R.id.auto_complete_fontSize:
+                switch (adapterView.getItemAtPosition(i).toString()) {
+                    case "Nhỏ":
+                        Toast.makeText(this, "Nhỏ", Toast.LENGTH_SHORT).show();
+                        editedTest.setTextSize(16);
+                        db.defaultDAO().updateDefaultSize("Nhỏ");
+                        break;
+                    case "Lớn":
+                        editedTest.setTextSize(22);
+                        db.defaultDAO().updateDefaultSize("Lớn");
+                        break;
+                    case "Rất lớn":
+                        editedTest.setTextSize(26);
+                        db.defaultDAO().updateDefaultSize("Rất lớn");
+                        break;
+                    case "Cực đại":
+                        editedTest.setTextSize(30);
+                        db.defaultDAO().updateDefaultSize("Cực đại");
+                        break;
+                    default:
+                        editedTest.setTextSize(18);
+                        db.defaultDAO().updateDefaultSize("Bình thường");
+                }
+                break;
+            case R.id.auto_complete_fontStyle:
+                switch (adapterView.getItemAtPosition(i).toString()){
+                    case "Rokkit":
+                        editedTest.setTypeface(getResources().getFont(R.font.rokkit));
+                        db.defaultDAO().updateDefaultFont("Rokkit");
+                        break;
+                    case "Librebodoni":
+                        editedTest.setTypeface(getResources().getFont(R.font.librebodoni));
+                        db.defaultDAO().updateDefaultFont("Librebodoni");
+                        break;
+                    case "RobotoSlab":
+                        editedTest.setTypeface(getResources().getFont(R.font.robotoslab));
+                        db.defaultDAO().updateDefaultFont("RobotoSlab");
+                        break;
+                    case "Texturina":
+                        editedTest.setTypeface(getResources().getFont(R.font.texturina));
+                        db.defaultDAO().updateDefaultFont("Texturina");
+                        break;
+                    default:
+                        editedTest.setTypeface(Typeface.DEFAULT);
+                        db.defaultDAO().updateDefaultFont("Mặc định");
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

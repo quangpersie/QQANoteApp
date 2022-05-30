@@ -26,7 +26,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
-        Toast.makeText(context, "Received", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "Received", Toast.LENGTH_SHORT).show();
         Log.e("MS","ReceivedNoti");
 
         String title = intent.getStringExtra("title_note");

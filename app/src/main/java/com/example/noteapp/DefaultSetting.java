@@ -42,7 +42,7 @@ public class DefaultSetting implements Serializable {
     }
 
     @ColumnInfo(name = "font_default")
-    String font_default = "";
+    String font_default = "Mặc định";
 
     public String getFont_default() {
         return font_default;
@@ -53,13 +53,13 @@ public class DefaultSetting implements Serializable {
     }
 
     @ColumnInfo(name = "size_default")
-    String timeDel_default = "";
+    String size_default = "Bình thường";
 
-    public String getTimeDel_default() {
-        return timeDel_default;
+    public String getSize_default() {
+        return size_default;
     }
 
-    public void setTimeDel_default(String timeDel_default) {
-        this.timeDel_default = timeDel_default;
+    public void setSize_default(String size_default) {
+        this.size_default = size_default;
     }
 }

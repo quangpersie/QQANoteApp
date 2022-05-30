@@ -46,38 +46,36 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         holder.note_title.setSelected(true);
         switch (note.getFontSize()){
             case "Nhỏ":
-                holder.note_desc.setTextSize(15);
+                holder.note_desc.setTextSize(16);
                 break;
             case "Bình thường":
-                holder.note_desc.setTextSize(20);
+                holder.note_desc.setTextSize(22);
                 break;
             case "Lớn":
-                holder.note_desc.setTextSize(25);
+                holder.note_desc.setTextSize(26);
+                break;
+            case "Rất lớn":
+                holder.note_desc.setTextSize(30);
                 break;
             case "Cực đại":
-                holder.note_desc.setTextSize(30);
+                holder.note_desc.setTextSize(18);
                 break;
         }
         switch (note.getFontStyle()){
             case "Mặc định":
-                Typeface typeface = Typeface.DEFAULT;
-                holder.note_desc.setTypeface(typeface);
+                holder.note_desc.setTypeface(Typeface.DEFAULT);
                 break;
             case "Rokkit":
-                Typeface typeface1 = context.getResources().getFont(R.font.rokkit);
-                holder.note_desc.setTypeface(typeface1);
+                holder.note_desc.setTypeface(context.getResources().getFont(R.font.rokkit));
                 break;
             case "Librebodoni":
-                Typeface typeface2 = context.getResources().getFont(R.font.librebodoni);
-                holder.note_desc.setTypeface(typeface2);
+                holder.note_desc.setTypeface(context.getResources().getFont(R.font.librebodoni));
                 break;
             case "RobotoSlab":
-                Typeface typeface3 = context.getResources().getFont(R.font.robotoslab);
-                holder.note_desc.setTypeface(typeface3);
+                holder.note_desc.setTypeface(context.getResources().getFont(R.font.robotoslab));
                 break;
             case "Texturina":
-                Typeface typeface4 = context.getResources().getFont(R.font.texturina);
-                holder.note_desc.setTypeface(typeface4);
+                holder.note_desc.setTypeface(context.getResources().getFont(R.font.texturina));
                 break;
         }
         holder.note_desc.setText(note.getContent());
@@ -109,6 +107,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
         }
         else {
             holder.has_pass.setVisibility(View.VISIBLE);
+        }
+
+        if(!note.getTime_remind().equals("")) {
+            holder.has_remind.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.has_remind.setVisibility(View.GONE);
         }
 
         switch (note.getColor_code()) {
@@ -166,7 +171,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         LinearLayout layout_root, img_field;
-        TextView note_title, note_desc, time_create;
+        TextView note_title, note_desc, time_create, has_remind;
         ImageView pin_note, has_label, has_pass;
         ShapeableImageView note_img;
 
@@ -181,6 +186,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             has_label = itemView.findViewById(R.id.has_label);
             has_pass = itemView.findViewById(R.id.has_pass);
             note_img = itemView.findViewById(R.id.note_img);
+            has_remind = itemView.findViewById(R.id.has_remind);
         }
     }
 }

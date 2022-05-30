@@ -30,6 +30,12 @@ public interface DefaultDAO {
     @Query("UPDATE settings SET sound_default = :sound")
     void updateDefaultSound(String sound);
 
+    @Query("UPDATE settings SET font_default = :font")
+    void updateDefaultFont(String font);
+
+    @Query("UPDATE settings SET size_default = :size")
+    void updateDefaultSize(String size);
+
     @Delete
     void delete(DefaultSetting df);
 
