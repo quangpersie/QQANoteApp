@@ -22,13 +22,15 @@ public class AlarmReceiver extends BroadcastReceiver {
     Context mContext;
     String channel = MyApplication.CHANNEL_ID;
     Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    RoomDB db;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         mContext = context;
+        db = RoomDB.getInstance(context);
 //        Toast.makeText(context, "Received", Toast.LENGTH_SHORT).show();
         Log.e("MS","ReceivedNoti");
-
+        int idNote = intent.getIntExtra("idNote",0);
         String title = intent.getStringExtra("title_note");
         String desc = intent.getStringExtra("desc_note");
         String name_sound = intent.getStringExtra("name_sound");
@@ -72,6 +74,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .build();
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         notificationManagerCompat.notify(getNotificationId(), notification);
+
+        db.noteDAO().updateTimeRemind(idNote,"");
+        db.noteDAO().updateDateRemind(idNote,"");
     }
 
     private int getNotificationId() {

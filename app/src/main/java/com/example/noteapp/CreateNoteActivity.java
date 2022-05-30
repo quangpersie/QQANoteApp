@@ -546,7 +546,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
 
         intent.putExtra("name_sound",
                 db.defaultDAO().getSettingById(1).getSound_default());
-
+        intent.putExtra("idNote",idToGetImg);
         intent.putExtra("title_note", db.noteDAO().getNoteById(idToGetImg).getTitle());
         intent.putExtra("desc_note", db.noteDAO().getNoteById(idToGetImg).getContent());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(CreateNoteActivity.this,
@@ -577,6 +577,8 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 break;
             case R.id.cancel_remind:
                 alarm.cancel(alarmIntent);
+                db.noteDAO().updateDateRemind(idToGetImg, "");
+                db.noteDAO().updateTimeRemind(idToGetImg, "");
                 Toast.makeText(CreateNoteActivity.this, "Đã hủy nhắc nhở cho ghi chú", Toast.LENGTH_SHORT).show();
                 break;
         }

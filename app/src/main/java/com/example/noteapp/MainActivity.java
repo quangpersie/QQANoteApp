@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private boolean flag_display;
     private Spinner mSpinner;
     private List<String> lShowByLabel  = new ArrayList<>();
-    private List<Notes> noteCopy = new ArrayList<>();
+//    private List<Notes> noteCopy = new ArrayList<>();
     DatabaseReference noteDbRef;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -473,7 +473,6 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
 
         switch (item.getItemId()) {
             case R.id.pin_note:
-//                Log.e("TAG", selectedNote.getUser());
                 if(selectedNote.isPinned()) {
                     database.noteDAO().pin(selectedNote.getId(), false);
                     Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
@@ -489,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     else {
                         notes.addAll(database.noteDAO().getAllUserNote(userMail));
                     }
-                    noteAdapter.notifyDataSetChanged();
+//                    noteAdapter.notifyDataSetChanged();
                 }
                 else {
                     database.noteDAO().pin(selectedNote.getId(), true);
@@ -503,39 +502,48 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     notes.addAll(database.noteDAO().getNoteNoPin(false,userMail));
                 }
                 noteAdapter.notifyDataSetChanged();
-//                showInfo();
                 return true;
             case R.id.delete_note:
-                Calendar startTime = Calendar.getInstance();
-                switch (database.defaultDAO().getSettingById(1).getDelete_default()) {
-                    /*case "1 phút":
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
-                        break;*/
-                    case "1 ngày":
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
-                        break;
-                    case "7 ngày":
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
-                        break;
-                    default:
-                        startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
-//                            startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                if(!selectedNote.getTime_remind().equals("")
+                        && !selectedNote.getDate_remind().equals("")) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                    alert.setTitle("Ghi chú trong thời gian nhắc nhở");
+                    alert.setMessage("Để xóa, hãy hủy nhắc nhở trong màn hình sửa đổi ghi chú");
+                    alert.setPositiveButton("Xác nhận", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    });
+                    alert.show();
                 }
-                long alarmStartTime = startTime.getTimeInMillis();
-                alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
+                else {
+                    Calendar startTime = Calendar.getInstance();
+                    switch (database.defaultDAO().getSettingById(1).getDelete_default()) {
+                        case "1 ngày":
+                            startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 1);
+                            break;
+                        case "7 ngày":
+                            startTime.set(Calendar.MINUTE, startTime.getTime().getDay() + 7);
+                            break;
+                        default:
+                            startTime.set(Calendar.MINUTE, startTime.getTime().getMinutes() + 1);
+                    }
+                    long alarmStartTime = startTime.getTimeInMillis();
+                    alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
 
-                SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
-                database.noteDAO().updateDateDel(selectedNote.getId(),formatter.format(new Date()));
-                database.noteDAO().updateNoteOrderDel(selectedNote.getId(),
-                        database.noteDAO().getMaxOrderDel(userMail)+1);
+                    SimpleDateFormat formatter = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a");
+                    database.noteDAO().updateDateDel(selectedNote.getId(),formatter.format(new Date()));
+                    database.noteDAO().updateNoteOrderDel(selectedNote.getId(),
+                            database.noteDAO().getMaxOrderDel(userMail)+1);
 
-                database.noteDAO().deletedNote(selectedNote.getId());
-                selectedNote.setDelete(true);
-                noteDbRef.push().setValue(selectedNote);
-                notes.remove(selectedNote);
-                noteAdapter.notifyDataSetChanged();
-                updateNotify();
-                Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
+                    database.noteDAO().deletedNote(selectedNote.getId());
+                    selectedNote.setDelete(true);
+                    noteDbRef.push().setValue(selectedNote);
+                    notes.remove(selectedNote);
+                    noteAdapter.notifyDataSetChanged();
+                    updateNotify();
+                    Toast.makeText(this, "Đã xóa ghi chú", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             default:
                 return false;
@@ -646,7 +654,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 }
             }
         }
-        noteCopy = notes;
+//        noteCopy = notes;
         noteAdapter = new NoteAdapter(this, notes, noteClickListener);
         recyclerView.setAdapter(noteAdapter);
         noteAdapter.notifyDataSetChanged();
