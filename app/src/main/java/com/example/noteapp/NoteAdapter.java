@@ -171,8 +171,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         LinearLayout layout_root, img_field;
-        TextView note_title, note_desc, time_create, has_remind;
-        ImageView pin_note, has_label, has_pass;
+        TextView note_title, note_desc, time_create;
+        ImageView pin_note, has_label, has_pass, has_remind;
         ShapeableImageView note_img;
 
         public MyViewHolder(@NonNull View itemView) {
