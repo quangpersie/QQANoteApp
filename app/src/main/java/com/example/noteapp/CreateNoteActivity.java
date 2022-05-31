@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -15,9 +16,11 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -48,10 +51,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class CreateNoteActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -73,7 +82,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     Button cancel_remind, confirm_remind;
     DatePicker mDatePicker;
     TimePicker mTimePicker;
-
+    Bitmap bitmap;
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -526,6 +535,65 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(spannable);
             note.setContent(note_desc_detail.getText().toString());
         });
+        share_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!note.getImg_path().equals("")){
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable)image_note.getDrawable();
+                    bitmap = bitmapDrawable.getBitmap();
+                    shareNoteWithImage();
+                }else{
+                    shareNoteWithoutImage();
+                }
+            }
+        });
+    }
+    private void shareNoteWithoutImage() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.putExtra(Intent.EXTRA_TEXT, note.getContent());
+        share.putExtra(Intent.EXTRA_TITLE, note.getTitle());
+        share.setType("text/plain");
+        startActivity(Intent.createChooser(share, null));
+    }
+
+
+    private void shareNoteWithImage() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        Uri imageUri;
+        imageUri = saveImage(bitmap, getApplicationContext());
+        share.putExtra(Intent.EXTRA_TEXT, note.getContent());
+        share.putExtra(Intent.EXTRA_TITLE, note.getTitle());
+        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+        share.setType(Intent.normalizeMimeType("*/*"));
+        Intent.createChooser(share, "Share File");
+        @SuppressLint("QueryPermissionsNeeded") List<ResolveInfo> resInfoList = this.getPackageManager().queryIntentActivities(share, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            this.grantUriPermission(packageName, imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        startActivity(share);
+    }
+
+    private Uri saveImage(Bitmap bitmap, Context context) {
+        File imagesFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+        try{
+            imagesFolder.mkdir();
+            File file = new File(imagesFolder, "shared_images.jpg");
+
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(Objects.requireNonNull(context.getApplicationContext()),
+                    "com.example.noteapp" + ".provider", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uri;
     }
 
     private void colorPickOnClick() {
