@@ -17,6 +17,10 @@ public interface LabelDAO {
     @Delete
     void deleteLabel(Label label);
 
+//    @Query("SELECT * FROM label WHERE id = :id")
+//    Notes getLabelById(String id);
+
+
     @Query("SELECT * FROM label ORDER BY id DESC")
     List<Label> getAllLabel();
 

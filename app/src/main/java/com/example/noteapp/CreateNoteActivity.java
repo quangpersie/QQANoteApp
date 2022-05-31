@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -15,14 +16,17 @@ import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,10 +51,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 
 public class CreateNoteActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -62,7 +72,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     Notes note;
     ImageView remind_note, label_note, password_note, image_insert, image_note, pick_color_note_bg;
     ImageView align_left, align_right, align_center, align_justify, color_pick;
-    ImageView red_text, blue_text, green_text, black_text, purple_text;
+    ImageView red_text, blue_text, green_text, black_text, purple_text, share_note;
     LinearLayout layout_remind, setting_note_layout, image_field, color_bg_field, rich_texts, field_pick_color;
     DatabaseReference noteDbRef;
     boolean isCreatedNote = false;
@@ -72,7 +82,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     Button cancel_remind, confirm_remind;
     DatePicker mDatePicker;
     TimePicker mTimePicker;
-
+    Bitmap bitmap;
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -103,6 +113,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         image_field = findViewById(R.id.image_field);
         pick_color_note_bg = findViewById(R.id.pick_color_note_bg);
         color_bg_field = findViewById(R.id.color_bg_field);
+        share_note = findViewById(R.id.share_note);
 
         cancel_remind = findViewById(R.id.cancel_remind);
         confirm_remind = findViewById(R.id.confirm_remind);
@@ -328,7 +339,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(note_from_alarm.getContent());
             day_create.setText(note_from_alarm.getDate_create());
 
-
             rich_texts.setVisibility(View.GONE);
             setting_note_layout.setVisibility(View.GONE);
             btn_save.setEnabled(false);
@@ -370,11 +380,12 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note.setFontSize(db.defaultDAO().getSettingById(1).getSize_default());
             note.setFontStyle(db.defaultDAO().getSettingById(1).getFont_default());
 
+
             Intent intent = new Intent();
             intent.putExtra("note", note);
             setResult(Activity.RESULT_OK, intent);
 
-            noteDbRef.push().setValue(note);
+            //noteDbRef.push().setValue(note);
 
             if(desc.isEmpty()) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(CreateNoteActivity.this);
@@ -524,6 +535,65 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(spannable);
             note.setContent(note_desc_detail.getText().toString());
         });
+        share_note.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!note.getImg_path().equals("")){
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable)image_note.getDrawable();
+                    bitmap = bitmapDrawable.getBitmap();
+                    shareNoteWithImage();
+                }else{
+                    shareNoteWithoutImage();
+                }
+            }
+        });
+    }
+    private void shareNoteWithoutImage() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.putExtra(Intent.EXTRA_TEXT, note.getContent());
+        share.putExtra(Intent.EXTRA_TITLE, note.getTitle());
+        share.setType("text/plain");
+        startActivity(Intent.createChooser(share, null));
+    }
+
+
+    private void shareNoteWithImage() {
+        Intent share = new Intent(Intent.ACTION_SEND);
+        Uri imageUri;
+        imageUri = saveImage(bitmap, getApplicationContext());
+        share.putExtra(Intent.EXTRA_TEXT, note.getContent());
+        share.putExtra(Intent.EXTRA_TITLE, note.getTitle());
+        share.putExtra(Intent.EXTRA_STREAM, imageUri);
+        share.setType(Intent.normalizeMimeType("*/*"));
+        Intent.createChooser(share, "Share File");
+        @SuppressLint("QueryPermissionsNeeded") List<ResolveInfo> resInfoList = this.getPackageManager().queryIntentActivities(share, PackageManager.MATCH_DEFAULT_ONLY);
+        for (ResolveInfo resolveInfo : resInfoList) {
+            String packageName = resolveInfo.activityInfo.packageName;
+            this.grantUriPermission(packageName, imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
+
+        startActivity(share);
+    }
+
+    private Uri saveImage(Bitmap bitmap, Context context) {
+        File imagesFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+        try{
+            imagesFolder.mkdir();
+            File file = new File(imagesFolder, "shared_images.jpg");
+
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(Objects.requireNonNull(context.getApplicationContext()),
+                    "com.example.noteapp" + ".provider", file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return uri;
     }
 
     private void colorPickOnClick() {
@@ -569,9 +639,10 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                             Bitmap bitMap = BitmapFactory.decodeStream(inputStream);
                             image_note.setImageBitmap(bitMap);
                             image_field.setVisibility(View.VISIBLE);
-
                             selectedImagePath = getPathFromUri(selectedImageUri);
                             db.noteDAO().updateImgPath(idToGetImg, selectedImagePath);
+                            Notes note = db.noteDAO().getNoteById(idToGetImg);
+                            noteDbRef.push().setValue(note);
                         }
                         catch (Exception e) {
                             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -658,7 +729,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         intent.putExtra("title_note", db.noteDAO().getNoteById(idToGetImg).getTitle());
         intent.putExtra("desc_note", db.noteDAO().getNoteById(idToGetImg).getContent());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(CreateNoteActivity.this,
-                db.noteDAO().getNoteById(idToGetImg).getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                db.noteDAO().getNoteById(idToGetImg).getRequest_code(), intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         switch (view.getId()) {
             case R.id.confirm_remind:
@@ -685,6 +756,8 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 else if (remindTime.getTimeInMillis() > currentTime.getTimeInMillis()) {
                     alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                     Toast.makeText(CreateNoteActivity.this, "Đặt nhắc nhở thành công", Toast.LENGTH_SHORT).show();
+                    Notes note = db.noteDAO().getNoteById(idToGetImg);
+                    noteDbRef.push().setValue(note);
                 } else {
                     db.noteDAO().updateDateRemind(idToGetImg,"");
                     day_display.setText("");

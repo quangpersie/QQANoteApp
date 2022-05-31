@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
     private Spinner mSpinner;
     private List<String> lShowByLabel  = new ArrayList<>();
 //    private List<Notes> noteCopy = new ArrayList<>();
-    DatabaseReference noteDbRef;
+    DatabaseReference noteDbRef, labelDbRef, settingDbref;
     NavigationView navigationView;
 
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         drawerLayout = findViewById(R.id.drawer_layout);
         mSpinner = findViewById(R.id.mSpinner);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
+        settingDbref = FirebaseDatabase.getInstance().getReference().child("Settings");
         remove_all = findViewById(R.id.remove_all);
         hide_show = findViewById(R.id.hide_show);
         setSupportActionBar(toolbar);
@@ -351,6 +352,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                 Notes new_note = (Notes) data.getSerializableExtra("note");
                 if(user.isEmailVerified() == true) {
                     new_note.setRequest_code(database.noteDAO().getMaxRequestCode()+1);
+                    DefaultSetting df = database.defaultDAO().getSettingById(1);
+                    settingDbref.push().setValue(df);
                     database.noteDAO().insert(new_note);
                     noteDbRef.push().setValue(new_note);
                 }
@@ -359,6 +362,8 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
                     new_note.setRequest_code(database.noteDAO().getMaxRequestCode()+1);
                     database.noteDAO().insert(new_note);
                     noteDbRef.push().setValue(new_note);
+                    DefaultSetting df = database.defaultDAO().getSettingById(1);
+                    settingDbref.push().setValue(df);
                 }
                 else {
                     Toast toast = Toast.makeText(this, "Tài khoản chưa xác thực, ghi chú được tạo tối đa là 5", Toast.LENGTH_SHORT);
@@ -482,15 +487,14 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         Intent intent = new Intent(MainActivity.this, AlarmReceiverDel.class);
         intent.putExtra("idNoteDelAuto",selectedNote.getId());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(MainActivity.this,
-                selectedNote.getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                selectedNote.getRequest_code(), intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
 
         switch (item.getItemId()) {
             case R.id.pin_note:
                 if(selectedNote.isPinned()) {
                     database.noteDAO().pin(selectedNote.getId(), false);
-//                    Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(this, "Đã bỏ ghim", Toast.LENGTH_SHORT).show();
                     database.noteDAO().unPin(selectedNote.getId());
                     selectedNote.setPinned(false);
                     noteDbRef.push().setValue(selectedNote);

@@ -201,7 +201,6 @@ public class RecycleBinActivity extends AppCompatActivity implements PopupMenu.O
                 return false;
         }
     }
-
     private void updateNotify() {
         if(database.noteDAO().getAllDeletedNote(userMail).size() != 0) {
             empty_bin.setVisibility(View.GONE);
