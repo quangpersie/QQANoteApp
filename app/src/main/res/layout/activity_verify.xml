@@ -41,6 +41,7 @@
 
         <Button
             android:id="@+id/sendLink"
+            android:backgroundTint="@color/ic_launcher_background"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -49,6 +50,7 @@
         <Button
             android:id="@+id/success"
             android:text="Đã xác thực"
+            android:backgroundTint="@color/ic_launcher_background"
             android:layout_width="200dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>

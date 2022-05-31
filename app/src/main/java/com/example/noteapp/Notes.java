@@ -135,7 +135,7 @@ public class Notes implements Serializable {
     }
 
     @ColumnInfo(name = "color_code")
-    String color_code = "pink";
+    String color_code = "green";
 
     public String getColor_code() {
         return color_code;

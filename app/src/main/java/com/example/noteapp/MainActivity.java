@@ -242,6 +242,13 @@ public class MainActivity extends AppCompatActivity implements PopupMenu.OnMenuI
         try {
             TextView tvDisplay = (TextView) navigationView.getHeaderView(0).findViewById(R.id.display_user_name);
             tvDisplay.setText(userMail);
+            TextView veDisplay = (TextView) navigationView.getHeaderView(0).findViewById(R.id.verify_notify);
+            if(user.isEmailVerified()) {
+                veDisplay.setText("Đã xác thực");
+            }
+            else {
+                veDisplay.setText("Chưa xác thực");
+            }
         }
         catch (Exception e) {
 

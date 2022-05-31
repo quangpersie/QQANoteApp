@@ -159,11 +159,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.MyViewHolder>{
             case "blue":
                 holder.layout_root.setBackgroundResource(R.drawable.mbg_note_blue);
                 break;
-            case "green":
-                holder.layout_root.setBackgroundResource(R.drawable.mbg_note_green);
+            case "pink":
+                holder.layout_root.setBackgroundResource(R.drawable.row_style_bg);
                 break;
             default:
-                holder.layout_root.setBackgroundResource(R.drawable.row_style_bg);
+                holder.layout_root.setBackgroundResource(R.drawable.mbg_note_green);
         }
 
         holder.layout_root.setOnClickListener(new View.OnClickListener() {
