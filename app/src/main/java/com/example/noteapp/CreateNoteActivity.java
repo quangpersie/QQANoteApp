@@ -32,8 +32,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
@@ -535,16 +537,13 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(spannable);
             note.setContent(note_desc_detail.getText().toString());
         });
-        share_note.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!note.getImg_path().equals("")){
-                    BitmapDrawable bitmapDrawable = (BitmapDrawable)image_note.getDrawable();
-                    bitmap = bitmapDrawable.getBitmap();
-                    shareNoteWithImage();
-                }else{
-                    shareNoteWithoutImage();
-                }
+        share_note.setOnClickListener(view -> {
+            if(!note.getImg_path().equals("")){
+                BitmapDrawable bitmapDrawable = (BitmapDrawable)image_note.getDrawable();
+                bitmap = bitmapDrawable.getBitmap();
+                shareNoteWithImage();
+            }else{
+                shareNoteWithoutImage();
             }
         });
     }
@@ -571,7 +570,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             String packageName = resolveInfo.activityInfo.packageName;
             this.grantUriPermission(packageName, imageUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
-
         startActivity(share);
     }
 

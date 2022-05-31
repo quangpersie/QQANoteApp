@@ -1,10 +1,7 @@
 package com.example.noteapp;
 
-<<<<<<< HEAD
-=======
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
->>>>>>> 234b27a66c9ef30d445138bb0b7c80d978f05a5b
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -24,14 +21,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-<<<<<<< HEAD
-=======
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
->>>>>>> 234b27a66c9ef30d445138bb0b7c80d978f05a5b
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
