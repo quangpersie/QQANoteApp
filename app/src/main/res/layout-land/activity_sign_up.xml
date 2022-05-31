@@ -7,7 +7,7 @@
     android:padding="16dp"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="#EF9A9A"
+    android:background="#B8F1B0"
     tools:context=".SignUpActivity">
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:padding="16dp"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="#EF9A9A"
+        android:background="#B8F1B0"
         tools:context=".SignUpActivity">
 
         <LinearLayout
@@ -31,6 +31,7 @@
                 android:gravity="center"
                 android:textAllCaps="true"
                 android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="26sp"
                 android:text="QQA Note App"/>
 
@@ -38,7 +39,9 @@
                 android:text="Đăng ký tài khoản"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:textSize="20sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -50,7 +53,7 @@
                 android:paddingBottom="8dp"
                 android:text="Địa chỉ email"
                 android:textSize="20sp"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <com.google.android.material.textfield.TextInputLayout
@@ -78,7 +81,7 @@
                 android:paddingBottom="8dp"
                 android:text="Mật khẩu"
                 android:textSize="20sp"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <com.google.android.material.textfield.TextInputLayout
@@ -105,7 +108,7 @@
                 android:paddingBottom="8dp"
                 android:text="Xác nhận mật khẩu"
                 android:textSize="20sp"
-                android:textColor="@color/purple_500"
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <com.google.android.material.textfield.TextInputLayout
@@ -141,6 +144,7 @@
                 android:text="Đăng ký"
                 android:textSize="16sp"
                 android:layout_gravity="center"
+                android:backgroundTint="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <Button
@@ -148,6 +152,7 @@
                 android:text="Trở về đăng nhập"
                 android:textSize="16sp"
                 android:layout_gravity="center"
+                android:backgroundTint="@color/black"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
         </LinearLayout>

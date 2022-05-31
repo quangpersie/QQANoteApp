@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center"
-    android:background="@drawable/background_main"
+    android:background="@drawable/backgroundc"
     tools:context=".SignInActivity">
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:gravity="center"
-        android:background="@drawable/background_main"
+        android:background="@drawable/backgroundc"
         tools:context=".SignInActivity">
 
         <LinearLayout
@@ -55,7 +55,7 @@
             android:textStyle="bold"/>
 
         <LinearLayout
-            android:background="#FFA726"
+            android:background="#019267"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -79,17 +79,13 @@
                     android:layout_height="wrap_content"
                     android:hint="Địa chỉ email"
                     android:inputType="textEmailAddress" />
-                android:hint="Địa chỉ email"
-                android:textColor="@color/black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
+
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:background="#FFA726"
+            android:background="#019267"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -127,7 +123,7 @@
             android:text="Quên mật khẩu?"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:textColor="#99000000"
+            android:textColor="#ffffff"
             android:id="@+id/btn_sign_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,7 +142,7 @@
             android:gravity="center">
 
             <TextView
-                android:textColor="#99000000"
+                android:textColor="#000000"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -154,7 +150,7 @@
                 android:text="Bạn chưa có tài khoản?"/>
 
             <TextView
-                android:textColor="#99000000"
+                android:textColor="#000000"
                 android:id="@+id/sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

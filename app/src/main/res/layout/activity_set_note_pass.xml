@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:gravity="center"
+    android:background="#A6CF98"
     android:orientation="vertical"
     tools:context=".SetNotePassActivity">
 
@@ -20,6 +21,7 @@
             android:textSize="20dp"
             android:textStyle="bold"
             android:gravity="center"
+            android:textColor="@color/black"
             android:layout_marginBottom="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -39,7 +41,7 @@
                     android:paddingBottom="8dp"
                     android:text="Mật khẩu"
                     android:textSize="20sp"
-                    android:textColor="@color/purple_500"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <com.google.android.material.textfield.TextInputLayout
@@ -67,7 +69,7 @@
                     android:paddingBottom="8dp"
                     android:text="Xác nhận mật khẩu"
                     android:textSize="20sp"
-                    android:textColor="@color/purple_500"
+                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
                 <com.google.android.material.textfield.TextInputLayout

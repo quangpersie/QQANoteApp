@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="16dp"
-    android:background="#EF9A9A"
+    android:background="#E3FCBF"
     tools:context=".VerifyActivity">
 
     <LinearLayout
@@ -22,12 +22,15 @@
             android:gravity="center"
             android:textAllCaps="true"
             android:textStyle="bold"
-            android:textSize="26sp"
+            android:textSize="30sp"
+            android:textColor="@color/black"
             android:text="QQA Note App"/>
 
         <TextView
             android:text="Xác thực tài khoản"
             android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:gravity="center"/>
     </LinearLayout>
@@ -41,7 +44,7 @@
 
         <Button
             android:id="@+id/sendLink"
-            android:backgroundTint="@color/ic_launcher_background"
+            android:backgroundTint="@color/black"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -50,7 +53,7 @@
         <Button
             android:id="@+id/success"
             android:text="Đã xác thực"
-            android:backgroundTint="@color/ic_launcher_background"
+            android:backgroundTint="@color/black"
             android:layout_width="200dp"
             android:layout_height="wrap_content"/>
     </LinearLayout>
@@ -67,6 +70,7 @@
             android:textSize="14sp"
             android:layout_marginEnd="16dp"
             android:text="Gửi lại link xác thực"
+            android:textColor="@color/black"
             android:background="@drawable/border_input_verify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -79,6 +83,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:background="@drawable/border_input_verify"
+            android:textColor="@color/black"
             android:text="Bỏ qua xác thực"/>
     </LinearLayout>
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#EF9A9A"
+    android:background="#36AE7C"
     android:paddingHorizontal="16dp"
     android:paddingVertical="32dp"
     tools:context=".RecycleBinActivity">
@@ -27,6 +27,8 @@
             android:textAllCaps="true"
             android:textStyle="bold"
             android:textSize="26sp"
+            android:background="@android:color/transparent"
+            android:textColor="@color/black"
             android:text="QQA Note App"/>
 
         <TextView
@@ -34,6 +36,8 @@
             android:textSize="18sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:textColor="@color/black"
             android:gravity="center"/>
     </LinearLayout>
 
@@ -56,11 +60,11 @@
             android:layout_height="match_parent">
             <Button
                 android:id="@+id/btn_set_delTime"
-                android:backgroundTint="#FF5722"
                 android:textColor="@color/white"
                 android:text="Mỗi ghi chú tự xóa sau:"
                 android:textAllCaps="false"
                 android:layout_marginEnd="18dp"
+                android:backgroundTint="#064635"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"/>
             <FrameLayout
@@ -102,7 +106,7 @@
     <Button
         android:id="@+id/btn_empty_bin"
         android:text="Làm trống thùng rác"
-        android:backgroundTint="#FF5722"
+        android:backgroundTint="#064635"
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:layout_width="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="16dp"
     android:gravity="center"
-    android:background="#EF9A9A"
+    android:background="#82A284"
     android:orientation="vertical"
     tools:context=".RecoverActivity">
     <LinearLayout
@@ -17,6 +17,7 @@
             android:text="Nhập địa chỉ email của bạn"
             android:textSize="20sp"
             android:layout_gravity="center"
+            android:textColor="@color/black"
             android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
