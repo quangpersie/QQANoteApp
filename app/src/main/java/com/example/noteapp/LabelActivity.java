@@ -1,6 +1,7 @@
 package com.example.noteapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,8 +48,9 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
     LinearLayout zone_create;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String userMail = user.getEmail();
-    DatabaseReference noteDbRef;
+    DatabaseReference noteDbRef, labelDbRed;
     int idNoteCopy;
+    List<String> mKeys = new ArrayList<>();
     TextView notify_label_empty;
 
     @Override
@@ -64,7 +67,7 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
         zone_create = findViewById(R.id.zone_create);
         notify_label_empty = findViewById(R.id.notify_label_empty);
         noteDbRef = FirebaseDatabase.getInstance().getReference().child("Notes");
-
+        labelDbRed = FirebaseDatabase.getInstance().getReference().child("Labels");
         Label label1 = new Label();
         label1.setName("Work");
         Label label2 = new Label();
@@ -149,7 +152,6 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
                 Log.e("CHK",""+label.isChecked());
                 if(label.isChecked()) {
                     database.labelDAO().updateCheck(label.getId(),true);
-
                     String nameUpdate = database.noteDAO().getNoteById(idNote).getLabel().toLowerCase();
                     String labelName = label.getName().toLowerCase();
                     if(!nameUpdate.contains(labelName)) {
@@ -168,10 +170,12 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
                         database.noteDAO().updateCheckLabel(idNote, nameUpdate);
                     }
                 }
+                labelDbRed.push().setValue(label);
             }
             finish();
             updateAdapter();
             String labelStr = database.noteDAO().getNoteById(idNote).getLabel();
+
             for(Label label:labels) {
                 if (labelStr.contains(label.getName().toLowerCase())) {
                     label.setChecked(true);
@@ -183,32 +187,10 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
             Notes note = database.noteDAO().getNoteById(idNote);
             note.setLabel(labelStr);
             noteDbRef.push().setValue(note);
-            //noteDbRef.child(user.getUid()).child("label").setValue(labelStr);
-            /*noteDbRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot ds: snapshot.getChildren())
-                    {
-                        int id = ds.child("id").getValue(Integer.class);
-                        String user = ds.child("user").getValue(String.class);
-                        if (id == note.getId() && user.equals(note.getUser()))
-                        {
-                            noteDbRef.child(ds.getKey()).child("label").setValue(labelStr);
-                        }
-                    }
-                }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });*/
             labelAdapter.notifyDataSetChanged();
         });
 
-        /*for(Notes note:database.noteDAO().getAllUserNote(userMail)) {
-            Log.e("LBLBLB",note.getLabel()+"");
-        }*/
     }
 
     private void updateNotify() {
@@ -220,6 +202,22 @@ public class LabelActivity extends AppCompatActivity implements PopupMenu.OnMenu
         }
     }
 
+    private void getData()
+    {
+        noteDbRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    for(DataSnapshot ds: snapshot.getChildren())
+                    {
+                        mKeys.add(ds.getKey());
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+    }
     private void ListLayout(List<Label> labels) {
         labelAdapter = new LabelAdapter(LabelActivity.this, labels, labelClickListener);
 

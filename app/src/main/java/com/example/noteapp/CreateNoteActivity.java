@@ -23,6 +23,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -62,7 +63,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
     Notes note;
     ImageView remind_note, label_note, password_note, image_insert, image_note, pick_color_note_bg;
     ImageView align_left, align_right, align_center, align_justify, color_pick;
-    ImageView red_text, blue_text, green_text, black_text, purple_text;
+    ImageView red_text, blue_text, green_text, black_text, purple_text, share_note;
     LinearLayout layout_remind, setting_note_layout, image_field, color_bg_field, rich_texts, field_pick_color;
     DatabaseReference noteDbRef;
     boolean isCreatedNote = false;
@@ -103,6 +104,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         image_field = findViewById(R.id.image_field);
         pick_color_note_bg = findViewById(R.id.pick_color_note_bg);
         color_bg_field = findViewById(R.id.color_bg_field);
+        share_note = findViewById(R.id.share_note);
 
         cancel_remind = findViewById(R.id.cancel_remind);
         confirm_remind = findViewById(R.id.confirm_remind);
@@ -328,7 +330,6 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note_desc_detail.setText(note_from_alarm.getContent());
             day_create.setText(note_from_alarm.getDate_create());
 
-
             rich_texts.setVisibility(View.GONE);
             setting_note_layout.setVisibility(View.GONE);
             btn_save.setEnabled(false);
@@ -370,11 +371,12 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
             note.setFontSize(db.defaultDAO().getSettingById(1).getSize_default());
             note.setFontStyle(db.defaultDAO().getSettingById(1).getFont_default());
 
+
             Intent intent = new Intent();
             intent.putExtra("note", note);
             setResult(Activity.RESULT_OK, intent);
 
-            noteDbRef.push().setValue(note);
+            //noteDbRef.push().setValue(note);
 
             if(desc.isEmpty()) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(CreateNoteActivity.this);
@@ -569,9 +571,10 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                             Bitmap bitMap = BitmapFactory.decodeStream(inputStream);
                             image_note.setImageBitmap(bitMap);
                             image_field.setVisibility(View.VISIBLE);
-
                             selectedImagePath = getPathFromUri(selectedImageUri);
                             db.noteDAO().updateImgPath(idToGetImg, selectedImagePath);
+                            Notes note = db.noteDAO().getNoteById(idToGetImg);
+                            noteDbRef.push().setValue(note);
                         }
                         catch (Exception e) {
                             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -658,7 +661,7 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
         intent.putExtra("title_note", db.noteDAO().getNoteById(idToGetImg).getTitle());
         intent.putExtra("desc_note", db.noteDAO().getNoteById(idToGetImg).getContent());
         PendingIntent alarmIntent = PendingIntent.getBroadcast(CreateNoteActivity.this,
-                db.noteDAO().getNoteById(idToGetImg).getRequest_code(), intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                db.noteDAO().getNoteById(idToGetImg).getRequest_code(), intent, PendingIntent.FLAG_IMMUTABLE);
         AlarmManager alarm = (AlarmManager) getSystemService(ALARM_SERVICE);
         switch (view.getId()) {
             case R.id.confirm_remind:
@@ -685,6 +688,8 @@ public class CreateNoteActivity extends AppCompatActivity implements View.OnClic
                 else if (remindTime.getTimeInMillis() > currentTime.getTimeInMillis()) {
                     alarm.set(AlarmManager.RTC_WAKEUP, alarmStartTime, alarmIntent);
                     Toast.makeText(CreateNoteActivity.this, "Đặt nhắc nhở thành công", Toast.LENGTH_SHORT).show();
+                    Notes note = db.noteDAO().getNoteById(idToGetImg);
+                    noteDbRef.push().setValue(note);
                 } else {
                     db.noteDAO().updateDateRemind(idToGetImg,"");
                     day_display.setText("");
